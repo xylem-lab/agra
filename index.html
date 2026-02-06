@@ -104,6 +104,7 @@
       align-items: center;
       justify-content: space-between;
       gap: var(--spacing-3);
+      flex-wrap: nowrap;
     }
     
     .logo-section {
@@ -123,6 +124,8 @@
       align-items: center;
       flex: 1;
       justify-content: center;
+      
+      min-width: 0;     
     }
     
     nav a {
@@ -157,8 +160,9 @@
     
     .search-container {
       position: relative;
-      flex-shrink: 0;
-      width: 320px;
+      flex: 0 1 320px;
+      width: min(320px, 30vw);
+      min-width: 220px;
     }
     
     .search-input {
