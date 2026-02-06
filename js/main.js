@@ -8,6 +8,51 @@ const BULLETINS_BASE_PATH = 'Bulletins';
 // Global state
 let allBulletins = [];
 let searchableContent = [];
+let monthlyData = {};
+
+// Monthly data sets for highlights table
+const highlightsDatabase = {
+  'December 2025': [
+    { country: 'Tanzania', crop: 'Maize', yield: '1.63 MT/ha', production: '1.1 - 2.44M MT', condition: 'favorable' },
+    { country: 'Malawi', crop: 'Maize', yield: '2.52 MT/ha', production: '3.77 - 5.49M MT', condition: 'favorable' },
+    { country: 'Zambia', crop: 'Maize', yield: '2.05 MT/ha', production: '2.35 - 3.18M MT', condition: 'favorable' },
+    { country: 'Rwanda', crop: 'Maize', yield: '2.26 MT/ha', production: '0.49 - 0.91M MT', condition: 'favorable' },
+    { country: 'Malawi', crop: 'Beans', yield: '0.68 MT/ha', production: '0.18 - 0.3M MT', condition: 'favorable' },
+    { country: 'Rwanda', crop: 'Beans', yield: '0.94 MT/ha', production: '0.52 - 0.67M MT', condition: 'favorable' },
+    { country: 'Malawi', crop: 'Rice', yield: '1.33 MT/ha', production: '0.08 - 0.13M MT', condition: 'watch' },
+    { country: 'Rwanda', crop: 'Rice', yield: '1.56 MT/ha', production: '0.04 - 0.06M MT', condition: 'watch' },
+  ],
+  'November 2025': [
+    { country: 'Tanzania', crop: 'Maize', yield: '1.55 MT/ha', production: '1.0 - 2.30M MT', condition: 'favorable' },
+    { country: 'Malawi', crop: 'Maize', yield: '2.48 MT/ha', production: '3.65 - 5.35M MT', condition: 'favorable' },
+    { country: 'Zambia', crop: 'Maize', yield: '2.01 MT/ha', production: '2.25 - 3.10M MT', condition: 'favorable' },
+    { country: 'Rwanda', crop: 'Maize', yield: '2.20 MT/ha', production: '0.45 - 0.88M MT', condition: 'favorable' },
+    { country: 'Kenya', crop: 'Maize', yield: '2.10 MT/ha', production: '3.5 - 4.2M MT', condition: 'favorable' },
+    { country: 'Uganda', crop: 'Maize', yield: '1.95 MT/ha', production: '2.8 - 3.5M MT', condition: 'favorable' },
+  ],
+  'August 2025': [
+    { country: 'Tanzania', crop: 'Maize', yield: '1.50 MT/ha', production: '0.95 - 2.20M MT', condition: 'favorable' },
+    { country: 'Malawi', crop: 'Maize', yield: '2.40 MT/ha', production: '3.50 - 5.20M MT', condition: 'favorable' },
+    { country: 'Zambia', crop: 'Maize', yield: '1.95 MT/ha', production: '2.15 - 3.00M MT', condition: 'watch' },
+    { country: 'Rwanda', crop: 'Maize', yield: '2.15 MT/ha', production: '0.42 - 0.85M MT', condition: 'favorable' },
+  ],
+  'July 2025': [
+    { country: 'Tanzania', crop: 'Maize', yield: '1.63 MT/ha', production: '1.1 - 2.44M MT', condition: 'favorable' },
+    { country: 'Malawi', crop: 'Maize', yield: '2.52 MT/ha', production: '3.77 - 5.49M MT', condition: 'favorable' },
+    { country: 'Zambia', crop: 'Maize', yield: '2.05 MT/ha', production: '2.35 - 3.18M MT', condition: 'favorable' },
+    { country: 'Rwanda', crop: 'Maize', yield: '2.26 MT/ha', production: '0.49 - 0.91M MT', condition: 'favorable' },
+    { country: 'Malawi', crop: 'Beans', yield: '0.68 MT/ha', production: '0.18 - 0.3M MT', condition: 'favorable' },
+    { country: 'Rwanda', crop: 'Beans', yield: '0.94 MT/ha', production: '0.52 - 0.67M MT', condition: 'favorable' },
+    { country: 'Malawi', crop: 'Rice', yield: '1.33 MT/ha', production: '0.08 - 0.13M MT', condition: 'watch' },
+    { country: 'Rwanda', crop: 'Rice', yield: '1.56 MT/ha', production: '0.04 - 0.06M MT', condition: 'watch' },
+  ],
+  'June 2025': [
+    { country: 'Note', crop: 'PDF', yield: 'Data available in PDF format', production: 'Unable to extract', condition: 'favorable' },
+  ],
+  'May 2025': [
+    { country: 'Note', crop: 'PDF', yield: 'Data available in PDF format', production: 'Unable to extract', condition: 'favorable' },
+  ],
+};
 
 // Month descriptions (for better UX)
 const monthDescriptions = {
@@ -29,6 +74,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   // Load highlights data
   loadHighlightsData();
+  
+  // Create dashboard charts
+  createDashboardCharts();
+  
+  // Update announcement bar
+  updateAnnouncementBar();
 });
 
 // Auto-detect and load all bulletins from GitHub structure
@@ -372,35 +423,38 @@ function updateHighlightsTitle() {
   }
 }
 
-// Load highlights data (table)
-function loadHighlightsData() {
+// Load highlights data (table) - now dynamic based on selected month
+function loadHighlightsData(selectedMonth) {
   const tableBody = document.getElementById('tableBody');
   if (!tableBody) return;
   
-  // Sample data (in production, this would be dynamically loaded from bulletin data)
-  const highlightsData = [
-    { country: 'Tanzania', crop: 'Maize', yield: '1.63 MT/ha', production: '1.1 - 2.44M MT', condition: 'favorable' },
-    { country: 'Malawi', crop: 'Maize', yield: '2.52 MT/ha', production: '3.77 - 5.49M MT', condition: 'favorable' },
-    { country: 'Zambia', crop: 'Maize', yield: '2.05 MT/ha', production: '2.35 - 3.18M MT', condition: 'favorable' },
-    { country: 'Rwanda', crop: 'Maize', yield: '2.26 MT/ha', production: '0.49 - 0.91M MT', condition: 'favorable' },
-    { country: 'Malawi', crop: 'Beans', yield: '0.68 MT/ha', production: '0.18 - 0.3M MT', condition: 'favorable' },
-    { country: 'Rwanda', crop: 'Beans', yield: '0.94 MT/ha', production: '0.52 - 0.67M MT', condition: 'favorable' },
-    { country: 'Malawi', crop: 'Rice', yield: '1.33 MT/ha', production: '0.08 - 0.13M MT', condition: 'watch' },
-    { country: 'Rwanda', crop: 'Rice', yield: '1.56 MT/ha', production: '0.04 - 0.06M MT', condition: 'watch' },
-  ];
+  // Get data for selected month or default to latest
+  const monthKey = selectedMonth || (allBulletins.length > 0 ? `${allBulletins[0].month} ${allBulletins[0].year}` : 'December 2025');
+  const highlightsData = highlightsDatabase[monthKey] || highlightsDatabase['December 2025'];
   
   tableBody.innerHTML = '';
   
   highlightsData.forEach(row => {
     const tr = document.createElement('tr');
     tr.setAttribute('data-crop', row.crop);
-    tr.innerHTML = `
-      <td><strong>${row.country}</strong></td>
-      <td>${row.crop}</td>
-      <td>${row.yield}</td>
-      <td>${row.production}</td>
-      <td><span class="badge badge-${row.condition}">${row.condition}</span></td>
-    `;
+    
+    if (row.country === 'Note') {
+      // PDF notice row
+      tr.innerHTML = `
+        <td colspan="5" style="text-align: center; padding: var(--spacing-4); background: var(--gray-100);">
+          <strong>📄 ${row.yield}</strong><br>
+          <span style="font-size: 13px; color: var(--gray-600);">This bulletin is available in PDF format. Please view the full report for detailed data.</span>
+        </td>
+      `;
+    } else {
+      tr.innerHTML = `
+        <td><strong>${row.country}</strong></td>
+        <td>${row.crop}</td>
+        <td>${row.yield}</td>
+        <td>${row.production}</td>
+        <td><span class="badge badge-${row.condition}">${row.condition}</span></td>
+      `;
+    }
     tableBody.appendChild(tr);
   });
 }
@@ -478,8 +532,9 @@ function setupEventListeners() {
   const monthFilter = document.getElementById('monthFilter');
   if (monthFilter) {
     monthFilter.addEventListener('change', () => {
+      const selectedMonth = monthFilter.value;
       updateHighlightsTitle();
-      // In production, this would reload the table data for the selected month
+      loadHighlightsData(selectedMonth); // Reload table with new month's data
     });
   }
   
@@ -525,6 +580,180 @@ function displayErrorState() {
         <p style="color: var(--gray-600);">Please try refreshing the page or check back later.</p>
       </div>
     `;
+  }
+}
+
+// Create dashboard charts with dark background
+function createDashboardCharts() {
+  // Production Comparison Chart
+  const productionCtx = document.getElementById('productionChart');
+  if (productionCtx) {
+    new Chart(productionCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Tanzania', 'Malawi', 'Zambia', 'Rwanda'],
+        datasets: [
+          {
+            label: 'Maize (M MT)',
+            data: [1.77, 4.63, 2.77, 0.70],
+            backgroundColor: '#64A635',
+          },
+          {
+            label: 'Rice (M MT)',
+            data: [0, 0.10, 0.04, 0.04],
+            backgroundColor: '#CDDC3C',
+          },
+          {
+            label: 'Beans (M MT)',
+            data: [0, 0.24, 0.06, 0.59],
+            backgroundColor: '#D13C3A',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              padding: 15,
+              font: { size: 13, weight: '600' },
+              color: '#2E170E'
+            }
+          },
+          tooltip: {
+            backgroundColor: '#FFFFFF',
+            titleColor: '#2E170E',
+            bodyColor: '#343A40',
+            borderColor: '#DEE2E6',
+            borderWidth: 1,
+            padding: 12,
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Production (Million MT)',
+              color: '#2E170E',
+              font: { size: 13, weight: '600' }
+            },
+            grid: { color: 'rgba(46, 23, 14, 0.1)' },
+            ticks: { color: '#2E170E' }
+          },
+          x: {
+            grid: { display: false },
+            ticks: { color: '#2E170E' }
+          }
+        }
+      }
+    });
+  }
+  
+  // Yield Trends Chart
+  const yieldTrendsCtx = document.getElementById('yieldTrendsChart');
+  if (yieldTrendsCtx) {
+    new Chart(yieldTrendsCtx, {
+      type: 'line',
+      data: {
+        labels: ['August', 'November', 'December'],
+        datasets: [
+          {
+            label: 'Tanzania',
+            data: [1.50, 1.55, 1.63],
+            borderColor: '#D13C3A',
+            backgroundColor: 'rgba(209, 60, 58, 0.1)',
+            tension: 0.4,
+            borderWidth: 3,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+          },
+          {
+            label: 'Malawi',
+            data: [2.40, 2.48, 2.52],
+            borderColor: '#64A635',
+            backgroundColor: 'rgba(100, 166, 53, 0.1)',
+            tension: 0.4,
+            borderWidth: 3,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+          },
+          {
+            label: 'Zambia',
+            data: [1.95, 2.01, 2.05],
+            borderColor: '#CDDC3C',
+            backgroundColor: 'rgba(205, 220, 60, 0.1)',
+            tension: 0.4,
+            borderWidth: 3,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+          },
+          {
+            label: 'Rwanda',
+            data: [2.15, 2.20, 2.26],
+            borderColor: '#F39C12',
+            backgroundColor: 'rgba(243, 156, 18, 0.1)',
+            tension: 0.4,
+            borderWidth: 3,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              padding: 15,
+              font: { size: 13, weight: '600' },
+              color: '#2E170E'
+            }
+          },
+          tooltip: {
+            backgroundColor: '#FFFFFF',
+            titleColor: '#2E170E',
+            bodyColor: '#343A40',
+            borderColor: '#DEE2E6',
+            borderWidth: 1,
+            padding: 12,
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            title: {
+              display: true,
+              text: 'Yield (MT/ha)',
+              color: '#2E170E',
+              font: { size: 13, weight: '600' }
+            },
+            grid: { color: 'rgba(46, 23, 14, 0.1)' },
+            ticks: { color: '#2E170E' }
+          },
+          x: {
+            grid: { display: false },
+            ticks: { color: '#2E170E' }
+          }
+        }
+      }
+    });
+  }
+}
+
+// Update announcement bar with latest bulletin
+function updateAnnouncementBar() {
+  const announcementText = document.getElementById('announcementText');
+  const announcementCTA = document.getElementById('announcementCTA');
+  
+  if (allBulletins.length > 0 && announcementText && announcementCTA) {
+    const latest = allBulletins[0];
+    announcementText.textContent = `New Bulletin Released for ${latest.month} ${latest.year}!`;
+    announcementCTA.href = latest.url;
   }
 }
 
