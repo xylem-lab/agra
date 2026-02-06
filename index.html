@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AGRA Regional Food Balance Sheet | XylemLab</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@600;700;800;900&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  
+  <!-- Google Material Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+  
+  <!-- PDF.js for PDF previews -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  
+  <style>
+    /* CSS Variables */
+    :root {
+      --color-coral: #D13C3A;
+      --color-lime: #CDDC3C;
+      --color-green: #64A635;
+      --color-brown: #2E170E;
+      --color-beige: #EFE7DA;
+      
+      --color-exceptional: #2ECC71;
+      --color-favorable: #CDDC3C;
+      --color-watch: #F39C12;
+      --color-poor: #D13C3A;
+      
+      --gray-100: #F8F9FA;
+      --gray-200: #E9ECEF;
+      --gray-300: #DEE2E6;
+      --gray-600: #6C757D;
+      --gray-800: #343A40;
+      --gray-900: #212529;
+      
+      --font-display: 'Libre Franklin', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+      
+      --shadow-sm: 0 2px 8px rgba(46, 23, 14, 0.06);
+      --shadow-md: 0 4px 24px rgba(46, 23, 14, 0.08);
+      --shadow-lg: 0 8px 32px rgba(46, 23, 14, 0.12);
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      
+      --spacing-1: 8px;
+      --spacing-2: 16px;
+      --spacing-3: 24px;
+      --spacing-4: 32px;
+      --spacing-6: 48px;
+      --spacing-8: 64px;
+      --spacing-12: 96px;
+    }
+    
+    /* Material Icons style */
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--color-brown);
+      background: #FFFFFF;
+      overflow-x: hidden;
+    }
+    
+    /* Header - Full Width & Responsive */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-bottom: 1px solid rgba(46, 23, 14, 0.1);
+      transition: box-shadow 0.3s ease;
+    }
+    
+    header.scrolled {
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .header-container {
+      padding: 0 var(--spacing-4);
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-3);
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    
+    .logo {
+      height: 48px;
+      width: auto;
+    }
+    
+    nav {
+      display: flex;
+      gap: var(--spacing-3);
+      align-items: center;
+      flex: 1;
+      justify-content: center;
+    }
+    
+    nav a {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--color-brown);
+      text-decoration: none;
+      position: relative;
+      padding: var(--spacing-1) 0;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+    }
+    
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--color-coral);
+      transition: width 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    
+    nav a:hover {
+      color: var(--color-coral);
+    }
+    
+    nav a:hover::after {
+      width: 100%;
+    }
+    
+    .search-container {
+      position: relative;
+      flex-shrink: 0;
+      width: 320px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 12px 40px 12px 16px;
+      border: 2px solid var(--gray-300);
+      border-radius: 24px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      background: var(--gray-100);
+      transition: all 0.3s ease;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: var(--color-coral);
+      box-shadow: 0 0 0 3px rgba(209, 60, 58, 0.1);
+      background: #FFFFFF;
+    }
+    
+    .search-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-600);
+      pointer-events: none;
+    }
+    
+    /* Search Recommendations Dropdown */
+    .search-results {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1000;
+    }
+    
+    .search-results.active {
+      display: block;
+    }
+    
+    .search-result-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--gray-200);
+      cursor: pointer;
+      transition: background 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .search-result-item:hover {
+      background: var(--gray-100);
+    }
+    
+    .search-result-item:last-child {
+      border-bottom: none;
+    }
+    
+    .search-result-icon {
+      color: var(--color-coral);
+      font-size: 20px;
+    }
+    
+    .search-result-text {
+      flex: 1;
+    }
+    
+    .search-result-title {
+      font-weight: 600;
+      color: var(--color-brown);
+      font-size: 14px;
+    }
+    
+    .search-result-meta {
+      font-size: 12px;
+      color: var(--gray-600);
+      margin-top: 2px;
+    }
+    
+    .search-no-results {
+      padding: 24px;
+      text-align: center;
+      color: var(--gray-600);
+    }
+    
+    /* Mobile menu */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--color-brown);
+      cursor: pointer;
+      padding: var(--spacing-1);
+    }
+    
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--color-beige) 0%, #FFFFFF 100%);
+      padding: var(--spacing-12) var(--spacing-6) var(--spacing-8);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(205, 220, 60, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: pulse 8s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.1); opacity: 0.3; }
+    }
+    
+    .hero-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .hero-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(40px, 6vw, 72px);
+      line-height: 1.1;
+      color: var(--color-brown);
+      margin-bottom: var(--spacing-3);
+      letter-spacing: -0.02em;
+      animation: fadeSlideUp 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    
+    .hero-subtitle {
+      font-size: clamp(18px, 2vw, 24px);
+      color: var(--gray-800);
+      margin-bottom: var(--spacing-4);
+      max-width: 700px;
+      animation: fadeSlideUp 0.8s cubic-bezier(0.33, 1, 0.68, 1) 0.1s both;
+    }
+    
+    .hero-subtitle strong {
+      color: var(--color-coral);
+      font-weight: 700;
+    }
+    
+    .hero-cta {
+      display: inline-flex;
+      gap: var(--spacing-2);
+      flex-wrap: wrap;
+      animation: fadeSlideUp 0.8s cubic-bezier(0.33, 1, 0.68, 1) 0.2s both;
+    }
+    
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-1);
+      padding: 16px 32px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    
+    .btn-primary {
+      background: var(--color-coral);
+      color: #FFFFFF;
+    }
+    
+    .btn-primary:hover {
+      background: #B8322E;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(209, 60, 58, 0.3);
+    }
+    
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-coral);
+      border: 2px solid var(--color-coral);
+      padding: 14px 30px;
+    }
+    
+    .btn-secondary:hover {
+      background: var(--color-coral);
+      color: #FFFFFF;
+    }
+    
+    /* Stats Dashboard */
+    .stats-section {
+      padding: var(--spacing-8) var(--spacing-6);
+      background: #FFFFFF;
+    }
+    
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--spacing-3);
+      margin-top: var(--spacing-4);
+    }
+    
+    .stat-card {
+      background: var(--gray-100);
+      border-left: 4px solid var(--color-green);
+      padding: var(--spacing-4);
+      border-radius: var(--radius-md);
+      transition: all 0.3s ease;
+      animation: fadeSlideUp 0.6s ease both;
+    }
+    
+    .stat-card:nth-child(1) { animation-delay: 0.1s; border-left-color: var(--color-coral); }
+    .stat-card:nth-child(2) { animation-delay: 0.2s; border-left-color: var(--color-lime); }
+    .stat-card:nth-child(3) { animation-delay: 0.3s; border-left-color: var(--color-green); }
+    .stat-card:nth-child(4) { animation-delay: 0.4s; border-left-color: var(--color-brown); }
+    
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      background: #FFFFFF;
+    }
+    
+    .stat-icon {
+      font-size: 32px;
+      margin-bottom: var(--spacing-2);
+      opacity: 0.8;
+    }
+    
+    .stat-value {
+      font-family: var(--font-mono);
+      font-size: 48px;
+      font-weight: 500;
+      line-height: 1;
+      margin-bottom: var(--spacing-1);
+      color: var(--color-brown);
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      color: var(--gray-600);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    /* Section Headers */
+    .section-header {
+      margin-bottom: var(--spacing-6);
+    }
+    
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(32px, 4vw, 48px);
+      color: var(--color-brown);
+      margin-bottom: var(--spacing-2);
+      line-height: 1.2;
+    }
+    
+    .section-subtitle {
+      font-size: 18px;
+      color: var(--gray-600);
+      max-width: 600px;
+    }
+    
+    /* Latest Bulletins */
+    .bulletins-section {
+      padding: var(--spacing-12) var(--spacing-6);
+      background: linear-gradient(180deg, #FFFFFF 0%, var(--gray-100) 100%);
+    }
+    
+    .bulletins-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: var(--spacing-4);
+      margin-top: var(--spacing-6);
+    }
+    
+    .bulletin-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+      border: 1px solid rgba(46, 23, 14, 0.1);
+      animation: fadeSlideUp 0.6s ease both;
+    }
+    
+    .bulletin-card:nth-child(1) { animation-delay: 0.1s; }
+    .bulletin-card:nth-child(2) { animation-delay: 0.2s; }
+    .bulletin-card:nth-child(3) { animation-delay: 0.3s; }
+    
+    .bulletin-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--color-lime);
+    }
+    
+    .bulletin-header {
+      padding: var(--spacing-4);
+      background: linear-gradient(135deg, var(--color-beige) 0%, #FFFFFF 100%);
+      border-bottom: 2px solid var(--color-lime);
+    }
+    
+    .bulletin-month {
+      display: inline-block;
+      background: var(--color-coral);
+      color: #FFFFFF;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--spacing-2);
+    }
+    
+    .bulletin-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 24px;
+      color: var(--color-brown);
+      line-height: 1.3;
+    }
+    
+    .bulletin-preview {
+      height: 200px;
+      background: var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .bulletin-preview canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    
+    .bulletin-preview.pdf-preview {
+      background: #FFFFFF;
+    }
+    
+    .bulletin-content {
+      padding: var(--spacing-4);
+    }
+    
+    .bulletin-meta {
+      display: flex;
+      gap: var(--spacing-3);
+      margin-bottom: var(--spacing-3);
+      flex-wrap: wrap;
+    }
+    
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-1);
+      font-size: 14px;
+      color: var(--gray-600);
+    }
+    
+    .bulletin-description {
+      color: var(--gray-800);
+      margin-bottom: var(--spacing-3);
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .bulletin-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: var(--spacing-3);
+      border-top: 1px solid var(--gray-200);
+      flex-wrap: wrap;
+      gap: var(--spacing-2);
+    }
+    
+    .condition-badges {
+      display: flex;
+      gap: var(--spacing-1);
+      flex-wrap: wrap;
+    }
+    
+    .badge {
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .badge-exceptional {
+      background: var(--color-exceptional);
+      color: #FFFFFF;
+    }
+    
+    .badge-favorable {
+      background: var(--color-favorable);
+      color: var(--color-brown);
+    }
+    
+    .badge-watch {
+      background: var(--color-watch);
+      color: #FFFFFF;
+    }
+    
+    .badge-poor {
+      background: var(--color-poor);
+      color: #FFFFFF;
+    }
+    
+    .view-archive-section {
+      text-align: center;
+      margin-top: var(--spacing-6);
+    }
+    
+    /* Data Comparison Table */
+    .comparison-section {
+      padding: var(--spacing-8) var(--spacing-6);
+      background: var(--gray-100);
+    }
+    
+    .filters-container {
+      display: flex;
+      gap: var(--spacing-3);
+      margin-top: var(--spacing-4);
+      margin-bottom: var(--spacing-4);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+    }
+    
+    .filter-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-brown);
+    }
+    
+    .filter-select {
+      padding: 10px 16px;
+      border: 2px solid var(--gray-300);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 14px;
+      background: #FFFFFF;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 150px;
+    }
+    
+    .filter-select:hover {
+      border-color: var(--color-coral);
+    }
+    
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--color-coral);
+      box-shadow: 0 0 0 3px rgba(209, 60, 58, 0.1);
+    }
+    
+    .table-container {
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .data-table thead {
+      background: var(--color-beige);
+    }
+    
+    .data-table th {
+      padding: var(--spacing-2) var(--spacing-3);
+      text-align: left;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-brown);
+      border-bottom: 2px solid var(--color-brown);
+    }
+    
+    .data-table td {
+      padding: var(--spacing-2) var(--spacing-3);
+      border-bottom: 1px solid var(--gray-200);
+      color: var(--gray-800);
+    }
+    
+    .data-table tbody tr:hover {
+      background: var(--gray-100);
+    }
+    
+    .data-table tbody tr:nth-child(even) {
+      background: #FAFAFA;
+    }
+    
+    .data-table tbody tr:nth-child(even):hover {
+      background: var(--gray-100);
+    }
+    
+    /* Footer */
+    footer {
+      background: var(--color-brown);
+      color: var(--color-beige);
+      padding: var(--spacing-8) var(--spacing-6) var(--spacing-4);
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-6);
+      max-width: 1280px;
+      margin: 0 auto var(--spacing-6);
+    }
+    
+    .footer-column h4 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: var(--spacing-3);
+      color: #FFFFFF;
+    }
+    
+    .footer-column ul {
+      list-style: none;
+    }
+    
+    .footer-column li {
+      margin-bottom: var(--spacing-2);
+    }
+    
+    .footer-column a {
+      color: var(--color-beige);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    .footer-column a:hover {
+      color: var(--color-lime);
+    }
+    
+    .footer-bottom {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding-top: var(--spacing-4);
+      border-top: 1px solid rgba(239, 231, 218, 0.2);
+      text-align: center;
+      font-size: 14px;
+      color: rgba(239, 231, 218, 0.7);
+    }
+    
+    .partner-logos {
+      display: flex;
+      gap: var(--spacing-4);
+      align-items: center;
+      margin-top: var(--spacing-3);
+      flex-wrap: wrap;
+    }
+    
+    .partner-logos img {
+      height: 40px;
+      opacity: 0.9;
+      filter: brightness(0) invert(1);
+      transition: opacity 0.3s ease;
+    }
+    
+    .partner-logos img:hover {
+      opacity: 1;
+    }
+    
+    /* Loading State */
+    .loading-spinner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-6);
+      color: var(--gray-600);
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--gray-300);
+      border-top-color: var(--color-coral);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 1023px) {
+      .header-container {
+        height: 64px;
+        padding: 0 var(--spacing-3);
+        flex-wrap: nowrap;
+      }
+      
+      .logo {
+        height: 40px;
+      }
+      
+      nav {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: #FFFFFF;
+        flex-direction: column;
+        padding: var(--spacing-3);
+        box-shadow: var(--shadow-lg);
+        gap: var(--spacing-2);
+        align-items: stretch;
+        text-align: center;
+      }
+      
+      nav.mobile-open {
+        display: flex;
+      }
+      
+      nav a {
+        padding: var(--spacing-2);
+      }
+      
+      .mobile-menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .search-container {
+        position: fixed;
+        bottom: var(--spacing-3);
+        left: var(--spacing-3);
+        right: var(--spacing-3);
+        width: auto;
+        z-index: 99;
+      }
+      
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .chart-container {
+        height: 250px;
+      }
+    }
+    
+    @media (max-width: 767px) {
+      .hero {
+        padding: var(--spacing-8) var(--spacing-3);
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .bulletins-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .table-container {
+        overflow-x: auto;
+      }
+      
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .filters-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .filter-select {
+        width: 100%;
+      }
+      
+      .search-container {
+        bottom: var(--spacing-2);
+        left: var(--spacing-2);
+        right: var(--spacing-2);
+      }
+    }
+    
+    /* Utility Classes */
+    .text-center { text-align: center; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header id="header">
+    <div class="header-container">
+      <div class="logo-section">
+        <img src="Bulletins/2025/12_December_2025/data/static/XylemLab_logo.png" alt="XylemLab Logo" class="logo">
+      </div>
+      
+      <nav id="nav">
+        <a href="#latest">Latest Reports</a>
+        <a href="archive.html">Archive</a>
+        <a href="#about">About</a>
+        <a href="https://www.xylemlab.org/" target="_blank">The Xylem Lab</a>
+        <a href="https://thexyleminstitute.squarespace.com/" target="_blank">Xylem Institute</a>
+      </nav>
+      
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+    
+    <!-- Mobile search at bottom -->
+    <div class="search-container" id="searchContainer">
+      <input 
+        type="search" 
+        class="search-input" 
+        id="searchInput"
+        placeholder="Search bulletins, countries, crops..."
+        aria-label="Search bulletins"
+        autocomplete="off">
+      <span class="material-symbols-outlined search-icon">search</span>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Regional Food Balance Sheet
+      </h1>
+      <p class="hero-subtitle">
+        Monthly crop yield forecasts for <strong>Tanzania, Malawi, Zambia, Rwanda, Kenya, and Uganda</strong> — powered by remote sensing and machine learning
+      </p>
+      <div class="hero-cta" id="heroCTA">
+        <a href="#" class="btn btn-primary" id="latestReportBtn">
+          <span>View Latest Report</span>
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+        <a href="archive.html" class="btn btn-secondary">
+          Browse Archive
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Dashboard -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="material-symbols-outlined stat-icon">article</span>
+          <div class="stat-value" id="totalReports">--</div>
+          <div class="stat-label">Total Reports</div>
+        </div>
+        
+        <div class="stat-card">
+          <span class="material-symbols-outlined stat-icon">public</span>
+          <div class="stat-value">6</div>
+          <div class="stat-label">Countries Covered</div>
+        </div>
+        
+        <div class="stat-card">
+          <span class="material-symbols-outlined stat-icon">agriculture</span>
+          <div class="stat-value">3</div>
+          <div class="stat-label">Crop Types</div>
+        </div>
+        
+        <div class="stat-card">
+          <span class="material-symbols-outlined stat-icon">calendar_today</span>
+          <div class="stat-value" id="latestMonth">--</div>
+          <div class="stat-label">Latest Update</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Bulletins -->
+  <section class="bulletins-section" id="latest">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Latest Bulletins</h2>
+        <p class="section-subtitle">
+          Interactive monthly reports with crop yield forecasts, regional analysis, and production estimates
+        </p>
+      </div>
+      
+      <div class="bulletins-grid" id="bulletinsGrid">
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+        </div>
+      </div>
+      
+      <div class="view-archive-section">
+        <a href="archive.html" class="btn btn-primary">
+          <span>View Past Bulletins</span>
+          <span class="material-symbols-outlined">archive</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Comparison -->
+  <section class="comparison-section" id="highlights">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" id="highlightsTitle">Loading...</h2>
+        <p class="section-subtitle">Key production estimates across focus countries</p>
+      </div>
+      
+      <!-- Filters -->
+      <div class="filters-container">
+        <div class="filter-group">
+          <label class="filter-label" for="monthFilter">
+            <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">calendar_month</span>
+            Month:
+          </label>
+          <select id="monthFilter" class="filter-select">
+            <option value="">Loading...</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label class="filter-label" for="cropFilter">
+            <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">agriculture</span>
+            Crop:
+          </label>
+          <select id="cropFilter" class="filter-select">
+            <option value="all">All Crops</option>
+            <option value="Maize">Maize</option>
+            <option value="Rice">Rice</option>
+            <option value="Beans">Beans</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="table-container">
+        <table class="data-table" id="dataTable">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Crop</th>
+              <th>Predicted Yield</th>
+              <th>Production Range</th>
+              <th>Condition</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr>
+              <td colspan="5" style="text-align: center; padding: var(--spacing-4);">
+                <div class="spinner" style="margin: 0 auto;"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-column">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="https://www.xylemlab.org/mission">Our Mission</a></li>
+          <li><a href="https://www.xylemlab.org/get-involved">Get Involved</a></li>
+          <li><a href="https://www.xylemlab.org/donate">Make a Donation</a></li>
+          <li><a href="#latest">Latest Reports</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="https://the-xylem-institute-community.circle.so/">Circle Community</a></li>
+          <li><a href="https://bsky.app/profile/xylemlab.bsky.social">Bluesky</a></li>
+          <li><a href="https://www.linkedin.com/groups/13108104/">LinkedIn Community</a></li>
+          <li><a href="mailto:contact@xylemlab.org">contact@xylemlab.org</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Our Network</h4>
+        <ul>
+          <li><a href="https://www.xylemlab.org/">XylemLab</a></li>
+          <li><a href="https://www.xyleminstitute.org/">Xylem Institute</a></li>
+          <li><a href="https://www.umd.edu">University of Maryland</a></li>
+          <li><a href="https://www.agra.org/">AGRA</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h4>Partners</h4>
+        <div class="partner-logos">
+          <img src="Bulletins/2025/12_December_2025/data/static/AGRA_Banner.png" alt="AGRA Partners" style="height: 60px; width: auto;">
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2026 UMD-XylemLab. All rights reserved.</p>
+      <p style="margin-top: 8px; font-size: 13px;">
+        Data sources: USDA, FAO, and UMD-XylemLab predictive models
+      </p>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>
