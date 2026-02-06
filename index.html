@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@600;700;800;900&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.typekit.net/dsu4vkr.css">
   
   <!-- Google Material Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
@@ -18,6 +19,9 @@
   
   <!-- PDF.js for PDF previews -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="Bulletins/2025/12_December_2025/data/static/XylemLab_logo.png">
   
   <style>
     /* CSS Variables */
@@ -40,7 +44,7 @@
       --gray-800: #343A40;
       --gray-900: #212529;
       
-      --font-display: 'Libre Franklin', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'nasalization', 'Libre Franklin', sans-serif;
       --font-body: 'Source Sans 3', system-ui, sans-serif;
       --font-mono: 'JetBrains Mono', 'Courier New', monospace;
       
@@ -65,6 +69,76 @@
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       vertical-align: middle;
+    }
+    
+    /* Announcement Bar */
+    .announcement-bar {
+      background: linear-gradient(90deg, var(--color-coral) 0%, #E85D5A 100%);
+      color: #FFFFFF;
+      padding: 12px var(--spacing-4);
+      text-align: center;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-2);
+      animation: slideDown 0.5s ease;
+      flex-wrap: wrap;
+    }
+    
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .announcement-emoji {
+      font-size: 20px;
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    
+    .announcement-cta {
+      background: #FFFFFF;
+      color: var(--color-coral);
+      padding: 6px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 700;
+      margin-left: var(--spacing-1);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    
+    .announcement-cta:hover {
+      background: var(--color-beige);
+      transform: scale(1.05);
+    }
+    
+    .close-announcement {
+      background: none;
+      border: none;
+      color: #FFFFFF;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 var(--spacing-1);
+      margin-left: auto;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+    
+    .close-announcement:hover {
+      opacity: 1;
     }
     
     /* Reset & Base */
@@ -124,7 +198,6 @@
       align-items: center;
       flex: 1;
       justify-content: center;
-      
       min-width: 0;     
     }
     
@@ -301,13 +374,14 @@
     
     .hero-title {
       font-family: var(--font-display);
-      font-weight: 900;
+      font-weight: 400;
       font-size: clamp(40px, 6vw, 72px);
       line-height: 1.1;
       color: var(--color-brown);
       margin-bottom: var(--spacing-3);
-      letter-spacing: -0.02em;
+      letter-spacing: 0.02em;
       animation: fadeSlideUp 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+      text-transform: uppercase;
     }
     
     .hero-subtitle {
@@ -452,11 +526,13 @@
     
     .section-title {
       font-family: var(--font-display);
-      font-weight: 800;
+      font-weight: 400;
       font-size: clamp(32px, 4vw, 48px);
       color: var(--color-brown);
       margin-bottom: var(--spacing-2);
       line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
     }
     
     .section-subtitle {
@@ -519,10 +595,12 @@
     
     .bulletin-title {
       font-family: var(--font-display);
-      font-weight: 700;
+      font-weight: 400;
       font-size: 24px;
       color: var(--color-brown);
       line-height: 1.3;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
     }
     
     .bulletin-preview {
@@ -621,6 +699,56 @@
     .view-archive-section {
       text-align: center;
       margin-top: var(--spacing-6);
+    }
+    
+    /* Dashboard Charts Section */
+    .dashboard-section {
+      padding: var(--spacing-12) var(--spacing-6);
+      background: var(--color-brown);
+      color: var(--color-beige);
+    }
+    
+    .dashboard-section .section-title {
+      color: #FFFFFF;
+    }
+    
+    .dashboard-section .section-subtitle {
+      color: var(--color-beige);
+      opacity: 0.9;
+    }
+    
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: var(--spacing-4);
+      margin-top: var(--spacing-6);
+    }
+    
+    .dashboard-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-4);
+      box-shadow: var(--shadow-lg);
+      animation: fadeSlideUp 0.6s ease both;
+    }
+    
+    .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+    .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
+    
+    .dashboard-card-title {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 20px;
+      color: var(--color-brown);
+      margin-bottom: var(--spacing-3);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    
+    .chart-container {
+      position: relative;
+      height: 300px;
+      margin-top: var(--spacing-3);
     }
     
     /* Data Comparison Table */
@@ -734,10 +862,12 @@
     
     .footer-column h4 {
       font-family: var(--font-display);
-      font-weight: 700;
+      font-weight: 400;
       font-size: 18px;
       margin-bottom: var(--spacing-3);
       color: #FFFFFF;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
     }
     
     .footer-column ul {
@@ -752,6 +882,7 @@
       color: var(--color-beige);
       text-decoration: none;
       transition: color 0.2s ease;
+      font-size: 14px;
     }
     
     .footer-column a:hover {
@@ -768,16 +899,19 @@
       color: rgba(239, 231, 218, 0.7);
     }
     
-    .partner-logos {
-      display: flex;
-      gap: var(--spacing-4);
-      align-items: center;
+    .partner-logos-section {
       margin-top: var(--spacing-3);
-      flex-wrap: wrap;
+      text-align: center;
+    }
+    
+    .partner-logos {
+      display: inline-block;
+      max-width: 100%;
     }
     
     .partner-logos img {
-      height: 40px;
+      max-width: 100%;
+      height: auto;
       opacity: 0.9;
       transition: opacity 0.3s ease;
     }
@@ -872,12 +1006,57 @@
         padding: var(--spacing-8) var(--spacing-3);
       }
       
+      .announcement-bar {
+        font-size: 12px;
+        padding: 10px var(--spacing-2);
+      }
+      
       .stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-2);
+      }
+      
+      .stat-card {
+        padding: var(--spacing-3);
+      }
+      
+      .stat-value {
+        font-size: 36px;
+      }
+      
+      .stat-label {
+        font-size: 11px;
       }
       
       .bulletins-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-2);
+      }
+      
+      .bulletin-card {
+        font-size: 14px;
+      }
+      
+      .bulletin-header {
+        padding: var(--spacing-2);
+      }
+      
+      .bulletin-month {
+        font-size: 11px;
+        padding: 4px 10px;
+      }
+      
+      .bulletin-title {
+        font-size: 14px;
+      }
+      
+      .bulletin-content {
+        padding: var(--spacing-2);
+      }
+      
+      .bulletin-footer {
+        flex-direction: column;
+        align-items: flex-start;
       }
       
       .table-container {
@@ -910,39 +1089,45 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
-<header id="header">
-  <div class="header-container">
-    <div class="logo-section">
-      <img src="Bulletins/2025/12_December_2025/data/static/XylemLab_logo.png" alt="XylemLab Logo" class="logo">
-    </div>
-
-    <nav id="nav">
-      <a href="#latest">Latest Reports</a>
-      <a href="archive.html">Archive</a>
-      <a href="#about">About</a>
-      <a href="https://www.xylemlab.org/" target="_blank">The Xylem Lab</a>
-      <a href="https://thexyleminstitute.squarespace.com/" target="_blank">Xylem Institute</a>
-    </nav>
-
-    <div class="search-container" id="searchContainer">
-      <input 
-        type="search" 
-        class="search-input" 
-        id="searchInput"
-        placeholder="Search bulletins, countries, crops..."
-        aria-label="Search bulletins"
-        autocomplete="off">
-      <span class="material-symbols-outlined search-icon">search</span>
-      <div class="search-results" id="searchResults"></div>
-    </div>
-
-    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
-      <span class="material-symbols-outlined">menu</span>
-    </button>
+  <!-- Announcement Bar -->
+  <div class="announcement-bar" id="announcementBar">
+    <span class="announcement-emoji">🌾</span>
+    <span id="announcementText">New Bulletin Released for December 2025!</span>
+    <a href="#" class="announcement-cta" id="announcementCTA">View Now</a>
+    <button class="close-announcement" id="closeAnnouncement" aria-label="Close announcement">×</button>
   </div>
-</header>
 
+  <!-- Header -->
+  <header id="header">
+    <div class="header-container">
+      <div class="logo-section">
+        <img src="Bulletins/2025/12_December_2025/data/static/XylemLab_logo.png" alt="XylemLab Logo" class="logo">
+      </div>
+
+      <nav id="nav">
+        <a href="#latest">Latest Reports</a>
+        <a href="archive.html">Archive</a>
+        <a href="https://www.xylemlab.org/" target="_blank">The Xylem Lab</a>
+        <a href="https://thexyleminstitute.squarespace.com/" target="_blank">Xylem Institute</a>
+      </nav>
+
+      <div class="search-container" id="searchContainer">
+        <input 
+          type="search" 
+          class="search-input" 
+          id="searchInput"
+          placeholder="Search bulletins, countries, crops..."
+          aria-label="Search bulletins"
+          autocomplete="off">
+        <span class="material-symbols-outlined search-icon">search</span>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </header>
 
   <!-- Hero Section -->
   <section class="hero">
@@ -971,19 +1156,19 @@
       <div class="stats-grid">
         <div class="stat-card">
           <span class="material-symbols-outlined stat-icon">article</span>
-          <div class="stat-value" id="totalReports">--</div>
+          <div class="stat-value" id="totalReports" data-target="6">0</div>
           <div class="stat-label">Total Reports</div>
         </div>
         
         <div class="stat-card">
           <span class="material-symbols-outlined stat-icon">public</span>
-          <div class="stat-value">6</div>
+          <div class="stat-value" data-target="6">0</div>
           <div class="stat-label">Countries Covered</div>
         </div>
         
         <div class="stat-card">
           <span class="material-symbols-outlined stat-icon">agriculture</span>
-          <div class="stat-value">3</div>
+          <div class="stat-value" data-target="3">0</div>
           <div class="stat-label">Crop Types</div>
         </div>
         
@@ -1017,6 +1202,34 @@
           <span>View Past Bulletins</span>
           <span class="material-symbols-outlined">archive</span>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Dashboard with Charts -->
+  <section class="dashboard-section" id="dashboard">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Regional Production Dashboard</h2>
+        <p class="section-subtitle">
+          Comparative analysis across countries and months
+        </p>
+      </div>
+      
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <h3 class="dashboard-card-title">Production by Country (December 2025)</h3>
+          <div class="chart-container">
+            <canvas id="productionChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="dashboard-card">
+          <h3 class="dashboard-card-title">Yield Trends: Maize</h3>
+          <div class="chart-container">
+            <canvas id="yieldTrendsChart"></canvas>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1113,14 +1326,19 @@
       
       <div class="footer-column">
         <h4>Partners</h4>
-        <div class="partner-logos">
-          <img src="Bulletins/2025/12_December_2025/data/static/AGRA_Banner.png" alt="AGRA Partners" style="height: 60px; width: auto;">
-        </div>
+        <p style="font-size: 13px; line-height: 1.5; margin-bottom: var(--spacing-2);">
+          AGRA, Rockefeller Foundation, UK International Development, Mastercard Foundation, Gates Foundation, German Cooperation, KfW
+        </p>
       </div>
     </div>
     
     <div class="footer-bottom">
-      <p>© 2026 UMD-XylemLab. All rights reserved.</p>
+      <div class="partner-logos-section">
+        <div class="partner-logos">
+          <img src="Bulletins/2025/12_December_2025/data/static/AGRA_Banner.png" alt="Partner Organizations" style="max-height: 50px;">
+        </div>
+      </div>
+      <p style="margin-top: var(--spacing-3);">© 2026 UMD-XylemLab. All rights reserved.</p>
       <p style="margin-top: 8px; font-size: 13px;">
         Data sources: USDA, FAO, and UMD-XylemLab predictive models
       </p>
@@ -1129,5 +1347,60 @@
 
   <!-- Main JavaScript -->
   <script src="js/main.js"></script>
+  <script>
+    // Count-up animation for stat values
+    function animateValue(element, start, end, duration) {
+      if (!element) return;
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const value = Math.floor(progress * (end - start) + start);
+        element.textContent = value;
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        } else {
+          element.textContent = end;
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+
+    // Trigger count animation on scroll
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const statValues = entry.target.querySelectorAll('.stat-value[data-target]');
+          statValues.forEach(stat => {
+            const target = parseInt(stat.getAttribute('data-target'));
+            if (!isNaN(target)) {
+              animateValue(stat, 0, target, 1500);
+            }
+          });
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.querySelector('.stats-section');
+    if (statsSection) {
+      statsObserver.observe(statsSection);
+    }
+
+    // Close announcement bar
+    const closeAnnouncement = document.getElementById('closeAnnouncement');
+    const announcementBar = document.getElementById('announcementBar');
+    if (closeAnnouncement && announcementBar) {
+      closeAnnouncement.addEventListener('click', () => {
+        announcementBar.style.display = 'none';
+        localStorage.setItem('announcementClosed', 'true');
+      });
+      
+      // Check if announcement was previously closed
+      if (localStorage.getItem('announcementClosed') === 'true') {
+        announcementBar.style.display = 'none';
+      }
+    }
+  </script>
 </body>
 </html>
