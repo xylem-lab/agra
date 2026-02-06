@@ -1,503 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AGRA Regional Food Balance Sheet | XylemLab</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bulletin Archive | AGRA Regional Food Balance Sheet</title>
+  
   <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@600;700;800;900&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@600;700;800;900&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  
   <!-- Google Material Icons -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-
-  <!-- Chart.js for data visualization -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols_Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
-
+  
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  
+  <!-- Reuse main styles -->
+  <link rel="stylesheet" href="index_new.html" type="text/html">
+  
   <style>
-    /* CSS Variables */
+    /* Import styles from main page - for production, use external CSS file */
+    /* Simplified version with key styles */
+    
     :root {
       --color-coral: #D13C3A;
       --color-lime: #CDDC3C;
       --color-green: #64A635;
       --color-brown: #2E170E;
       --color-beige: #EFE7DA;
-
-      --color-exceptional: #2ECC71;
-      --color-favorable: #CDDC3C;
-      --color-watch: #F39C12;
-      --color-poor: #D13C3A;
-
       --gray-100: #F8F9FA;
       --gray-200: #E9ECEF;
-      --gray-300: #DEE2E6;
       --gray-600: #6C757D;
       --gray-800: #343A40;
-      --gray-900: #212529;
-
-      --font-display: 'Libre Franklin', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-body: 'Source Sans 3', system-ui, sans-serif;
-      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
-
-      --shadow-sm: 0 2px 8px rgba(46, 23, 14, 0.06);
-      --shadow-md: 0 4px 24px rgba(46, 23, 14, 0.08);
-      --shadow-lg: 0 8px 32px rgba(46, 23, 14, 0.12);
-
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-
-      --spacing-1: 8px;
+      --font-display: 'Libre Franklin', sans-serif;
+      --font-body: 'Source Sans 3', sans-serif;
       --spacing-2: 16px;
       --spacing-3: 24px;
       --spacing-4: 32px;
       --spacing-6: 48px;
       --spacing-8: 64px;
-      --spacing-12: 96px;
+      --radius-md: 12px;
+      --shadow-sm: 0 2px 8px rgba(46, 23, 14, 0.06);
+      --shadow-md: 0 4px 24px rgba(46, 23, 14, 0.08);
     }
-
-    /* Reset & Base */
+    
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
+    
     body {
       font-family: var(--font-body);
-      font-size: 16px;
-      line-height: 1.6;
       color: var(--color-brown);
       background: #FFFFFF;
-      overflow-x: hidden;
     }
-
-    /* Material Icons */
-    .material-icons {
-      font-family: 'Material Icons';
-      font-weight: normal;
-      font-style: normal;
-      font-size: 24px;
-      display: inline-block;
-      line-height: 1;
-      text-transform: none;
-      letter-spacing: normal;
-      word-wrap: normal;
-      white-space: nowrap;
-      direction: ltr;
-      vertical-align: middle;
+    
+    .page-header {
+      background: linear-gradient(135deg, var(--color-beige) 0%, #FFFFFF 100%);
+      padding: var(--spacing-8) var(--spacing-6);
+      text-align: center;
     }
-
-    /* Header - Full Width */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: #FFFFFF;
-      border-bottom: 1px solid rgba(46, 23, 14, 0.1);
-      transition: box-shadow 0.3s ease;
-    }
-
-    header.scrolled { box-shadow: var(--shadow-sm); }
-
-    .header-container {
-      width: 100%;
-      padding: 0 var(--spacing-3);
-      height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--spacing-3);
-    }
-
-    .logo-section { display: flex; align-items: center; flex-shrink: 0; }
-    .logo { height: 48px; width: auto; }
-
-    nav {
-      display: flex;
-      gap: var(--spacing-3);
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    nav a {
-      font-weight: 600;
-      font-size: 15px;
+    
+    .page-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(36px, 5vw, 56px);
       color: var(--color-brown);
+      margin-bottom: var(--spacing-2);
+    }
+    
+    .page-subtitle {
+      font-size: 18px;
+      color: var(--gray-600);
+      max-width: 600px;
+      margin: 0 auto var(--spacing-4);
+    }
+    
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--color-coral);
       text-decoration: none;
-      position: relative;
-      padding: var(--spacing-1) 0;
-      transition: color 0.2s ease;
-      white-space: nowrap;
+      font-weight: 600;
+      margin-bottom: var(--spacing-3);
     }
-
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--color-coral);
-      transition: width 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    
+    .back-link:hover {
+      text-decoration: underline;
     }
-
-    nav a:hover { color: var(--color-coral); }
-    nav a:hover::after { width: 100%; }
-
-    .search-container {
-      position: relative;
-      flex-shrink: 0;
-      min-width: 280px;
+    
+    .archive-section {
+      padding: var(--spacing-8) var(--spacing-6);
+      max-width: 1280px;
+      margin: 0 auto;
     }
-
-    .search-input {
-      width: 100%;
-      padding: 12px 40px 12px 40px;
-      border: 2px solid var(--gray-300);
+    
+    .filter-bar {
+      display: flex;
+      gap: var(--spacing-3);
+      margin-bottom: var(--spacing-6);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .filter-btn {
+      padding: 12px 24px;
+      border: 2px solid var(--gray-200);
+      background: #FFFFFF;
       border-radius: 24px;
       font-family: var(--font-body);
       font-size: 14px;
-      background: var(--gray-100);
-      transition: all 0.3s ease;
-    }
-
-    .search-input:focus {
-      outline: none;
-      border-color: var(--color-coral);
-      box-shadow: 0 0 0 3px rgba(209, 60, 58, 0.1);
-      background: #FFFFFF;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray-600);
-      pointer-events: none;
-    }
-
-    .clear-search {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray-600);
-      cursor: pointer;
-      display: none;
-      background: none;
-      border: none;
-      padding: 4px;
-      border-radius: 50%;
-      transition: all 0.2s ease;
-    }
-
-    .clear-search:hover { background: var(--gray-200); color: var(--color-coral); }
-    .clear-search.active { display: block; }
-
-    .search-recommendations {
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 0;
-      right: 0;
-      background: #FFFFFF;
-      border: 1px solid var(--gray-300);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-lg);
-      max-height: 400px;
-      overflow-y: auto;
-      display: none;
-      z-index: 1000;
-    }
-
-    .search-recommendations.active { display: block; }
-
-    .search-recommendation-item {
-      padding: 12px 16px;
-      cursor: pointer;
-      border-bottom: 1px solid var(--gray-200);
-      transition: background 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-2);
-    }
-
-    .search-recommendation-item:last-child { border-bottom: none; }
-    .search-recommendation-item:hover { background: var(--gray-100); }
-
-    .recommendation-icon { color: var(--color-coral); font-size: 20px; }
-    .recommendation-text { flex: 1; }
-
-    .recommendation-title {
       font-weight: 600;
-      color: var(--color-brown);
-      font-size: 14px;
-    }
-
-    .recommendation-subtitle {
-      font-size: 12px;
-      color: var(--gray-600);
-      margin-top: 2px;
-    }
-
-    .search-highlight { background: rgba(205, 220, 60, 0.3); font-weight: 600; }
-
-    /* Mobile menu */
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 24px;
-      color: var(--color-brown);
-      cursor: pointer;
-      padding: var(--spacing-1);
-    }
-
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(135deg, var(--color-beige) 0%, #FFFFFF 100%);
-      padding: var(--spacing-12) var(--spacing-6) var(--spacing-8);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(205, 220, 60, 0.15) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: pulse 8s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.6; }
-      50% { transform: scale(1.1); opacity: 0.3; }
-    }
-
-    .hero-content {
-      max-width: 1280px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-title {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: clamp(40px, 6vw, 72px);
-      line-height: 1.1;
-      color: var(--color-brown);
-      margin-bottom: var(--spacing-3);
-      letter-spacing: -0.02em;
-      animation: fadeSlideUp 0.8s cubic-bezier(0.33, 1, 0.68, 1);
-    }
-
-    .hero-subtitle {
-      font-size: clamp(18px, 2vw, 24px);
-      color: var(--gray-800);
-      margin-bottom: var(--spacing-4);
-      max-width: 700px;
-      animation: fadeSlideUp 0.8s cubic-bezier(0.33, 1, 0.68, 1) 0.1s both;
-    }
-
-    .hero-subtitle strong { color: var(--color-coral); font-weight: 700; }
-
-    .hero-cta {
-      display: inline-flex;
-      gap: var(--spacing-2);
-      animation: fadeSlideUp 0.8s cubic-bezier(0.33, 1, 0.68, 1) 0.2s both;
-    }
-
-    @keyframes fadeSlideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--spacing-1);
-      padding: 16px 32px;
-      border-radius: var(--radius-sm);
-      font-family: var(--font-body);
-      font-size: 16px;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      transition: all 0.15s cubic-bezier(0.33, 1, 0.68, 1);
-    }
-
-    .btn-primary { background: var(--color-coral); color: #FFFFFF; }
-
-    .btn-primary:hover {
-      background: #B8322E;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(209, 60, 58, 0.3);
-    }
-
-    .btn-primary:active { transform: translateY(0); }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--color-coral);
-      border: 2px solid var(--color-coral);
-      padding: 14px 30px;
-    }
-
-    .btn-secondary:hover { background: var(--color-coral); color: #FFFFFF; }
-
-    /* Stats Dashboard */
-    .stats-section { padding: var(--spacing-8) var(--spacing-6); background: #FFFFFF; }
-
-    .container { max-width: 1280px; margin: 0 auto; }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: var(--spacing-3);
-      margin-top: var(--spacing-4);
-    }
-
-    .stat-card {
-      background: var(--gray-100);
-      border-left: 4px solid var(--color-green);
-      padding: var(--spacing-4);
-      border-radius: var(--radius-md);
-      transition: all 0.3s ease;
-      animation: fadeSlideUp 0.6s ease both;
-    }
-
-    .stat-card:nth-child(1) { animation-delay: 0.1s; border-left-color: var(--color-coral); }
-    .stat-card:nth-child(2) { animation-delay: 0.2s; border-left-color: var(--color-lime); }
-    .stat-card:nth-child(3) { animation-delay: 0.3s; border-left-color: var(--color-green); }
-    .stat-card:nth-child(4) { animation-delay: 0.4s; border-left-color: var(--color-brown); }
-
-    .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); background: #FFFFFF; }
-
-    .stat-icon { font-size: 32px; margin-bottom: var(--spacing-2); opacity: 0.8; }
-
-    .stat-value {
-      font-family: var(--font-mono);
-      font-size: 48px;
-      font-weight: 500;
-      line-height: 1;
-      margin-bottom: var(--spacing-1);
-      color: var(--color-brown);
-    }
-
-    .stat-label {
-      font-size: 14px;
-      color: var(--gray-600);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* Section Headers */
-    .section-header { margin-bottom: var(--spacing-6); }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: clamp(32px, 4vw, 48px);
-      color: var(--color-brown);
-      margin-bottom: var(--spacing-2);
-      line-height: 1.2;
-    }
-
-    .section-subtitle { font-size: 18px; color: var(--gray-600); max-width: 600px; }
-
-    /* Filter Controls */
-    .filter-section {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: var(--spacing-3);
-      margin-bottom: var(--spacing-4);
-      flex-wrap: wrap;
-    }
-
-    .filter-group { display: flex; gap: var(--spacing-2); align-items: center; flex-wrap: wrap; }
-
-    .filter-label {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--gray-600);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .filter-select {
-      padding: 10px 36px 10px 16px;
-      border: 2px solid var(--gray-300);
-      border-radius: var(--radius-sm);
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--color-brown);
-      background: #FFFFFF;
       cursor: pointer;
       transition: all 0.2s ease;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%232E170E' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
     }
-
-    .filter-select:hover { border-color: var(--color-coral); }
-
-    .filter-select:focus {
-      outline: none;
+    
+    .filter-btn:hover, .filter-btn.active {
       border-color: var(--color-coral);
-      box-shadow: 0 0 0 3px rgba(209, 60, 58, 0.1);
+      background: var(--color-coral);
+      color: #FFFFFF;
     }
-
-    /* Latest Bulletins */
-    .bulletins-section {
-      padding: var(--spacing-12) var(--spacing-6);
-      background: linear-gradient(180deg, #FFFFFF 0%, var(--gray-100) 100%);
-    }
-
+    
     .bulletins-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: var(--spacing-4);
-      margin-top: var(--spacing-6);
     }
-
+    
+    /* Reuse bulletin card styles from main page */
     .bulletin-card {
       background: #FFFFFF;
       border-radius: var(--radius-md);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
-      transition: all 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+      transition: all 0.3s ease;
       border: 1px solid rgba(46, 23, 14, 0.1);
-      animation: fadeSlideUp 0.6s ease both;
     }
-
-    .bulletin-card:nth-child(1) { animation-delay: 0.1s; }
-    .bulletin-card:nth-child(2) { animation-delay: 0.2s; }
-    .bulletin-card:nth-child(3) { animation-delay: 0.3s; }
-
-    .bulletin-card.hidden { display: none; }
-
+    
     .bulletin-card:hover {
       transform: translateY(-6px);
-      box-shadow: var(--shadow-lg);
+      box-shadow: var(--shadow-md);
       border-color: var(--color-lime);
     }
-
+    
     .bulletin-header {
       padding: var(--spacing-4);
       background: linear-gradient(135deg, var(--color-beige) 0%, #FFFFFF 100%);
       border-bottom: 2px solid var(--color-lime);
     }
-
+    
     .bulletin-month {
       display: inline-block;
       background: var(--color-coral);
@@ -507,46 +160,28 @@
       font-size: 14px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
       margin-bottom: var(--spacing-2);
     }
-
+    
     .bulletin-title {
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 24px;
       color: var(--color-brown);
-      line-height: 1.3;
     }
-
+    
     .bulletin-preview {
       height: 200px;
       background: var(--gray-100);
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-      position: relative;
     }
-
-    .bulletin-preview canvas { width: 100% !important; height: 100% !important; }
-
-    .bulletin-content { padding: var(--spacing-4); }
-
-    .bulletin-meta { display: flex; gap: var(--spacing-3); margin-bottom: var(--spacing-3); flex-wrap: wrap; }
-
-    .meta-item { display: flex; align-items: center; gap: var(--spacing-1); font-size: 14px; color: var(--gray-600); }
-
-    .bulletin-description {
-      color: var(--gray-800);
-      margin-bottom: var(--spacing-3);
-      line-height: 1.6;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+    
+    .bulletin-content {
+      padding: var(--spacing-4);
     }
-
+    
     .bulletin-footer {
       display: flex;
       justify-content: space-between;
@@ -554,1187 +189,135 @@
       padding-top: var(--spacing-3);
       border-top: 1px solid var(--gray-200);
     }
-
-    .condition-badges { display: flex; gap: var(--spacing-1); flex-wrap: wrap; }
-
-    .badge {
-      padding: 4px 12px;
-      border-radius: 16px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .badge-exceptional { background: var(--color-exceptional); color: #FFFFFF; }
-    .badge-favorable { background: var(--color-favorable); color: var(--color-brown); }
-    .badge-watch { background: var(--color-watch); color: #FFFFFF; }
-    .badge-poor { background: var(--color-poor); color: #FFFFFF; }
-
-    /* Data Dashboard */
-    .dashboard-section {
-      padding: var(--spacing-12) var(--spacing-6);
-      background: var(--color-brown);
-      color: var(--color-beige);
-    }
-
-    .dashboard-section .section-title { color: #FFFFFF; }
-    .dashboard-section .section-subtitle { color: var(--color-beige); opacity: 0.9; }
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: var(--spacing-4);
-      margin-top: var(--spacing-6);
-    }
-
-    .dashboard-card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: var(--radius-md);
-      padding: var(--spacing-4);
-      box-shadow: var(--shadow-lg);
-      animation: fadeSlideUp 0.6s ease both;
-    }
-
-    .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
-    .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
-
-    .dashboard-card-title {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 20px;
-      color: var(--color-brown);
-      margin-bottom: var(--spacing-3);
-    }
-
-    .chart-container { position: relative; height: 300px; margin-top: var(--spacing-3); }
-
-    /* About XylemLab */
-    .about-section { padding: var(--spacing-12) var(--spacing-6); background: #FFFFFF; }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-8);
-      margin-top: var(--spacing-6);
+    
+    .btn-primary {
+      display: inline-flex;
       align-items: center;
-    }
-
-    .about-image {
-      width: 100%;
-      height: 400px;
-      border-radius: var(--radius-md);
-      object-fit: cover;
-      box-shadow: var(--shadow-md);
-    }
-
-    .about-content h3 {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 28px;
-      color: var(--color-brown);
-      margin-bottom: var(--spacing-3);
-    }
-
-    .about-content p { margin-bottom: var(--spacing-3); color: var(--gray-800); line-height: 1.7; }
-
-    .feature-list { list-style: none; margin-top: var(--spacing-4); }
-
-    .feature-list li {
-      padding: var(--spacing-2) 0;
-      padding-left: var(--spacing-4);
-      position: relative;
-      color: var(--gray-800);
-    }
-
-    .feature-list li::before {
-      content: '→';
-      position: absolute;
-      left: 0;
-      color: var(--color-green);
-      font-weight: 700;
-      font-size: 20px;
-    }
-
-    /* Data Comparison Table */
-    .comparison-section { padding: var(--spacing-8) var(--spacing-6); background: var(--gray-100); }
-
-    .table-container {
-      background: #FFFFFF;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      margin-top: var(--spacing-4);
-    }
-
-    .data-table { width: 100%; border-collapse: collapse; }
-
-    .data-table thead { background: var(--color-beige); }
-
-    .data-table th {
-      padding: var(--spacing-2) var(--spacing-3);
-      text-align: left;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--color-brown);
-      border-bottom: 2px solid var(--color-brown);
-    }
-
-    .data-table td {
-      padding: var(--spacing-2) var(--spacing-3);
-      border-bottom: 1px solid var(--gray-200);
-      color: var(--gray-800);
-    }
-
-    .data-table tbody tr.hidden { display: none; }
-    .data-table tbody tr:hover { background: var(--gray-100); }
-
-    .data-table tbody tr:nth-child(even) { background: #FAFAFA; }
-    .data-table tbody tr:nth-child(even):hover { background: var(--gray-100); }
-
-    /* Footer */
-    footer {
-      background: var(--color-brown);
-      color: var(--color-beige);
-      padding: var(--spacing-8) var(--spacing-6) var(--spacing-4);
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: var(--spacing-6);
-      max-width: 1280px;
-      margin: 0 auto var(--spacing-6);
-    }
-
-    .footer-column h4 {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 18px;
-      margin-bottom: var(--spacing-3);
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--color-coral);
       color: #FFFFFF;
-    }
-
-    .footer-column ul { list-style: none; }
-    .footer-column li { margin-bottom: var(--spacing-2); }
-
-    .footer-column a {
-      color: var(--color-beige);
+      border-radius: 8px;
       text-decoration: none;
-      transition: color 0.2s ease;
+      font-weight: 600;
+      transition: all 0.2s ease;
     }
-
-    .footer-column a:hover { color: var(--color-lime); }
-
-    .footer-bottom {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding-top: var(--spacing-4);
-      border-top: 1px solid rgba(239, 231, 218, 0.2);
-      text-align: center;
-      font-size: 14px;
-      color: rgba(239, 231, 218, 0.7);
+    
+    .btn-primary:hover {
+      background: #B8322E;
+      transform: translateY(-2px);
     }
-
-    .partner-logos {
-      display: flex;
-      gap: var(--spacing-4);
-      align-items: center;
-      margin-top: var(--spacing-3);
-      flex-wrap: wrap;
+    
+    .material-symbols-outlined {
+      vertical-align: middle;
     }
-
-    .partner-logos img {
-      height: 40px;
-      opacity: 0.9;
-      filter: brightness(0) invert(1);
-      transition: opacity 0.3s ease;
-    }
-
-    .partner-logos img:hover { opacity: 1; }
-
-    /* Responsive */
-    @media (max-width: 1023px) {
-      .header-container { height: 64px; padding: 0 var(--spacing-3); }
-      .logo { height: 40px; }
-      nav { display: none; }
-
-      nav.mobile-open {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 64px;
-        left: 0;
-        right: 0;
-        background: #FFFFFF;
-        padding: var(--spacing-3);
-        box-shadow: var(--shadow-lg);
-        gap: var(--spacing-2);
-      }
-
-      .mobile-menu-btn { display: block; }
-      .search-container { min-width: 200px; }
-      .about-grid { grid-template-columns: 1fr; }
-      .dashboard-grid { grid-template-columns: 1fr; }
-      .chart-container { height: 250px; }
-    }
-
+    
     @media (max-width: 767px) {
-      .hero { padding: var(--spacing-8) var(--spacing-3); }
-      .stats-grid { grid-template-columns: 1fr; }
-      .bulletins-grid { grid-template-columns: 1fr; }
-      .table-container { overflow-x: auto; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .filter-section { flex-direction: column; align-items: stretch; }
-      .search-container { min-width: 100%; }
+      .bulletins-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .filter-btn {
+        width: 100%;
+      }
     }
-
-    /* Utility Classes */
-    .text-center { text-align: center; }
-    .text-coral { color: var(--color-coral); }
-    .text-green { color: var(--color-green); }
-    .mt-2 { margin-top: var(--spacing-2); }
-    .mt-4 { margin-top: var(--spacing-4); }
-    .mb-2 { margin-bottom: var(--spacing-2); }
-
-    /* Loading States */
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid var(--gray-300);
-      border-top-color: var(--color-coral);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
-
 <body>
-  <!-- Header -->
-  <header id="header">
-    <div class="header-container">
-      <div class="logo-section">
-        <img src="Bulletins/2025/12_December_2025/data/static/XylemLab_logo.png" alt="XylemLab" class="logo" />
-      </div>
+  <div class="page-header">
+    <a href="index.html" class="back-link">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Back to Home
+    </a>
+    
+    <h1 class="page-title">Bulletin Archive</h1>
+    <p class="page-subtitle">
+      Browse all past crop yield forecast bulletins by year and month
+    </p>
+  </div>
 
-      <nav id="nav">
-        <a href="#latest">Latest Reports</a>
-        <a href="#dashboard">Dashboard</a>
-        <a href="#about">About</a>
-        <a href="https://www.xylemlab.org/" target="_blank" rel="noopener">The Xylem Lab</a>
-        <a href="https://thexyleminstitute.squarespace.com/" target="_blank" rel="noopener">Xylem Institute</a>
-      </nav>
-
-      <div class="search-container">
-        <span class="material-icons search-icon">search</span>
-        <input
-          type="search"
-          class="search-input"
-          id="searchInput"
-          placeholder="Search bulletins, countries, crops..."
-          aria-label="Search bulletins"
-        />
-        <button class="clear-search material-icons" id="clearSearch" type="button">close</button>
-        <div class="search-recommendations" id="searchRecommendations"></div>
-      </div>
-
-      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu" type="button">
-        <span class="material-icons">menu</span>
-      </button>
+  <section class="archive-section">
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-year="all">All Years</button>
+      <button class="filter-btn" data-year="2026">2026</button>
+      <button class="filter-btn" data-year="2025">2025</button>
     </div>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1 class="hero-title">Regional Food Balance Sheet</h1>
-      <p class="hero-subtitle">
-        Monthly crop yield forecasts for <strong>Tanzania, Malawi, Zambia, Rwanda, Kenya, and Uganda</strong> — powered by remote sensing and machine learning
-      </p>
-      <div class="hero-cta">
-        <!-- Minor tweak: add id so JS can auto-update latest report -->
-        <a id="latestReportLink" href="Bulletins/2025/12_December_2025/output/bulletin.html" class="btn btn-primary">
-          <span>View Latest Report</span>
-          <span class="material-icons" style="font-size: 20px;">arrow_forward</span>
-        </a>
-        <a href="#dashboard" class="btn btn-secondary">Explore Data</a>
+    
+    <div class="bulletins-grid" id="archiveGrid">
+      <div style="text-align: center; padding: var(--spacing-6); grid-column: 1 / -1;">
+        <div style="width: 40px; height: 40px; border: 4px solid var(--gray-200); border-top-color: var(--color-coral); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div>
+        <p style="margin-top: var(--spacing-3); color: var(--gray-600);">Loading bulletins...</p>
       </div>
     </div>
   </section>
 
-  <!-- Stats Dashboard -->
-  <section class="stats-section">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <span class="material-icons stat-icon">assessment</span>
-          <div class="stat-value" id="totalReports">2</div>
-          <div class="stat-label">Total Reports</div>
-        </div>
+  <style>
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 
-        <div class="stat-card">
-          <span class="material-icons stat-icon">public</span>
-          <div class="stat-value">6</div>
-          <div class="stat-label">Countries Covered</div>
-        </div>
-
-        <div class="stat-card">
-          <span class="material-icons stat-icon">grass</span>
-          <div class="stat-value">3</div>
-          <div class="stat-label">Crop Types</div>
-        </div>
-
-        <div class="stat-card">
-          <span class="material-icons stat-icon">event</span>
-          <!-- Minor tweak: add id so JS can auto-update latest month label -->
-          <div class="stat-value" id="latestUpdateLabel">Dec '25</div>
-          <div class="stat-label">Latest Update</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Latest Bulletins -->
-  <section class="bulletins-section" id="latest">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Latest Bulletins</h2>
-        <p class="section-subtitle">
-          Interactive monthly reports with crop yield forecasts, regional analysis, and production estimates
-        </p>
-      </div>
-
-      <div class="filter-section">
-        <div class="filter-group">
-          <span class="filter-label">Filter by:</span>
-          <select class="filter-select" id="monthFilter">
-            <option value="all">All Months</option>
-            <option value="december">December 2025</option>
-            <option value="november">November 2025</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="bulletins-grid" id="bulletinsGrid">
-        <!-- December 2025 (existing, keep as-is) -->
-        <div class="bulletin-card" data-month="december" data-countries="tanzania,malawi,zambia,rwanda">
-          <div class="bulletin-header">
-            <span class="bulletin-month">December 2025</span>
-            <h3 class="bulletin-title">Crop Yield Forecast Estimates</h3>
-          </div>
-
-          <div class="bulletin-preview">
-            <canvas id="decemberChart"></canvas>
-          </div>
-
-          <div class="bulletin-content">
-            <div class="bulletin-meta">
-              <span class="meta-item">
-                <span class="material-icons" style="font-size: 18px;">public</span>
-                4 Countries
-              </span>
-              <span class="meta-item">
-                <span class="material-icons" style="font-size: 18px;">grass</span>
-                Maize, Rice, Beans
-              </span>
-            </div>
-
-            <p class="bulletin-description">
-              December forecasts show favorable maize conditions across Tanzania, Malawi, Zambia, and Rwanda with improving trends. Rice exhibits mixed signals with declining trends in select regions requiring monitoring.
-            </p>
-
-            <div class="bulletin-footer">
-              <div class="condition-badges">
-                <span class="badge badge-favorable">Favorable</span>
-                <span class="badge badge-watch">Watch</span>
-              </div>
-              <a href="Bulletins/2025/12_December_2025/output/bulletin.html" class="btn btn-primary" style="padding: 12px 24px; font-size: 14px;">
-                <span>View Report</span>
-                <span class="material-icons" style="font-size: 18px;">arrow_forward</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- November 2025 (existing, keep as-is) -->
-        <div class="bulletin-card" data-month="november" data-countries="tanzania,malawi,zambia,rwanda,kenya,uganda">
-          <div class="bulletin-header">
-            <span class="bulletin-month">November 2025</span>
-            <h3 class="bulletin-title">Crop Yield Forecast Estimates</h3>
-          </div>
-
-          <div class="bulletin-preview">
-            <canvas id="novemberChart"></canvas>
-          </div>
-
-          <div class="bulletin-content">
-            <div class="bulletin-meta">
-              <span class="meta-item">
-                <span class="material-icons" style="font-size: 18px;">public</span>
-                6 Countries
-              </span>
-              <span class="meta-item">
-                <span class="material-icons" style="font-size: 18px;">grass</span>
-                Maize, Rice, Beans
-              </span>
-            </div>
-
-            <p class="bulletin-description">
-              November analysis covers early season crop conditions across Tanzania, Malawi, Zambia, Rwanda, Kenya, and Uganda with regional yield forecasts and production estimates for the main growing season.
-            </p>
-
-            <div class="bulletin-footer">
-              <div class="condition-badges">
-                <span class="badge badge-favorable">Favorable</span>
-              </div>
-              <a href="Bulletins/2025/11_November_2025/output/bulletin.html" class="btn btn-primary" style="padding: 12px 24px; font-size: 14px;">
-                <span>View Report</span>
-                <span class="material-icons" style="font-size: 18px;">arrow_forward</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Coming Soon Card -->
-        <div class="bulletin-card" style="opacity: 0.7;" data-month="january">
-          <div class="bulletin-header">
-            <span class="bulletin-month" style="background: var(--gray-600);">January 2026</span>
-            <h3 class="bulletin-title">Coming Soon</h3>
-          </div>
-
-          <div class="bulletin-preview" style="background: linear-gradient(135deg, var(--gray-200) 0%, var(--gray-100) 100%);">
-            <p style="color: var(--gray-600); font-size: 18px; text-align: center; padding: var(--spacing-3);">
-              <span class="material-icons" style="font-size: 48px; display: block; margin-bottom: 8px;">schedule</span>
-              Next report publishing soon
-            </p>
-          </div>
-
-          <div class="bulletin-content">
-            <div class="bulletin-meta">
-              <span class="meta-item">
-                <span class="material-icons" style="font-size: 18px;">event</span>
-                Expected mid-February
-              </span>
-            </div>
-
-            <p class="bulletin-description">
-              The January 2026 bulletin will feature updated forecasts as the main harvest season approaches across the region.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Interactive Dashboard -->
-  <section class="dashboard-section" id="dashboard">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Regional Production Dashboard</h2>
-        <p class="section-subtitle">Comparative analysis across countries and months</p>
-      </div>
-
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h3 class="dashboard-card-title">Production by Country (December 2025)</h3>
-          <div class="chart-container">
-            <canvas id="productionChart"></canvas>
-          </div>
-        </div>
-
-        <div class="dashboard-card">
-          <h3 class="dashboard-card-title">Yield Trends: Maize</h3>
-          <div class="chart-container">
-            <canvas id="yieldTrendsChart"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Data Comparison -->
-  <section class="comparison-section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">December 2025 Highlights</h2>
-        <p class="section-subtitle">Key production estimates across focus countries</p>
-      </div>
-
-      <div class="filter-section">
-        <div class="filter-group">
-          <span class="filter-label">Filter by:</span>
-          <select class="filter-select" id="cropFilter">
-            <option value="all">All Crops</option>
-            <option value="Maize">Maize</option>
-            <option value="Beans">Beans</option>
-            <option value="Rice">Rice</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="table-container">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Country</th>
-              <th>Crop</th>
-              <th>Predicted Yield</th>
-              <th>Production Range</th>
-              <th>Condition</th>
-            </tr>
-          </thead>
-          <tbody id="dataTableBody">
-            <tr data-crop="Maize">
-              <td><strong>Tanzania</strong></td>
-              <td>Maize</td>
-              <td>1.63 MT/ha</td>
-              <td>1.1 - 2.44M MT</td>
-              <td><span class="badge badge-favorable">Favorable</span></td>
-            </tr>
-            <tr data-crop="Maize">
-              <td><strong>Malawi</strong></td>
-              <td>Maize</td>
-              <td>2.52 MT/ha</td>
-              <td>3.77 - 5.49M MT</td>
-              <td><span class="badge badge-favorable">Favorable</span></td>
-            </tr>
-            <tr data-crop="Maize">
-              <td><strong>Zambia</strong></td>
-              <td>Maize</td>
-              <td>2.05 MT/ha</td>
-              <td>2.35 - 3.18M MT</td>
-              <td><span class="badge badge-favorable">Favorable</span></td>
-            </tr>
-            <tr data-crop="Maize">
-              <td><strong>Rwanda</strong></td>
-              <td>Maize</td>
-              <td>2.26 MT/ha</td>
-              <td>0.49 - 0.91M MT</td>
-              <td><span class="badge badge-favorable">Favorable</span></td>
-            </tr>
-            <tr data-crop="Beans">
-              <td><strong>Malawi</strong></td>
-              <td>Beans</td>
-              <td>0.68 MT/ha</td>
-              <td>0.18 - 0.3M MT</td>
-              <td><span class="badge badge-favorable">Favorable</span></td>
-            </tr>
-            <tr data-crop="Beans">
-              <td><strong>Rwanda</strong></td>
-              <td>Beans</td>
-              <td>0.94 MT/ha</td>
-              <td>0.52 - 0.67M MT</td>
-              <td><span class="badge badge-favorable">Favorable</span></td>
-            </tr>
-            <tr data-crop="Rice">
-              <td><strong>Malawi</strong></td>
-              <td>Rice</td>
-              <td>1.33 MT/ha</td>
-              <td>0.08 - 0.13M MT</td>
-              <td><span class="badge badge-watch">Watch</span></td>
-            </tr>
-            <tr data-crop="Rice">
-              <td><strong>Rwanda</strong></td>
-              <td>Rice</td>
-              <td>1.56 MT/ha</td>
-              <td>0.04 - 0.06M MT</td>
-              <td><span class="badge badge-watch">Watch</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- About XylemLab -->
-  <section class="about-section" id="about">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-content">
-          <h2 class="section-title">About XylemLab</h2>
-
-          <h3>Advancing Agricultural Intelligence Through Remote Sensing</h3>
-
-          <p>
-            XylemLab at the University of Maryland develops cutting-edge remote sensing and machine learning solutions for agricultural monitoring and food security analysis across Africa.
-          </p>
-
-          <p>
-            Our Regional Food Balance Sheet provides critical intelligence for policymakers, researchers, and agricultural stakeholders by delivering timely, accurate crop yield forecasts using satellite data and advanced predictive models.
-          </p>
-
-          <ul class="feature-list">
-            <li>Monthly yield forecasts for maize, rice, and beans</li>
-            <li>Coverage across Tanzania, Malawi, Zambia, Rwanda, Kenya, and Uganda</li>
-            <li>Integration of NDVI, ESI, precipitation, and soil moisture data</li>
-            <li>Comparison with USDA and FAO estimates</li>
-            <li>Regional condition monitoring and early warning systems</li>
-          </ul>
-
-          <div class="mt-4">
-            <a href="https://www.xylemlab.org/" class="btn btn-primary" target="_blank" rel="noopener">
-              <span>Learn More About XylemLab</span>
-              <span class="material-icons" style="font-size: 20px;">arrow_forward</span>
-            </a>
-          </div>
-        </div>
-
-        <div>
-          <!-- Placeholder for about image - replace with actual photo -->
-          <div style="width: 100%; height: 400px; background: linear-gradient(135deg, var(--color-green) 0%, var(--color-lime) 100%); border-radius: var(--radius-md); box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700; text-align: center; padding: var(--spacing-4);">
-            <div>
-              <span class="material-icons" style="font-size: 80px; display: block; margin-bottom: 16px;">satellite_alt</span>
-              XylemLab Field Research<br />
-              <span style="font-size: 16px; font-weight: 400; margin-top: 8px; display: block;">Satellite-Driven Agricultural Intelligence</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-column">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="https://www.xylemlab.org/mission">Our Mission</a></li>
-          <li><a href="https://www.xylemlab.org/get-involved">Get Involved</a></li>
-          <li><a href="https://www.xylemlab.org/donate">Make a Donation</a></li>
-          <li><a href="#latest">Latest Reports</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h4>Contact Us</h4>
-        <ul>
-          <li><a href="https://the-xylem-institute-community.circle.so/">Circle Community</a></li>
-          <li><a href="https://bsky.app/profile/xylemlab.bsky.social">Bluesky</a></li>
-          <li><a href="https://www.linkedin.com/groups/13108104/">LinkedIn Community</a></li>
-          <li><a href="mailto:contact@xylemlab.org">contact@xylemlab.org</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h4>Our Network</h4>
-        <ul>
-          <li><a href="https://www.xylemlab.org/">XylemLab</a></li>
-          <li><a href="https://www.xyleminstitute.org/">Xylem Institute</a></li>
-          <li><a href="https://www.umd.edu">University of Maryland</a></li>
-          <li><a href="https://www.agra.org/">AGRA</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h4>Partners</h4>
-        <div class="partner-logos">
-          <img src="Bulletins/2025/12_December_2025/data/static/AGRA_Banner.png" alt="AGRA Partners" style="height: 60px; width: auto;" />
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p>© 2026 UMD-XylemLab. All rights reserved.</p>
-      <p style="margin-top: 8px; font-size: 13px;">Data sources: USDA, FAO, and UMD-XylemLab predictive models</p>
-    </div>
-  </footer>
-
-  <!-- JavaScript -->
+  <script src="js/main.js"></script>
   <script>
-    // Search data for recommendations (static; optional to expand later)
-    const searchData = [
-      { title: 'December 2025 Report', subtitle: 'Latest bulletin', type: 'report', link: 'Bulletins/2025/12_December_2025/output/bulletin.html', keywords: 'december 2025 latest recent' },
-      { title: 'November 2025 Report', subtitle: 'Previous bulletin', type: 'report', link: 'Bulletins/2025/11_November_2025/output/bulletin.html', keywords: 'november 2025' },
-      { title: 'Tanzania', subtitle: 'Country data', type: 'country', keywords: 'tanzania tz east africa' },
-      { title: 'Malawi', subtitle: 'Country data', type: 'country', keywords: 'malawi mw' },
-      { title: 'Zambia', subtitle: 'Country data', type: 'country', keywords: 'zambia zm' },
-      { title: 'Rwanda', subtitle: 'Country data', type: 'country', keywords: 'rwanda rw' },
-      { title: 'Kenya', subtitle: 'Country data', type: 'country', keywords: 'kenya ke east africa' },
-      { title: 'Uganda', subtitle: 'Country data', type: 'country', keywords: 'uganda ug east africa' },
-      { title: 'Maize', subtitle: 'Crop forecasts', type: 'crop', keywords: 'maize corn cereal' },
-      { title: 'Rice', subtitle: 'Crop forecasts', type: 'crop', keywords: 'rice paddy cereal' },
-      { title: 'Beans', subtitle: 'Crop forecasts', type: 'crop', keywords: 'beans legume pulses' },
-    ];
-
-    // Sticky header on scroll
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 20) header.classList.add('scrolled');
-      else header.classList.remove('scrolled');
+    // Archive page specific JavaScript
+    document.addEventListener('DOMContentLoaded', async () => {
+      await displayArchive();
+      setupFilters();
     });
-
-    // Mobile menu toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const nav = document.getElementById('nav');
-    mobileMenuBtn.addEventListener('click', () => {
-      nav.classList.toggle('mobile-open');
-    });
-
-    // Search functionality with recommendations
-    const searchInput = document.getElementById('searchInput');
-    const searchRecommendations = document.getElementById('searchRecommendations');
-    const clearSearchBtn = document.getElementById('clearSearch');
-
-    function highlightText(text, query) {
-      if (!query) return text;
-      const regex = new RegExp(`(${query})`, 'gi');
-      return text.replace(regex, '<span class="search-highlight">$1</span>');
-    }
-
-    function getIconForType(type) {
-      switch(type) {
-        case 'report': return 'description';
-        case 'country': return 'public';
-        case 'crop': return 'grass';
-        default: return 'search';
-      }
-    }
-
-    searchInput.addEventListener('input', (e) => {
-      const searchTerm = e.target.value.toLowerCase().trim();
-
-      if (searchTerm) clearSearchBtn.classList.add('active');
-      else clearSearchBtn.classList.remove('active');
-
-      // Filter bulletin cards
-      const cards = document.querySelectorAll('.bulletin-card');
-      cards.forEach(card => {
-        const text = card.textContent.toLowerCase();
-        if (text.includes(searchTerm) || searchTerm === '') card.classList.remove('hidden');
-        else card.classList.add('hidden');
-      });
-
-      // Show recommendations
-      if (searchTerm.length >= 2) {
-        const matches = searchData.filter(item =>
-          item.title.toLowerCase().includes(searchTerm) || item.keywords.toLowerCase().includes(searchTerm)
-        ).slice(0, 5);
-
-        if (matches.length > 0) {
-          searchRecommendations.innerHTML = matches.map(match => `
-            <div class="search-recommendation-item" onclick="selectRecommendation('${match.link || ''}', '${match.title.replace(/'/g, "\\'")}')">
-              <span class="material-icons recommendation-icon">${getIconForType(match.type)}</span>
-              <div class="recommendation-text">
-                <div class="recommendation-title">${highlightText(match.title, searchTerm)}</div>
-                <div class="recommendation-subtitle">${match.subtitle}</div>
-              </div>
-            </div>
-          `).join('');
-          searchRecommendations.classList.add('active');
-        } else {
-          searchRecommendations.innerHTML = `
-            <div class="search-recommendation-item" style="cursor: default;">
-              <span class="material-icons recommendation-icon" style="color: var(--gray-600);">search_off</span>
-              <div class="recommendation-text">
-                <div class="recommendation-title">No results found</div>
-                <div class="recommendation-subtitle">Try searching for a country, crop, or month</div>
-              </div>
-            </div>
-          `;
-          searchRecommendations.classList.add('active');
-        }
-      } else {
-        searchRecommendations.classList.remove('active');
-      }
-    });
-
-    function selectRecommendation(link, title) {
-      if (link) window.location.href = link;
-      else {
-        searchInput.value = title;
-        searchRecommendations.classList.remove('active');
-        searchInput.dispatchEvent(new Event('input'));
-      }
-    }
-
-    clearSearchBtn.addEventListener('click', () => {
-      searchInput.value = '';
-      clearSearchBtn.classList.remove('active');
-      searchRecommendations.classList.remove('active');
-      document.querySelectorAll('.bulletin-card').forEach(card => card.classList.remove('hidden'));
-    });
-
-    // Close recommendations when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!searchInput.contains(e.target) && !searchRecommendations.contains(e.target)) {
-        searchRecommendations.classList.remove('active');
-      }
-    });
-
-    // Month filter
-    const monthFilter = document.getElementById('monthFilter');
-    monthFilter.addEventListener('change', (e) => {
-      const selectedMonth = e.target.value;
-      const cards = document.querySelectorAll('.bulletin-card');
-
-      cards.forEach(card => {
-        const cardMonth = card.dataset.month;
-        if (selectedMonth === 'all' || cardMonth === selectedMonth) card.classList.remove('hidden');
-        else card.classList.add('hidden');
-      });
-    });
-
-    // Crop filter for table
-    const cropFilter = document.getElementById('cropFilter');
-    const dataTableBody = document.getElementById('dataTableBody');
-
-    cropFilter.addEventListener('change', (e) => {
-      const selectedCrop = e.target.value;
-      const rows = dataTableBody.querySelectorAll('tr');
-
-      rows.forEach(row => {
-        const rowCrop = row.dataset.crop;
-        if (selectedCrop === 'all' || rowCrop === selectedCrop) row.classList.remove('hidden');
-        else row.classList.add('hidden');
-      });
-    });
-
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          nav.classList.remove('mobile-open');
-        }
-      });
-    });
-
-    // Chart.js configurations
-    Chart.defaults.font.family = "'Source Sans 3', sans-serif";
-    Chart.defaults.color = '#343A40';
-
-    // December Preview Chart
-    const decemberCtx = document.getElementById('decemberChart');
-    if (decemberCtx) {
-      new Chart(decemberCtx, {
-        type: 'bar',
-        data: {
-          labels: ['Tanzania', 'Malawi', 'Zambia', 'Rwanda'],
-          datasets: [{
-            label: 'Maize Yield (MT/ha)',
-            data: [1.63, 2.52, 2.05, 2.26],
-            backgroundColor: ['#64A635', '#CDDC3C', '#64A635', '#CDDC3C'],
-            borderRadius: 4,
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              backgroundColor: '#FFFFFF',
-              titleColor: '#2E170E',
-              bodyColor: '#343A40',
-              borderColor: '#DEE2E6',
-              borderWidth: 1,
-              padding: 12,
-              displayColors: false,
-            }
-          },
-          scales: {
-            y: { beginAtZero: true, grid: { color: 'rgba(46, 23, 14, 0.1)' }, ticks: { color: '#6C757D' } },
-            x: { grid: { display: false }, ticks: { color: '#6C757D' } }
-          }
-        }
-      });
-    }
-
-    // November Preview Chart
-    const novemberCtx = document.getElementById('novemberChart');
-    if (novemberCtx) {
-      new Chart(novemberCtx, {
-        type: 'bar',
-        data: {
-          labels: ['TZ', 'MW', 'ZM', 'RW', 'KE', 'UG'],
-          datasets: [{
-            label: 'Maize Yield (MT/ha)',
-            data: [1.55, 2.48, 2.01, 2.20, 2.10, 1.95],
-            backgroundColor: ['#64A635', '#64A635', '#CDDC3C', '#64A635', '#CDDC3C', '#64A635'],
-            borderRadius: 4,
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              backgroundColor: '#FFFFFF',
-              titleColor: '#2E170E',
-              bodyColor: '#343A40',
-              borderColor: '#DEE2E6',
-              borderWidth: 1,
-              padding: 12,
-              displayColors: false,
-              callbacks: {
-                title: (items) => {
-                  const countryMap = { 'TZ': 'Tanzania', 'MW': 'Malawi', 'ZM': 'Zambia', 'RW': 'Rwanda', 'KE': 'Kenya', 'UG': 'Uganda' };
-                  return countryMap[items[0].label];
-                }
-              }
-            }
-          },
-          scales: {
-            y: { beginAtZero: true, grid: { color: 'rgba(46, 23, 14, 0.1)' }, ticks: { color: '#6C757D' } },
-            x: { grid: { display: false }, ticks: { color: '#6C757D' } }
-          }
-        }
-      });
-    }
-
-    // Production Comparison Chart
-    const productionCtx = document.getElementById('productionChart');
-    if (productionCtx) {
-      new Chart(productionCtx, {
-        type: 'bar',
-        data: {
-          labels: ['Tanzania', 'Malawi', 'Zambia', 'Rwanda'],
-          datasets: [
-            { label: 'Maize (M MT)', data: [1.77, 4.63, 2.77, 0.70], backgroundColor: '#64A635' },
-            { label: 'Rice (M MT)', data: [0, 0.10, 0.04, 0.04], backgroundColor: '#CDDC3C' },
-            { label: 'Beans (M MT)', data: [0, 0.24, 0.06, 0.59], backgroundColor: '#D13C3A' }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'bottom', labels: { padding: 15, font: { size: 13, weight: '600' } } },
-            tooltip: {
-              backgroundColor: '#FFFFFF',
-              titleColor: '#2E170E',
-              bodyColor: '#343A40',
-              borderColor: '#DEE2E6',
-              borderWidth: 1,
-              padding: 12,
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              title: { display: true, text: 'Production (Million MT)', color: '#2E170E', font: { size: 13, weight: '600' } },
-              grid: { color: 'rgba(255, 255, 255, 0.2)' },
-              ticks: { color: '#2E170E' }
-            },
-            x: { grid: { display: false }, ticks: { color: '#2E170E' } }
-          }
-        }
-      });
-    }
-
-    // Yield Trends Chart
-    const yieldTrendsCtx = document.getElementById('yieldTrendsChart');
-    if (yieldTrendsCtx) {
-      new Chart(yieldTrendsCtx, {
-        type: 'line',
-        data: {
-          labels: ['August', 'November', 'December'],
-          datasets: [
-            { label: 'Tanzania', data: [1.50, 1.55, 1.63], borderColor: '#D13C3A', backgroundColor: 'rgba(209, 60, 58, 0.1)', tension: 0.4, borderWidth: 3, pointRadius: 5, pointHoverRadius: 7 },
-            { label: 'Malawi', data: [2.40, 2.48, 2.52], borderColor: '#64A635', backgroundColor: 'rgba(100, 166, 53, 0.1)', tension: 0.4, borderWidth: 3, pointRadius: 5, pointHoverRadius: 7 },
-            { label: 'Zambia', data: [1.95, 2.01, 2.05], borderColor: '#CDDC3C', backgroundColor: 'rgba(205, 220, 60, 0.1)', tension: 0.4, borderWidth: 3, pointRadius: 5, pointHoverRadius: 7 },
-            { label: 'Rwanda', data: [2.15, 2.20, 2.26], borderColor: '#F39C12', backgroundColor: 'rgba(243, 156, 18, 0.1)', tension: 0.4, borderWidth: 3, pointRadius: 5, pointHoverRadius: 7 }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'bottom', labels: { padding: 15, font: { size: 13, weight: '600' } } },
-            tooltip: {
-              backgroundColor: '#FFFFFF',
-              titleColor: '#2E170E',
-              bodyColor: '#343A40',
-              borderColor: '#DEE2E6',
-              borderWidth: 1,
-              padding: 12,
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: false,
-              title: { display: true, text: 'Yield (MT/ha)', color: '#2E170E', font: { size: 13, weight: '600' } },
-              grid: { color: 'rgba(255, 255, 255, 0.2)' },
-              ticks: { color: '#2E170E' }
-            },
-            x: { grid: { display: false }, ticks: { color: '#2E170E' } }
-          }
-        }
-      });
-    }
-
-    // Count-up animation for stats
-    function animateValue(element, start, end, duration) {
-      let startTimestamp = null;
-      const step = (timestamp) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        const value = Math.floor(progress * (end - start) + start);
-        element.textContent = value;
-        if (progress < 1) window.requestAnimationFrame(step);
-      };
-      window.requestAnimationFrame(step);
-    }
-
-    // Trigger count animation on scroll
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const statValue = entry.target;
-          const endValue = parseInt(statValue.textContent);
-          if (!isNaN(endValue)) animateValue(statValue, 0, endValue, 1500);
-          observer.unobserve(entry.target);
-        }
-      });
-    });
-
-    const totalReportsEl = document.getElementById('totalReports');
-    if (totalReportsEl) observer.observe(totalReportsEl);
-
-    // =====================================================
-    // AUTO-LOAD NEW BULLETINS FROM GitHub folder structure
-    // (Minor addition; keeps your existing Nov/Dec cards intact)
-    // =====================================================
-    async function autoLoadBulletinsFromGitHub() {
-      const YEAR = "2025";
-      const owner = "xylem-lab";
-      const repo = "agra";
-      const basePath = `Bulletins/${YEAR}`;
-      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${basePath}`;
-
-      const bulletinsGrid = document.getElementById("bulletinsGrid");
-      const monthFilter = document.getElementById("monthFilter");
-      const totalReportsEl = document.getElementById("totalReports");
-      const latestUpdateLabel = document.getElementById("latestUpdateLabel");
-      const latestReportLink = document.getElementById("latestReportLink");
-
-      if (!bulletinsGrid || !monthFilter) return;
-
-      // Folder pattern: "05_May_2025"
-      const folderRegex = /^(\d{2})_([A-Za-z]+)_2025$/;
-
-      // Avoid duplicates if you already have a card for a folder
-      const existingLinks = new Set(
-        Array.from(bulletinsGrid.querySelectorAll('a[href*="/output/bulletin.html"]'))
-          .map(a => a.getAttribute("href"))
-          .filter(Boolean)
-      );
-
-      const monthNumToShort = (m) => {
-        const map = { "01":"Jan","02":"Feb","03":"Mar","04":"Apr","05":"May","06":"Jun","07":"Jul","08":"Aug","09":"Sep","10":"Oct","11":"Nov","12":"Dec" };
-        return map[m] || m;
-      };
-
-      let items;
-      try {
-        const res = await fetch(apiUrl, { cache: "no-store" });
-        if (!res.ok) throw new Error(`GitHub API failed: ${res.status}`);
-        items = await res.json();
-      } catch (err) {
-        console.warn("Auto-load bulletins failed:", err);
-        return; // keep your hard-coded Nov/Dec working
-      }
-
-      const folders = (items || [])
-        .filter(it => it.type === "dir" && folderRegex.test(it.name))
-        .map(it => {
-          const [, monthNum, monthName] = it.name.match(folderRegex);
-          const monthSlug = (monthName || "").toLowerCase();
-          return {
-            folderName: it.name,
-            monthNum,
-            monthName,
-            monthSlug,
-            label: `${monthName} 2025`,
-            reportHref: `${basePath}/${it.name}/output/bulletin.html`
-          };
-        })
-        .sort((a, b) => b.monthNum.localeCompare(a.monthNum)); // newest first
-
-      if (!folders.length) return;
-
-      // Update stats + hero
-      if (totalReportsEl) totalReportsEl.textContent = String(folders.length);
-      if (latestUpdateLabel) latestUpdateLabel.textContent = `${monthNumToShort(folders[0].monthNum)} '25`;
-      if (latestReportLink) latestReportLink.setAttribute("href", folders[0].reportHref);
-
-      // Rebuild month filter options
-      const currentValue = monthFilter.value || "all";
-      monthFilter.innerHTML =
-        `<option value="all">All Months</option>` +
-        folders.map(f => `<option value="${f.monthSlug}">${f.label}</option>`).join("");
-
-      monthFilter.value = folders.some(f => f.monthSlug === currentValue) ? currentValue : "all";
-
-      // Insert auto cards BEFORE the "Coming Soon" card
-      const comingSoonCard = bulletinsGrid.querySelector('.bulletin-card[data-month="january"]');
-
-      const toAppend = folders.filter(f => !existingLinks.has(f.reportHref));
-      toAppend.forEach(f => {
-        const card = document.createElement("div");
-        card.className = "bulletin-card";
-        card.setAttribute("data-month", f.monthSlug);
-        card.setAttribute("data-autogenerated", "true");
-
-        // Keep layout consistent; simple preview for auto-cards
-        card.innerHTML = `
-          <div class="bulletin-header">
-            <span class="bulletin-month">${f.label}</span>
-            <h3 class="bulletin-title">Crop Yield Forecast Estimates</h3>
-          </div>
-
-          <div class="bulletin-preview" style="background: linear-gradient(135deg, var(--gray-200) 0%, var(--gray-100) 100%);">
-            <p style="color: var(--gray-600); font-size: 16px; text-align: center; padding: var(--spacing-3);">
-              <span class="material-icons" style="font-size: 44px; display: block; margin-bottom: 8px;">insert_chart</span>
-              Bulletin available
-            </p>
-          </div>
-
-          <div class="bulletin-content">
-            <div class="bulletin-meta">
-              <span class="meta-item">
-                <span class="material-icons" style="font-size: 18px;">event</span>
-                ${f.label}
-              </span>
-              <span class="meta-item">
-                <span class="material-icons" style="font-size: 18px;">folder</span>
-                ${f.folderName}
-              </span>
-            </div>
-
-            <p class="bulletin-description">
-              Click to open the full interactive bulletin.
-            </p>
-
-            <div class="bulletin-footer">
-              <div class="condition-badges">
-                <span class="badge badge-favorable">Report</span>
-              </div>
-              <a href="${f.reportHref}" class="btn btn-primary" style="padding: 12px 24px; font-size: 14px;">
-                <span>View Report</span>
-                <span class="material-icons" style="font-size: 18px;">arrow_forward</span>
-              </a>
-            </div>
+    
+    async function displayArchive() {
+      // Load all bulletins
+      await loadBulletins();
+      
+      const grid = document.getElementById('archiveGrid');
+      grid.innerHTML = '';
+      
+      if (allBulletins.length === 0) {
+        grid.innerHTML = `
+          <div style="text-align: center; padding: var(--spacing-8); grid-column: 1 / -1;">
+            <h3 style="color: var(--color-brown); margin-bottom: var(--spacing-2);">No bulletins found</h3>
+            <p style="color: var(--gray-600);">Check back soon for new reports.</p>
           </div>
         `;
-
-        if (comingSoonCard) bulletinsGrid.insertBefore(card, comingSoonCard);
-        else bulletinsGrid.appendChild(card);
+        return;
+      }
+      
+      allBulletins.forEach((bulletin, index) => {
+        const card = createBulletinCard(bulletin, index);
+        card.setAttribute('data-year', bulletin.year);
+        grid.appendChild(card);
       });
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      autoLoadBulletinsFromGitHub();
-    });
+    
+    function setupFilters() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.bulletin-card');
+      
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active state
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          const year = btn.getAttribute('data-year');
+          
+          // Filter cards
+          cards.forEach(card => {
+            const cardYear = card.getAttribute('data-year');
+            if (year === 'all' || cardYear === year) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    }
   </script>
 </body>
 </html>
