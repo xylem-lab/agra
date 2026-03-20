@@ -80,8 +80,8 @@ function applyDynamicAssets(manifest) {
   const logo    = document.querySelector('header .logo');
   const favicon = document.querySelector('link[rel="icon"]');
   const banner  = document.querySelector('.partner-logos img');
-  if (logo)    logo.src    = `${base}/XylemLab_logo.png`;
-  if (favicon) favicon.href = `${base}/XylemLab_logo.png`;
+  if (logo)    logo.src    = `${base}/XylemLab%20logo.png`;
+  if (favicon) favicon.href = `${base}/XylemLab%20logo.png`;
   if (banner)  banner.src  = `${base}/AGRA_Banner.png`;
 }
 
