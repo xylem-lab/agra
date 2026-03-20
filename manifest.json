@@ -1,0 +1,138 @@
+{
+  "lastUpdated": "2026-01-31",
+  "staticAssetsBase": "Bulletins/2026/01_January_2026/data/static",
+  "bulletins": [
+    {
+      "year": "2026",
+      "folder": "01_January_2026",
+      "month": "January",
+      "countries": 4,
+      "countriesList": ["Kenya", "United Republic Of Tanzania", "Malawi", "Zambia"],
+      "description": "January 2026 forecasts covering Kenya, Tanzania (Msimu season), Malawi, and Zambia. Maize conditions are stable with slight negative yield anomalies across most regions. Rice shows stronger negative anomalies warranting monitoring. Uganda and Rwanda are excluded (post-harvest).",
+      "highlights": [
+        { "country": "Kenya",    "crop": "Maize", "yield": "0.80 MT/ha", "production": "0.05 – 0.80M MT", "condition": "favorable" },
+        { "country": "Tanzania", "crop": "Maize", "yield": "1.31 MT/ha", "production": "0.83 – 2.03M MT", "condition": "favorable" },
+        { "country": "Malawi",   "crop": "Maize", "yield": "1.94 MT/ha", "production": "2.74 – 4.71M MT", "condition": "favorable" },
+        { "country": "Zambia",   "crop": "Maize", "yield": "2.57 MT/ha", "production": "3.00 – 4.47M MT", "condition": "favorable" },
+        { "country": "Kenya",    "crop": "Beans", "yield": "0.30 MT/ha", "production": "0.02 – 0.28M MT", "condition": "favorable" },
+        { "country": "Tanzania", "crop": "Beans", "yield": "0.71 MT/ha", "production": "0.04 – 0.16M MT", "condition": "favorable" },
+        { "country": "Malawi",   "crop": "Beans", "yield": "0.71 MT/ha", "production": "0.12 – 0.39M MT", "condition": "favorable" },
+        { "country": "Zambia",   "crop": "Beans", "yield": "0.55 MT/ha", "production": "0.02 – 0.12M MT", "condition": "favorable" },
+        { "country": "Kenya",    "crop": "Rice",  "yield": "1.09 MT/ha", "production": "0.00 – 0.01M MT", "condition": "watch" },
+        { "country": "Tanzania", "crop": "Rice",  "yield": "1.37 MT/ha", "production": "0.13 – 0.46M MT", "condition": "watch" },
+        { "country": "Malawi",   "crop": "Rice",  "yield": "1.21 MT/ha", "production": "0.04 – 0.18M MT", "condition": "watch" },
+        { "country": "Zambia",   "crop": "Rice",  "yield": "1.04 MT/ha", "production": "0.01 – 0.09M MT", "condition": "watch" }
+      ],
+      "chartData": {
+        "maizeYields": [0.80, 1.31, 1.94, 2.57],
+        "countries": ["Kenya", "Tanzania", "Malawi", "Zambia"]
+      }
+    },
+    {
+      "year": "2025",
+      "folder": "12_December_2025",
+      "month": "December",
+      "countries": 4,
+      "countriesList": ["Tanzania", "Malawi", "Zambia", "Rwanda"],
+      "description": "December forecasts show favorable maize conditions across Tanzania, Malawi, and Zambia with improving trends. Rice exhibits mixed signals with declining trends in select regions requiring monitoring.",
+      "highlights": [
+        { "country": "Tanzania", "crop": "Maize", "yield": "1.63 MT/ha", "production": "1.10 – 2.44M MT", "condition": "favorable" },
+        { "country": "Malawi",   "crop": "Maize", "yield": "2.52 MT/ha", "production": "3.77 – 5.49M MT", "condition": "favorable" },
+        { "country": "Zambia",   "crop": "Maize", "yield": "2.05 MT/ha", "production": "2.35 – 3.18M MT", "condition": "favorable" },
+        { "country": "Rwanda",   "crop": "Maize", "yield": "2.26 MT/ha", "production": "0.49 – 0.91M MT", "condition": "favorable" },
+        { "country": "Malawi",   "crop": "Beans", "yield": "0.68 MT/ha", "production": "0.18 – 0.30M MT", "condition": "favorable" },
+        { "country": "Rwanda",   "crop": "Beans", "yield": "0.94 MT/ha", "production": "0.52 – 0.67M MT", "condition": "favorable" },
+        { "country": "Malawi",   "crop": "Rice",  "yield": "1.33 MT/ha", "production": "0.08 – 0.13M MT", "condition": "watch" },
+        { "country": "Rwanda",   "crop": "Rice",  "yield": "1.56 MT/ha", "production": "0.04 – 0.06M MT", "condition": "watch" }
+      ],
+      "chartData": {
+        "maizeYields": [1.63, 2.52, 2.05, 2.26],
+        "countries": ["Tanzania", "Malawi", "Zambia", "Rwanda"]
+      }
+    },
+    {
+      "year": "2025",
+      "folder": "11_November_2025",
+      "month": "November",
+      "countries": 6,
+      "countriesList": ["Tanzania", "Malawi", "Zambia", "Rwanda", "Kenya", "Uganda"],
+      "description": "November analysis covers early season crop conditions with regional yield forecasts and production estimates for the main growing season across East Africa including Kenya and Uganda.",
+      "highlights": [
+        { "country": "Tanzania", "crop": "Maize", "yield": "1.55 MT/ha", "production": "1.00 – 2.30M MT", "condition": "favorable" },
+        { "country": "Malawi",   "crop": "Maize", "yield": "2.48 MT/ha", "production": "3.65 – 5.35M MT", "condition": "favorable" },
+        { "country": "Zambia",   "crop": "Maize", "yield": "2.01 MT/ha", "production": "2.25 – 3.10M MT", "condition": "favorable" },
+        { "country": "Rwanda",   "crop": "Maize", "yield": "2.20 MT/ha", "production": "0.45 – 0.88M MT", "condition": "favorable" },
+        { "country": "Kenya",    "crop": "Maize", "yield": "2.10 MT/ha", "production": "3.50 – 4.20M MT", "condition": "favorable" },
+        { "country": "Uganda",   "crop": "Maize", "yield": "1.95 MT/ha", "production": "2.80 – 3.50M MT", "condition": "favorable" }
+      ],
+      "chartData": {
+        "maizeYields": [1.55, 2.48, 2.01, 2.20, 2.10, 1.95],
+        "countries": ["Tanzania", "Malawi", "Zambia", "Rwanda", "Kenya", "Uganda"]
+      }
+    },
+    {
+      "year": "2025",
+      "folder": "08_August_2025",
+      "month": "August",
+      "countries": 4,
+      "countriesList": ["Tanzania", "Malawi", "Zambia", "Rwanda"],
+      "description": "August early season assessment with initial planting conditions and crop establishment monitoring across all focus countries.",
+      "highlights": [
+        { "country": "Tanzania", "crop": "Maize", "yield": "1.50 MT/ha", "production": "0.95 – 2.20M MT", "condition": "favorable" },
+        { "country": "Malawi",   "crop": "Maize", "yield": "2.40 MT/ha", "production": "3.50 – 5.20M MT", "condition": "favorable" },
+        { "country": "Zambia",   "crop": "Maize", "yield": "1.95 MT/ha", "production": "2.15 – 3.00M MT", "condition": "watch" },
+        { "country": "Rwanda",   "crop": "Maize", "yield": "2.15 MT/ha", "production": "0.42 – 0.85M MT", "condition": "favorable" }
+      ],
+      "chartData": {
+        "maizeYields": [1.50, 2.40, 1.95, 2.15],
+        "countries": ["Tanzania", "Malawi", "Zambia", "Rwanda"]
+      }
+    },
+    {
+      "year": "2025",
+      "folder": "07_July_2025",
+      "month": "July",
+      "countries": 4,
+      "countriesList": ["Tanzania", "Malawi", "Zambia", "Rwanda"],
+      "description": "Mid-year analysis covering post-harvest conditions and preparations for the upcoming growing season.",
+      "highlights": [
+        { "country": "Tanzania", "crop": "Maize", "yield": "1.63 MT/ha", "production": "1.10 – 2.44M MT", "condition": "favorable" },
+        { "country": "Malawi",   "crop": "Maize", "yield": "2.52 MT/ha", "production": "3.77 – 5.49M MT", "condition": "favorable" },
+        { "country": "Zambia",   "crop": "Maize", "yield": "2.05 MT/ha", "production": "2.35 – 3.18M MT", "condition": "favorable" },
+        { "country": "Rwanda",   "crop": "Maize", "yield": "2.26 MT/ha", "production": "0.49 – 0.91M MT", "condition": "favorable" },
+        { "country": "Malawi",   "crop": "Beans", "yield": "0.68 MT/ha", "production": "0.18 – 0.30M MT", "condition": "favorable" },
+        { "country": "Rwanda",   "crop": "Beans", "yield": "0.94 MT/ha", "production": "0.52 – 0.67M MT", "condition": "favorable" },
+        { "country": "Malawi",   "crop": "Rice",  "yield": "1.33 MT/ha", "production": "0.08 – 0.13M MT", "condition": "watch" },
+        { "country": "Rwanda",   "crop": "Rice",  "yield": "1.56 MT/ha", "production": "0.04 – 0.06M MT", "condition": "watch" }
+      ],
+      "chartData": {
+        "maizeYields": [1.63, 2.52, 2.05, 2.26],
+        "countries": ["Tanzania", "Malawi", "Zambia", "Rwanda"]
+      }
+    },
+    {
+      "year": "2025",
+      "folder": "06_June_2025",
+      "month": "June",
+      "countries": 6,
+      "countriesList": ["Tanzania", "Malawi", "Zambia", "Rwanda", "Kenya", "Uganda"],
+      "description": "June harvest season summary with final yield estimates and production totals for the main season.",
+      "highlights": [
+        { "country": "Note", "crop": "PDF", "yield": "Data available in PDF format", "production": "See full report", "condition": "favorable" }
+      ],
+      "chartData": null
+    },
+    {
+      "year": "2025",
+      "folder": "05_May_2025",
+      "month": "May",
+      "countries": 6,
+      "countriesList": ["Tanzania", "Malawi", "Zambia", "Rwanda", "Kenya", "Uganda"],
+      "description": "May pre-harvest forecasts with crop condition assessments as the harvest season approaches.",
+      "highlights": [
+        { "country": "Note", "crop": "PDF", "yield": "Data available in PDF format", "production": "See full report", "condition": "favorable" }
+      ],
+      "chartData": null
+    }
+  ]
+}
