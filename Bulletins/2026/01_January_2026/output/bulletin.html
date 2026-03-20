@@ -3057,8 +3057,8 @@ th.sortable:after { content: "⇅"; position: absolute; right: 8px; font-size: .
 <style>
 #back-to-top {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 84px;
+  right: 24px;
   width: 44px;
   height: 44px;
   background: var(--red);
@@ -3313,10 +3313,98 @@ document.addEventListener("DOMContentLoaded", () => {
 .footer-disclaimer { font-style: italic; color: rgba(239,231,218,0.4); }
 
 @media (max-width: 768px) {
+  /* Footer */
   .footer-container { grid-template-columns: 1fr; gap: 28px; }
   .footer-branding { grid-column: 1; }
-  .content { padding: 2rem 1.25rem 3rem; }
-  .header { padding: 2.5rem 1.25rem 2rem 1.75rem; }
+
+  /* Base layout */
+  .content { padding: 1.25rem 1rem 2.5rem; }
+  .header { padding: 2rem 1rem 1.5rem 1.25rem; }
+  .header-title { font-size: 2rem; line-height: 1.15; }
+  .header-inner { padding: 2rem 1rem 1.5rem; }
+
+  /* Nav: horizontal scroll strip, no wrapping */
+  .nav ul {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    justify-content: flex-start;
+    padding: 0 0.5rem;
+  }
+  .nav ul::-webkit-scrollbar { display: none; }
+  .nav a {
+    font-size: 0.65rem;
+    padding: 0.65rem 0.5rem;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  /* Figure grid: single column */
+  .figure-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+  .figure-grid img {
+    height: auto !important;
+    max-height: 320px;
+    object-fit: contain;
+  }
+
+  /* Tables: horizontal scroll */
+  .regional-table,
+  .exec-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  /* Filter row: stack vertically */
+  .filter-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  /* D3 chart containers: scrollable */
+  .chart-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 100%;
+    padding: 0;
+  }
+  .chart-wrap svg { min-width: 560px; }
+
+  /* Control row */
+  .control-row { flex-wrap: wrap; gap: 6px; }
+  .region-input { width: 100%; box-sizing: border-box; }
+
+  /* Pills */
+  .pill { padding: 6px 10px; font-size: 0.78rem; }
+
+  /* Metrics panel: 2-up on mobile */
+  .metrics-panel { grid-template-columns: 1fr 1fr !important; }
+
+  /* Country section header text */
+  .country-header h3 { font-size: 1.1rem; }
+
+  /* Accordion region items */
+  .region-item-body { padding: 10px 12px; }
+
+  /* Regional Overview / Country Summary — prevent text overflow */
+  .data-highlight {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+    padding: 0.85rem 0.9rem;
+    box-sizing: border-box;
+  }
+  .data-highlight ul,
+  ul.data-highlight { padding-left: 1.1rem !important; }
+  .section h2 { font-size: 1.35rem; }
 }
 </style>
 
