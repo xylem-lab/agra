@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nine Years with SERVIR: A Journey in Agricultural Monitoring</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: white;
+            color: #333;
+            line-height: 1.6;
+        }
+.tile {
+            overflow: hidden;
+            border-radius: 4px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .tile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 4px;
+            background-color: #333;
+            padding: 4px;
+            border-radius: 8px;
+        }
+        
+        .tile {
+            overflow: hidden;
+            border-radius: 4px;
+        }
+        
+        .tile img {
+            width: 100%;
+            height: calc(100% - 50px);
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .tile:hover img {
+            transform: scale(1.02);
+        }
+        
+        .caption {
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.3;
+        }
+        
+        .logo-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1001;
+            border-bottom: 2px solid #FF6B35;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .logo-placeholder {
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: #FF6B35;
+            font-size: 0.9em;
+            text-align: center;
+            min-width: 120px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid #FF6B35;
+            border-radius: 5px;
+            padding: 5px;
+            min-width: 120px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .presentation-container {
+            margin-top: 80px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section {
+            padding: 60px 40px;
+            margin-bottom: 40px;
+            min-height: 100vh;
+            border-bottom: 3px solid #FF6B35;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section h1 {
+            font-size: 3.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            color: #1e3c72;
+            border-bottom: 3px solid #FF6B35;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #2a5298;
+        }
+
+        .section h4 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #2a5298;
+        }
+
+        .section p, .section li {
+            font-size: 1.3em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .section ul {
+            margin-left: 30px;
+            margin-bottom: 25px;
+        }
+
+        .section li {
+            margin-bottom: 12px;
+        }
+
+        .image-container {
+            border: 2px solid #FF6B35;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            margin: 20px 0;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 5px;
+            object-fit: contain;
+        }
+
+        .image-placeholder {
+            border: 2px dashed #FF6B35;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            color: #FF6B35;
+            font-style: italic;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            position: relative;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FF6B35, #F7931E, #2a5298);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            background: rgba(30, 60, 114, 0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            z-index: 2;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: rgba(30, 60, 114, 0.1);
+            padding: 10px;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .stat-number {
+            font-size: 1em;
+            color: #FF6B35;
+            font-weight: bold;
+            display: block;
+        }
+
+        .trl-progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .trl-item {
+            background: rgba(30, 60, 114, 0.1);
+            padding: 15px;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #ccc;
+            transition: all 0.3s ease;
+        }
+
+        .trl-item.completed {
+            background: #FF6B35;
+            color: white;
+            border-color: #FF6B35;
+        }
+
+        .trl-item.current {
+            background: #2a5298;
+            color: white;
+            border-color: #2a5298;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .trl-connector {
+            height: 4px;
+            width: 50px;
+            background: #FF6B35;
+            border-radius: 2px;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .highlight-box {
+            background: rgba(255, 107, 53, 0.1);
+            border-left: 5px solid #FF6B35;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .partner-card {
+            background: rgba(30, 60, 114, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1em;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.4em;
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(30, 60, 114, 0.1);
+            border-radius: 10px;
+            border-left: 5px solid #FF6B35;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FF6B35, #F7931E);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #FF6B35;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 1.2em;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            background: #e55a2b;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 40px 20px;
+            }
+            
+            .section h1 {
+                font-size: 2.5em;
+            }
+            
+            .section h2 {
+                font-size: 2em;
+            }
+            
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .timeline {
+                flex-direction: column;
+            }
+            
+            .timeline::before {
+                display: none;
+            }
+            
+            .logo-header {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo Header -->
+    <div class="logo-header">
+        <div class="logo-placeholder" id="logo-0">
+            <img src="https://www.nasa.gov/wp-content/uploads/2024/06/servir3-0-black-2.png" 
+                 alt="SERVIR Logo and NASA/USAID" style="max-width: 150px;">
+        </div>
+        <div class="logo-placeholder" id="logo-1">
+            <img src="https://umd-brand.transforms.svdcdn.com/production/uploads/images/logos-primary.jpg?w=1801&h=601&auto=compress%2Cformat&fit=crop&dm=1613775207&s=71ce45031f9164cb409f11a2e28d8b8c" 
+                 alt="UMD" style="max-width: 150px;">
+        </div>       
+    </div>
+
+    <div class="progress-indicator" id="progressIndicator"></div>
+
+    <div class="presentation-container">
+        <!-- Section 1: Title -->
+        <div class="section">
+            <h1>Nine Years with SERVIR</h1>
+            <h3 style="text-align: center; margin-bottom: 40px;">A Journey in Earth Observation for Agricultural Monitoring</h3>
+            <div class="image-container">
+                <img src="https://www.nasa.gov/wp-content/uploads/2024/06/servir3-0-black-2.png" 
+                     alt="SERVIR Logo and NASA/USAID" style="max-width: 1000px;">
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="font-size: 1.5em;"><strong>Dr. Catherine Nakalembe</strong></p>
+                <p style="font-size: 1.2em;">Assistant Professor, Geographical Sciences University of Maryland</p>
+                <p style="font-size: 1.2em;">Agriculture and Food Security Thematic Lead, NASA SERVIR</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Journey Overview -->
+        <div class="section">
+            <h2>Our Journey: 2016-2025</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <strong>2016-2018</strong><br>
+                    Kenya & E. Africa<br>
+                    Foundation
+                </div>
+                <div class="timeline-item">
+                    <strong>2018-2020</strong><br>
+                    Cropland Mapping<br>
+                    Methods
+                </div>
+                <div class="timeline-item">
+                    <strong>2020-2023</strong><br>
+                    West Africa<br>
+                    Expansion
+                </div>
+                <div class="timeline-item">
+                    <strong>2023-2025</strong><br>
+                    Senegal Focus<br>
+                    & Legacy
+                </div>
+            </div>
+            <div class="highlight-box">
+                <p><strong>Mission:</strong> Transform agricultural monitoring in Africa through Earth Observation, capacity building, and sustainable partnerships.</p>
+            </div>
+            
+<!--
+			<div class="image-placeholder">
+               <img src="https://aiccra.cgiar.org/sites/default/files/styles/scale_1920/public/2024-10/Alliance-Zambia-Drought-Blog-snip2.JPG?itok=XIJ8Uk9F" alt="EA CM" width="1000" class="course-image">
+            </div>
+-->
+<!--	<img src="https://aiccra.cgiar.org/sites/default/files/styles/scale_1920/public/2024-10/Alliance-Zambia-Drought-Blog-snip2.JPG?itok=XIJ8Uk9F" alt="EA CM" width="1000" class="course-image">-->
+<!--            </div>-->
+<!--
+			<div class="quote">
+Nakalembe, Catherine, Inbal Becker-Reshef, Rogerio Bonifacio, Guangxiao Hu, Michael Laurence Humber, Christina Jade Justice, John Keniston et al. "A review of satellite-based global agricultural monitoring systems available for Africa." Global food security 29 (2021): 100543.          </div>
+-->
+<!--        </div>-->
+<!--        </div>-->
+
+        <!-- Section 3: The Beginning - Kenya & Eastern Africa -->
+        <div class="section">
+            <h2>AST 1: Kenya & Eastern Africa (2016-2018)</h2>
+            <h3>Building the Foundation</h3>
+            <ul>
+                <li><strong>Kenya Crop Monitor:</strong> Co-developed with RCMRD the 3rd national crop monitoring system</li>
+				 <li><strong>Ethiopia and Rwanda</strong> Co-developed with RCMRD </li>
+
+                <li><strong>Eastern Africa Regional Crop Monitor:</strong> Launched with 10 countries contributing</li>
+<!--                <li><strong>AgriSense Project:</strong> Tanzania and Uganda field work established partnerships</li>-->
+                <li><strong>ICPAC Integration:</strong> Connected with regional climate centers</li>
+            </ul>
+			<div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">10</span>
+                    Countries Involved
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">1st</span>
+                    Regional Monitor
+                </div>
+            </div>
+			
+			<div class="image-placeholder">
+               <img src="https://aiccra.cgiar.org/sites/default/files/styles/scale_1920/public/2024-10/Alliance-Zambia-Drought-Blog-snip2.JPG?itok=XIJ8Uk9F" alt="EA CM" width="800" class="course-image">
+            </div>
+			
+		  <div class="image-placeholder">
+             <img src="https://ars.els-cdn.com/content/image/1-s2.0-S2211912421000523-gr2.jpg" alt="EA CM" width="1000">
+				</div>
+            
+        </div>
+
+        <!-- Section 4: Technical Innovation - Cropland Mapping -->
+        <div class="section">
+            <h2>AST 2: Methodological Advances (2018-2020)</h2>
+            <h3>Developing Scalable Solutions</h3>
+            <div class="two-column">
+                <div>
+                    <h4>Technical Breakthroughs:</h4>
+                    <ul>
+                        <li>LSTM models for crop classification (F1 score: 0.84 in Kenya)</li>
+                        <li>Collect Earth Online (CEO) data collection</li>
+                        <li>GEOCIF yield modeling framework</li>
+                      <li>OpenMapFlow workflow development</li>
+                      <li>CropHarvest global dataset</li>                    </ul>
+                </div>
+                <div>
+                    <h4>Capacity Building:</h4>
+                    <ul>
+                        <li>RCMRD technical training programs</li>
+                        <li>Ministry of Agriculture partnerships</li>
+<!--                        <li>JECAM site establishment</li>-->
+                        <li>Open source tool development</li>
+                    </ul>
+                </div>
+				
+            </div>
+			<div class="image-placeholder">
+<img src="https://github.com/nasaharvest/openmapflow/raw/main/assets/pipeline.png" alt="EA CM" width="800" class="course-image"> </div>  
+			<div class="caption">OpenMapFlow https://github.com/nasaharvest/openmapflow</div>
+</div>
+			
+			<div class="image-placeholder">
+<img src="https://github.com/nasaharvest/cropharvest/raw/main/diagrams/labels_spatial_distribution.png" alt="EA CM" width="800" class="course-image">  </div>  
+			<div class="caption">Crop Harvest Dataset https://github.com/nasaharvest/cropharvest</div>
+			</div>          </div>
+            <div class="image-placeholder">
+<img src="https://user-images.githubusercontent.com/6677629/116005494-cdd2fc80-a5cc-11eb-8d2d-eec240680174.gif" alt="EA CM" width="800" class="course-image">  </div>  
+			<div class="caption">Tseng G, Kerner H, Nakalembe C, Becker-Reshef I. Annual and in-season mapping of cropland at field scale with sparse labels. Clim. Chang. AI. 2020:1-6.</div>
+			</div>           </div>
+        </div>
+
+        <!-- Section 5: Recognition and Awards -->
+        <div class="section">
+            <h2>Recognition Along the Journey</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">2019</span>
+                    GEO Individual Excellence Award
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">2020</span>
+                    Africa Food Prize
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">2022</span>
+                    Uganda's Highest Civilian Medal
+                </div>
+				<div class="stat-card">
+                    <span class="stat-number">2022</span>
+                    AL-Sumait Prize
+                </div>
+            </div>
+<!--
+            <div class="highlight-box">
+                <p><strong>Key Achievement:</strong> Uganda Disaster Risk Financing program - pioneering example of EO for food security decision-making</p>
+            </div>
+-->
+<!--
+            <div class="image-placeholder">
+ <img src="https://geog.umd.edu/sites/geog.umd.edu/files/Screen%20Shot%202019-11-18%20at%208.47.41%20AM_0.png" alt="Learning Exchange 2019 September" width="950" height="" class="course-image">            </div>
+-->
+            <div class="quote">
+                "These awards represent not just individual recognition, but acknowledgment of our entire SERVIR family's commitment to transforming agricultural monitoring in Africa."
+            </div>
+
+
+
+			<div class="container">
+<!--        <h1 class="title">2x2 Tiled Layout - Separate Images</h1>-->
+        <div class="tile-grid">
+            <div class="tile">
+                <!-- Replace with your first image URL -->
+              <img src="https://geog.umd.edu/sites/geog.umd.edu/files/Screen%20Shot%202019-11-18%20at%208.47.41%20AM_0.png" alt="Learning Exchange 2019 - Tile 1">
+				<div class="caption">Cambera 2019</div>
+            </div>
+            <div class="tile">
+                <!-- Replace with your second image URL -->
+               <img src="https://geog.umd.edu/sites/geog.umd.edu/files/styles/featured_content_detail/public/Image%202022-08-30_0.png?itok=W7I0wad0w=500&h=300&fit=crop" alt="Image 1 - Mountain Lake">
+				<div class="caption">College Park 2022</div>
+            </div>
+          <div class="tile">
+                <!-- Replace with your third image URL -->
+                <img src="https://geog.umd.edu/sites/geog.umd.edu/files/News%20Items/SERVIR%20training.jpg" alt="Image 3 - Desert Road">
+	<div class="caption">College Park 2022</div>
+
+            </div>
+          <div class="tile">
+                <!-- Replace with your fourth image URL -->
+            <img src="https://geog.umd.edu/sites/geog.umd.edu/files/Nakalembe/Image-2022-08-27.jpg" alt="Image 3 - Desert Road">
+            </div>
+        </div>
+    </div>
+			
+			
+			
+	
+				
+        
+            
+            <div class="tile">
+                <!-- Replace with your fourth image URL -->
+            </div>
+        </div>
+        </div>
+			
+<!--			<div class="tile-grid"> -->
+            <div class="tile">
+                <img src="https://pbs.twimg.com/media/FbaqbJEWYAEylyD.jpg" alt="Learning Exchange - Tile 1">
+					<div class="caption">College Park 2021</div>
+
+            </div>
+            <div class="tile-grid">
+            <div class="tile">
+                <!-- Replace with your first image URL -->
+                <img src="https://static1.squarespace.com/static/6418b0756bfdeb13a8c56fcf/641a366c960b4e08be9f75f1/66d21808e670a933ceeb00f4/1726546995120/1%281%29_0.png?format=1500w" alt="Learning Exchange 2023">
+	<div class="caption">Geoglam Learning Exchange Kenya 2023</div>
+
+            </div>
+            <div class="tile">
+                <!-- Replace with your second image URL -->
+                <img src="https://media.licdn.com/dms/image/v2/D4E22AQHTBdS0b7R-qg/feedshare-shrink_800/feedshare-shrink_800/0/1729209703416?e=2147483647&v=beta&t=bbtDn-e1f360LbpU1oHlThoiZvrsDrbDz2v1JIAJ7UA" alt="Zamabia 2024">
+					<div class="caption">Learning Exchange Zambia 2024</div>
+
+				
+            </div>
+            <div class="tile">
+                <!-- Replace with your third image URL -->
+              <img src="https://www.preventionweb.net/sites/default/files/styles/landscape_16_9/public/65277_largeImage.jpg?itok=D3450ii5" alt="Image 3 - Desert Road">
+				<div class="caption">Rwanda  2019</div>
+            </div>
+            <div class="tile">
+                <!-- Replace with your fourth image URL -->
+                <img src="https://www.preventionweb.net/files/submissions/65411_d0fto70woaew4tb.jpg" alt="Image 4 - Ocean Sunset">
+								<div class="caption">Learning Exchange Tanzania 2019</div>
+
+            </div>
+        </div>
+
+<!--https://pbs.twimg.com/media/GJHGEAWXEAAjDSw?format=jpg&name=large-->
+
+		  </div>
+
+
+        <!-- Section 6: West Africa Expansion -->
+        <div class="section">
+            <h2>AST 3: EO-NAM West Africa</h2>
+<!--            <h3>Extending Our Reach</h3>-->
+            <div class="two-column">
+                <div>
+                    <h4>New Partnerships:</h4>
+                    <ul>
+                        <li>SERVIR West Africa Hub</li>
+                        <li>Centre de Suivi Écologique (CSE) - Senegal</li>
+                        <li>Lutheran World Relief - Mali</li>
+                        <li>AGRHYMET Regional Center</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Technical Goals:</h4>
+                    <ul>
+                      <li>Methods for Cropland Mapping</li>
+                      <li>Methods for Crop-type Mapping</li>
+                      <li>Crop Yield Modelling</li>
+                      <li>Methods for Data collection&nbsp;&nbsp;</li>
+                    </ul>
+              </div>
+				  </div>
+            <div class="image-placeholder">
+				<img src="https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs44264-025-00083-z/MediaObjects/44264_2025_83_Fig3_HTML.png?as=webp" width="1200"></div>
+								<div class="caption">General architecture from satellite and ground data acquisition to decision making.
+
+</div>
+                
+            </div> 
+
+<div class="image-placeholder">
+				<img src="https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs44264-025-00083-z/MediaObjects/44264_2025_83_Fig5_HTML.png?as=webp"width="1000"></div>
+<p>Satellite data from operational missions flows through data analytics platforms (DAPs) and GIS-based analysis platforms (GAPs) where machine learning generates agricultural products including crop classification, condition monitoring, and yield forecasting. The National Coordination Center (NCC) coordinates data integration while the Geo Decision Analysis System, supported by cloud computing infrastructure, delivers key outputs such as food balance sheets, production forecasts, and food security reports to support agricultural decision making at both national and global service levels.
+
+</p>
+								<div class="caption">Nakalembe, Catherine, Hannah R. Kerner, Ivan Zvonkov, Michael Humber, Antonio S. Galvez, Esther Makabe, Sara Venturini, and Inbal Becker-Reshef. "A framework for EO-based National Agricultural Monitoring (EO-NAM) for the African Context." npj Sustainable Agriculture 3, no. 1 (2025): 45.</div>
+                
+            </div>            </div>
+        </div>
+
+        <!-- Section 7: Senegal Deep Dive -->
+        <div class="section">
+            <h2> Methodologies in Action: Cropland Mapping with GEE </h2>
+<!--            <h3>Advanced Methodologies in Action</h3>-->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">Scalable</span>
+                    Crop Classification Workflow
+                </div>
+<!--
+   
+-->
+                <div class="stat-card">
+                  <span class="stat-number">Easy to Deploy</span>
+                    Proven
+                </div>
+            </div>
+			
+			<div class="image-placeholder">
+			  <img src="https://images.squarespace-cdn.com/content/66fedd840f62095c9600928b/cc6205a5-0525-4d59-bd92-45aad3432c1b/Cropland+Mapping+using+Google+Earth+Engine.png?content-type=image%2Fpng" width="1200"></div>
+				
+								<div class="caption">Scalable Cropland Mapping with GEE</div>
+</div>
+
+ <!-- Section 7: Senegal Deep Dive -->
+        <div class="section">
+            <h2> Methodologies in Action: Helmets Labeling Crops </h2>
+<!--            <h3>Advanced Methodologies in Action</h3>-->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">Scalable</span>
+                   10+ countries
+                </div>
+<!--
+   
+-->
+              <div class="stat-card">
+                    <span class="stat-number">Easy to Deploy</span>
+                    Low Cost
+                </div>
+            </div>
+			
+			<div class="image-placeholder">
+				<img src="https://images.squarespace-cdn.com/content/66fedd840f62095c9600928b/12d06199-5237-41ee-8fc4-b3a56713190e/Helmets_labeling_crops.png?content-type=image%2Fpng" width="1200"></div>
+								<div class="caption">Helemts Labeling Crops--> Nakalembe, C., Zvonkov, I., Kerner, H.R., Frimpong, D.B., Mwangi, K., Kioko, J., Tokas, B., Jawanjal, K., Smith, I., Paliyam, A. and Wakhanala, C., 2025. Helmets Labeling Crops: Kenya Crop Type Dataset Created via Helmet-Mounted Cameras and Deep Learning.</div>
+			
+			
+			
+        </div>
+
+      <div class="section">
+            <h2> Methodologies in Action: InterComparison </h2>
+<!--            <h3>Advanced Methodologies in Action</h3>-->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">Scalable</span>
+                    Plenty of Cropland Data to use
+                </div>
+<!--
+   
+-->
+                <div class="stat-card">
+                    <span class="stat-number">Tested</span>
+                    Collect Earth Enabled
+                </div>
+            </div>
+
+<div class="image-placeholder">
+  <img src="https://cdn.ncbi.nlm.nih.gov/pmc/blobs/7c3f/11087537/3ef0d3532a9e/41597_2024_3306_Fig2_HTML.jpg" width="1200"></div>
+<div class="caption">Kerner, Hannah, Catherine Nakalembe, Adam Yang, Ivan Zvonkov, Ryan McWeeny, Gabriel Tseng, and Inbal Becker-Reshef. "How accurate are existing land cover maps for agriculture in Sub-Saharan Africa?." Scientific Data 11, no. 1 (2024): 486.</div>
+			
+			
+			
+</div>
+
+  <!-- Section 7: Senegal Deep Dive -->
+        <div class="section">
+            <h2> Methodologies in Action: Area Estimation </h2>
+<!--            <h3>Advanced Methodologies in Action</h3>-->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">Scalable</span>
+                    Plenty of Cropland Data to use
+                </div>
+<!--
+   
+-->
+                <div class="stat-card">
+                    <span class="stat-number">Tested</span>
+                    Following Best Practices
+                </div>
+            </div>
+
+<div class="image-placeholder">
+  <img src="https://images.squarespace-cdn.com/content/66fedd840f62095c9600928b/ab192de0-2de8-43a3-b5aa-ea6140926d2a/Area_Estimation.png?content-type=image%2Fpng" width="1400"></div>
+<div class="caption">Optimizing Satellite-Based Cropland Area Estimation
+Through Integrated Map Accuracy Assessment and
+Stratified Sampling Design Across Six African Countries</div>
+			
+			
+			
+        </div>
+
+
+ <!-- Section 7: Senegal Deep Dive -->
+        <div class="section">
+            <h2> Methodologies in Action: Climate and Agricultural Production </h2>
+<!--            <h3>Advanced Methodologies in Action</h3>-->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">Scalable</span>
+                    
+                </div>
+<!--
+   
+-->
+                <div class="stat-card">
+                    <span class="stat-number">Great Learning Tool</span>
+                   
+                </div>
+            </div>
+
+<<div class="image-placeholder">
+	<img src="https://images.squarespace-cdn.com/content/v1/66fedd840f62095c9600928b/3eb46c45-fc2a-4a9a-80e0-38c55fd0527f/fclim-07-1462626-g003.jpg" width="1200"></div>
+								<div class="caption">Nakalembe, C., Frimpong, D. B., Kerner, H., & Sarr, M. A. (2025). A 40-year remote sensing analysis of spatiotemporal temperature and rainfall patterns in Senegal. Frontiers in Climate, 7, 1462626.</div>
+				
+			
+			
+        </div>
+
+
+        <!-- Section 8: Technical Achievements -->
+        <div class="section">
+            <h2>Technical Milestones & Innovations</h2>
+            <div class="two-column">
+              <div>
+                <h4>Methods Tested and Deployed:</h4>
+                  <ul>
+                    <li>GEE Based-cropland classification workflow</li>
+                    <li>Helmets Labeling Crops</li>
+                    <li>&nbsp;Climate and Agriculture</li>
+                  </ul>
+              </div>
+                <div>
+                    <h4>Potential for Operational Systems:</h4>
+                    <ul>
+                      <li>Real-time crop condition monitoring</li>
+                        <li>Early warning systems integration</li>
+                        <li>Cadre Harmonisé regional support</li>
+                  </ul>
+<!--              </div>-->
+				
+            </div>
+        </div>
+
+        <!-- Section 9: TRL Achievements -->
+        <div class="section">
+            <h2>Technology Readiness Level (TRL) Achievements</h2>
+            <h3>From Research to Operational Systems</h3>
+            <div class="trl-progress">
+                <div class="trl-item completed">3</div>
+                <div class="trl-connector"></div>
+                <div class="trl-item completed">4</div>
+                <div class="trl-connector"></div>
+                <div class="trl-item completed">5</div>
+                <div class="trl-connector"></div>
+                <div class="trl-item current">6</div>
+                <div class="trl-connector" style="background: #ccc;"></div>
+                <div class="trl-item">7</div>
+            </div>
+            <div class="two-column">
+<!--
+                <div>
+                    <h4>TRL 3-4: Proof of Concept</h4>
+                    <ul>
+                        <li>Kenya cropland mapping prototype</li>
+                        <li>Initial EO-based crop monitoring</li>
+                        <li>Feasibility demonstrations</li>
+                    </ul>
+                    <h4>TRL 5: Laboratory Testing</h4>
+                    <ul>
+                        <li>Multi-country model validation</li>
+                        <li>LSTM model optimization</li>
+                        <li>CEO data collection protocols</li>
+                    </ul>
+                </div>
+-->
+<!--                <div>-->
+<!--                    <h4>TRL 6: Operational Environment</h4>-->
+<!--                    <ul>-->
+<!--
+                        <li>Regional crop monitors functioning</li>
+                        <li>Government ministry adoption</li>
+                        <li>Real-time system operation</li>
+                        <li>End-user decision support</li>
+-->
+               
+<!--                        <li>Autonomous system operation</li>-->
+<!--                        <li>Complete technology transfer</li>-->
+<!--                        <li>Sustainable local management</li>-->
+<!--                    </ul>-->
+          </div>
+<!--            </div>-->
+
+
+<div class="image-placeholder">
+				<img src="https://images.squarespace-cdn.com/content/66fedd840f62095c9600928b/ba87784a-b942-4109-8676-c3c175b14978/cse_sage.png?content-type=image%2Fpng" width="1200"></div>
+								<div class="caption">Presented by Dr. Adama Sarr at SAGE 2024</div>
+
+
+
+
+            <div class="highlight-box">
+                <p><strong>GOAL</strong> TRL 6 - Systems operating in real environments with end-user adoption.</p>
+            </div>
+        </div>
+
+        <!-- Section 10: Publications & Scientific Impact -->
+        <div class="section">
+            <h2>Publications & Scientific Impact</h2>
+            <h3>Selected Articles</h3>
+            <div class="two-column">
+                <div>
+                    <h4>Recent Publications (2024-2025):</h4>
+                    <ul style="font-size: 0.9em;">
+                        <li><strong>Nature NPJ Sustainable Agriculture</strong> (2024): EO-NAM Framework for Africa</li>
+                        <li><strong>Nature Scientific Data</strong> (2025): Helmets Labeling Crops dataset</li>
+                        <li><strong>Frontiers in Climate</strong> (2024): 40-Year climate analysis in Senegal</li>
+                        <li><strong>IGARSS 2024</strong>: Field-scale yield estimation using remote sensing</li>
+                        <li><strong>AGU Perspectives 2024</strong>:Whose Priorities? EO Inequities Across Africa)</li>
+					 <li><strong>Nature Reviews Earth & Environment</strong> (2024): Global food production data scarcity</li>
+					<li><strong>Nature Scientific Data</strong> (2024): How accurate are existing land cover maps for</li>
+
+
+                    </ul>
+                    <h4>Machine Learning & Methods (2020-2022):</h4>
+                    <ul style="font-size: 0.9em;">
+                        <li><strong>IEEE CVPR</strong> (2021): Meta-learning for crop type prediction</li>
+                        <li><strong>NeurIPS</strong> (2021): CropHarvest global dataset</li>
+                        <li><strong>NeurIPS</strong> (2020): Annual cropland mapping with sparse labels</li>
+                        <li><strong>KDD Workshop</strong> (2020): Rapid response crop mapping</li>
+                        <li><strong>ArXiv</strong> (2020): k-NN classification for Kenya smallholder dataset</li>
+                        <li><strong>AAAI</strong> (2022): AI-EO for Agriculture in Sub-Saharan Africa</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Global Applications & Reviews (2020-2021):</h4>
+                    <ul style="font-size: 0.9em;">
+                        <li><strong>Global Food Security</strong> (2021): Satellite-based agricultural monitoring systems for Africa</li>
+                        <li><strong>Environmental Research Letters</strong> (2020): Urgent need for EO-based early warning systems</li>
+                        <li><strong>Remote Sensing of Environment</strong> (2020): GEOGLAM Crop Monitor for Early Warning</li>
+                        <li><strong>Frontiers in Sustainable Food Systems</strong> (2021): Enhancing EO access in E&SA through capacity building</li>
+                        <li><strong>Eos</strong> (2021): Sowing Seeds of Food Security in Africa</li>
+                    </ul>
+                    <h4>Recent Conference Presentations (2024):</h4>
+                    <ul style="font-size: 0.9em;">
+                        <li><strong>AGU 2024</strong>: Helmet-mounted GoPros for crop datasets</li>
+                        <li><strong>AGU 2024</strong>: Scalable regional yield sampling framework</li>
+                        <li><strong>AGU 2024</strong>: Kenya flood impacts using SAR remote sensing</li>
+                        <li><strong>AGU 2024</strong>: Reconciling remote sensing & survey cropland estimates</li>
+                        <li><strong>GEOGLAM Learning Exchange</strong>: Project-driven capacity building in Senegal</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">25+</span>
+                    Peer-reviewed Publications
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">10+</span>
+                    Conference Presentations
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">5+</span>
+                    Papers Under Review
+                </div>
+            </div>
+            <div class="highlight-box">
+                <p><strong>Research Impact:</strong> From methodological innovations (CVPR, NeurIPS) to high-impact applications (Nature family) - spanning the complete research-to-operations pipeline across 9 years</p>
+            </div>
+        </div>
+
+        <!-- Section 11: Global Partnerships -->
+        <div class="section">
+            <h2>SERVIR Impact</h2>
+            <h3>Partners</h3>
+            <div class="partners-grid">
+                <div class="partner-card">RCMRD<br>(Kenya)</div>
+                <div class="partner-card">ICPAC<br>(Kenya)</div>
+                <div class="partner-card">CSE<br>(Senegal)</div>
+                <div class="partner-card">AGRHYMET<br>(Niger)</div>
+                <div class="partner-card">Lutheran World Relief<br>(Mali)</div>
+                <div class="partner-card">GEOGLAM<br>(Global)</div>
+<!--                <div class="partner-card">FEWSNET<br>(Regional)</div>-->
+				<div class="partner-card">CIAT<br>(Africa)</div>
+                <div class="partner-card">AGRA<br>(Africa)</div>
+            </div>
+			<h3>Countries Supported (Ministry)</h3>
+            <div class="partners-grid">
+                <div class="partner-card">Kenya<br>(MOA)</div>
+                <div class="partner-card">Rwanda<br>(MOA/ MET)</div>
+                <div class="partner-card">Senegal<br>(DAPSA)</div>
+                <div class="partner-card">Uganda<br>(OPM)</div>
+                <div class="partner-card">Ethiopia<br>(MET)</div>
+                <div class="partner-card">Zambia<br>(MOA)</div>
+<!--                <div class="partner-card">FEWSNET<br>(Regional)</div>-->
+				<div class="partner-card">Tanzania<br>(MOA)</div>
+                <div class="partner-card">+Many more<br>(Learning Exchanges)</div>
+            </div>
+            <div class="highlight-box">
+                <p><strong>Network Expansion:</strong> Across East, Southern, and West Africa</p>
+            </div>
+           
+<!--        </div>-->
+
+        <!-- Section 12: Capacity Building Impact -->
+        <div class="section">
+            <h2>Capacity Building & Training</h2>
+            <h3>Building Local Expertise</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">200+</span>
+                    Professionals Trained
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">15+</span>
+                    Institutions Strengthened
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">6</span>
+                    Countries with Operational Systems
+                </div>
+            </div>
+            <div class="two-column">
+                <div>
+                    <h4>Training Programs:</h4>
+                    <ul>
+                        <li>CEO data collection workshops</li>
+                        <li>Machine learning algorithm training</li>
+                        <li>Yield model interpretation</li>
+                        <li>Open source tool adoption</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Sustainable Impact:</h4>
+                    <ul>
+                        <li>Local team self-reliance</li>
+                        <li>Indigenous language tools</li>
+                        <li>Continued system operation</li>
+                        <li>Regional knowledge sharing</li>
+                    </ul>
+                </div>
+            </div>
+            
+<!--        </div>-->
+
+        <!-- Section 13: Real-World Impact -->
+        <div class="section">
+            <h2>Real-World Impact</h2>
+            <h3>Transforming Decision-Making</h3>
+			<div class="highlight-box">
+                <p><strong>Kenya Success Story:</strong> Operational Crop Monitor</p>
+            </div>
+            <div class="highlight-box">
+                <p><strong>Uganda Success Story:</strong> Disaster Risk Financing program - first operational use of EO for agricultural insurance in Africa</p>
+            </div>
+            <ul>
+                <li><strong>Early Warning Systems:</strong> Integrated into national food security protocols</li>
+                <li><strong>Policy Support:</strong> Informing agricultural policy decisions across Africa</li>
+                <li><strong>Climate Adaptation:</strong> Supporting farmers' climate resilience strategies</li>
+                <li><strong>Food Security:</strong> Enhancing regional food balance sheet accuracy</li>
+            </ul>
+   
+            <div class="quote">
+                "Our work has moved from research to operational systems that governments and organizations rely on daily."
+<!--            </div>-->
+        </div>
+
+        <!-- Section 14: Recent Achievements 2024-2025 -->
+        <div class="section">
+            <h2>2025 Highlights</h2>
+            <h3>Completing the Circle</h3>
+            <div class="two-column">
+                <div>
+                    <h4>Technical Completions:</h4>
+                    <ul>
+                        <li>Senegal 2023 cropland mapping</li>
+                        <li>Advanced training workshops</li>
+                        <li>SAR flood impact assessment (Kenya)</li>
+                        <li>Area estimation methodologies</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Knowledge Transfer:</h4>
+                    <ul>
+                        <li>Crop Mapping Course published</li>
+                        <li>All training materials documented</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <p><strong>Legacy Achievement:</strong> Complete open-source workflow for African crop monitoring now available to the global community</p>
+            </div>
+            <div class="image-placeholder">
+<div>
+                    <h2>Resources:</h2>
+                    <h4>https://nasaharvest.github.io/senegal2024</h4>
+                       <h4>https://nasaharvest.github.io/crop-mapping-course/</h4>
+            <h4>https://github.com/nasaharvest/openmapflow</h4>
+                    <h4>https://nasaharvest.github.io/helmets</h4>
+	<h4>https://di-anabf.github.io/nasaharvest.github2.io/Climateclass </h4>
+</ul>
+<!--              </div>            -->
+			</div>
+        </div>
+
+        <!-- Section 15: Open Science Legacy -->
+        <div class="section">
+            <h2>Open Science & Sustainability</h2>
+            <h3>Ensuring Continued Impact</h3>
+            <div class="highlight-box">
+                <p><strong>Philosophy:</strong> "Open access tools allow for customization to fit unique contexts without licensing barriers, enabling continued use beyond project lifetimes."</p>
+            </div>
+            <div class="two-column">
+                <div>
+                    <h4>Open Resources Created:</h4>
+                    <ul>
+                        <li>OpenMapFlow workflow</li>
+                        <li>CropHarvest dataset</li>
+                        <li>CEO integration protocols</li>
+                        <li>Training curricula</li>
+                        <li>Methodology documentation</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Sustainability Factors:</h4>
+                    <ul>
+                        <li>No licensing barriers</li>
+                        <li>Customizable frameworks</li>
+                        <li>Local capacity retention</li>
+                        <li>Community-driven development</li>
+                        <li>Institutional knowledge transfer</li>
+                    </ul>
+                </div>
+<!--            </div>-->
+<!--
+            <div class="image-placeholder">
+                Open science workflow diagram, GitHub repositories, community usage maps - Replace with URL
+            </div>
+-->
+        </div>
+
+        <!-- Section 16: Gratitude & Recognition -->
+        <div class="section">
+            <h2>Part of the SERVIR Family</h2>
+            <h3>Nine Years of Collaboration</h3>
+            <div class="quote">
+                "Being part of the SERVIR family has been more than a professional journey—it's been about building lasting relationships, sharing knowledge, and working together toward a common vision of using Earth observation to improve lives."
+            </div>
+            <div class="highlight-box">
+                <p><strong>What We've Built Together:</strong></p>
+                <ul>
+                    <li>Trusted partnerships across three regions</li>
+                    <li>Sustainable technical capabilities</li>
+                    <li>A new generation of African EO experts</li>
+                    <li>Operational systems serving millions</li>
+                    <li>A model for international scientific collaboration</li>
+                </ul>
+            </div>
+            
+<!--        </div>-->
+
+        <!-- Section 17: Looking Forward -->
+        <div class="section">
+            <h2>Legacy & Future</h2>
+            <h3>The Journey Continues</h3>
+            <div class="two-column">
+                <div>
+                    <h4>What We Leave Behind:</h4>
+                    <ul>
+                        <li>Operational crop monitoring systems</li>
+                        <li>Trained teams across Africa</li>
+                        <li>Open-source methodologies</li>
+                        <li>Sustainable partnerships</li>
+                        <li>A proven framework for success</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>What Continues:</h4>
+                    <ul>
+                        <li>Regional networks remain strong</li>
+                        <li>Systems continue operating</li>
+                        <li>Knowledge sharing persists</li>
+                        <li>New collaborations emerge</li>
+                        <li>Impact scales globally</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="quote">
+                "While this chapter with SERVIR concludes, the relationships we've built, the capabilities we've developed, and the impact we've created will continue to grow and inspire future innovations in agricultural monitoring."
+<!--            </div>-->
+<!--            <div class="image-placeholder">-->
+</div>
+
+<div class="image-placeholder">
+				<img src="https://images.squarespace-cdn.com/content/66fedd840f62095c9600928b/7ac3ad6c-9a99-43e9-af97-0aa8d2da2dfb/xylem_concept.png?content-type=image%2Fpng" width="1200"></div>
+								<div class="caption">Hopes and Dreams</div>
+			
+			
+			
+<!--        </div>-->
+          </div>
+        </div>
+
+        
+        <!-- Section 19: Training Memories - West Africa -->
+        
+
+        <!-- Section 20: Training Memories - Senegal Deep Dive -->
+        <div class="section">
+            <h2>Training Memories: Senegal Partnership</h2>
+            <h3>Advanced Methods & Collaboration (2022-2025)</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">CSE</span>
+                    Primary Partner
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">DAPSA</span>
+                    Government Ministry
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">CEO</span>
+                    Training Sessions
+                </div>
+            </div>
+            
+
+<div class="image-placeholder">
+				<img src="https://servir.icrisat.org/wp-content/uploads/2024/07/SERVIR_CROP_28.jpg" width="1000"></div>
+								<div class="caption">Senegal Training 2024</div>
+			
+			
+
+<div class="image-placeholder">
+				<img src="https://servir.icrisat.org/wp-content/uploads/2024/07/SERVIR_Crop.jpg" width="1000"></div>
+								<div class="caption">Senegal Training 2024</div>
+			
+			
+			
+			
+			
+
+<div class="image-placeholder">
+	  <img src="https://images.squarespace-cdn.com/content/v1/6418b0756bfdeb13a8c56fcf/2f11fd7e-bbb4-42ce-be94-a72917e0bc8a/SoloPhoto2.JPG" width="1000"></div>
+								<div class="caption">Meeting at DAPSA 2024</div>
+			
+			
+        </div>            </div>
+        </div>
+
+            
+        </div>
+
+        <!-- Section 21: Thank You - Final Celebration -->
+<!--        <div class="section">-->
+            <h1>Thank You, SERVIR Family!</h1>
+<div class="image-placeholder">
+				<img src="https://servir.icrisat.org/wp-content/uploads/2024/10/GROUPE-PHOTO.jpg" width="1200"></div>
+<!--								<div class="caption"></div>-->
+			
+			
+<!--        </div>            -->
+<!--</div>-->
+            </div>
+          <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">9</span>
+                    Years of Partnership
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3</span>
+                    African Regions
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">10+</span>
+                    Countries Impacted
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">∞</span>
+                    Lasting Friendships
+                </div>
+            </div>
+            <div class="quote" style="font-size: 1.6em; margin-top: 40px;">
+                "From Kenya to Senegal, from research to operations, from colleagues to family - thank you for an incredible journey. The seeds we've planted together will continue to grow and feed the world."
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <h3 style="color: #FF6B35; font-size: 2em;">With Gratitude & Best Wishes</h3>
+                <p style="font-size: 1.3em; margin-top: 20px;">Dr. Catherine Nakalembe & Team</p>
+            </div>
+        </div>
+    </div>
+
+    <button class="scroll-to-top" id="scrollToTop" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // Progress indicator functionality
+        function updateProgressIndicator() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('progressIndicator').style.width = scrollPercent + '%';
+        }
+
+        // Scroll to top functionality
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/hide scroll to top button
+        function toggleScrollToTopButton() {
+            const button = document.getElementById('scrollToTop');
+            if (window.pageYOffset > 300) {
+                button.classList.add('visible');
+            } else {
+                button.classList.remove('visible');
+            }
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', function() {
+            updateProgressIndicator();
+            toggleScrollToTopButton();
+        });
+
+        // Function to add images from URLs (kept for compatibility)
+        function addImage(sectionNumber, placeholderIndex, imageUrl, altText = '') {
+            const sections = document.querySelectorAll('.section');
+            if (sections[sectionNumber]) {
+                const placeholders = sections[sectionNumber].querySelectorAll('.image-placeholder');
+                if (placeholders[placeholderIndex]) {
+                    const placeholder = placeholders[placeholderIndex];
+                    placeholder.className = 'image-container';
+                    placeholder.innerHTML = `<img src="${imageUrl}" alt="${altText}" />`;
+                }
+            }
+        }
+
+        // Smooth scrolling for internal links
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(e.target.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+
+        // Initialize progress indicator
+        updateProgressIndicator();
+    </script>
+</body>
+</html>
