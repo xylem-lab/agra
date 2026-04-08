@@ -284,7 +284,9 @@
     
     async function displayArchive() {
       // Load all bulletins
-      await loadBulletins();
+      const manifest = await fetchManifest();
+      if (!manifest) { displayErrorState(); return; }
+      allBulletins = await buildBulletinList(manifest.bulletins);
       
       const grid = document.getElementById('archiveGrid');
       grid.innerHTML = '';
