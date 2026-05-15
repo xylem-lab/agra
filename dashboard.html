@@ -7,52 +7,77 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://fonts.cdnfonts.com/css/nasalization" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@600;700;800;900&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://use.typekit.net/dsu4vkr.css">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
 <link rel="icon" href="Bulletins/2026/02_February_2026/data/static/XylemLab%20logo.png">
 
 <style>
-/* ─── Tokens ─────────────────────────────────────────── */
+/* ─── Tokens — exact match to index.html brand ───────── */
 :root {
-  --brown:       #2E170E;
-  --brown-mid:   #5C3D27;
-  --lime:        #D5DA3C;
-  --lime-dark:   #B8BC2E;
-  --lime-bg:     #F3F5C8;
-  --red:         #ED3A4C;
-  --red-bg:      #FEF0F1;
-  --green:       #6A9B35;
-  --green-bg:    #EEF5E7;
-  --amber:       #E59B0F;
-  --amber-bg:    #FEF7E6;
-  --cream:       #F2EDE6;
-  --cream-dark:  #E8E0D5;
-  --white:       #FFFFFF;
-  --gray-50:     #FAFAF8;
-  --gray-100:    #F4F2EE;
-  --gray-200:    #E8E3DC;
-  --gray-400:    #ADA398;
-  --gray-600:    #7A6E65;
-  --gray-800:    #3D3028;
-  --border:      #E8E3DC;
-  --sidebar-w:   228px;
-  --topbar-h:    60px;
-  --radius-sm:   6px;
-  --radius:      10px;
-  --radius-lg:   14px;
-  --shadow-sm:   0 1px 4px rgba(46,23,14,0.07);
-  --shadow:      0 2px 12px rgba(46,23,14,0.09);
-  --shadow-lg:   0 4px 24px rgba(46,23,14,0.12);
+  /* Brand */
+  --color-coral:       #D13C3A;
+  --color-lime:        #CDDC3C;
+  --color-green:       #64A635;
+  --color-brown:       #2E170E;
+  --color-beige:       #EFE7DA;
+  /* Condition */
+  --color-exceptional: #2ECC71;
+  --color-favorable:   #CDDC3C;
+  --color-watch:       #F39C12;
+  --color-poor:        #D13C3A;
+  /* Grays */
+  --gray-50:           #FAFAFA;
+  --gray-100:          #F8F9FA;
+  --gray-200:          #E9ECEF;
+  --gray-300:          #DEE2E6;
+  --gray-400:          #ADB5BD;
+  --gray-600:          #6C757D;
+  --gray-800:          #343A40;
+  --gray-900:          #212529;
+  /* Fonts */
+  --font-display:      'nasalization', 'Libre Franklin', sans-serif;
+  --font-body:         'Source Sans 3', system-ui, sans-serif;
+  --font-mono:         'JetBrains Mono', 'Courier New', monospace;
+  /* Shadows */
+  --shadow-sm:         0 2px 8px rgba(46,23,14,0.06);
+  --shadow-md:         0 4px 24px rgba(46,23,14,0.08);
+  --shadow-lg:         0 8px 32px rgba(46,23,14,0.12);
+  /* Radius */
+  --radius-sm:         8px;
+  --radius-md:         12px;
+  --radius-lg:         16px;
+  /* Layout */
+  --sidebar-w:         228px;
+  --topbar-h:          64px;
+  /* Aliases for components */
+  --brown:             #2E170E;
+  --lime:              #CDDC3C;
+  --lime-dark:         #B5C030;
+  --lime-bg:           #F5F7CC;
+  --red:               #D13C3A;
+  --red-bg:            #FEF0F0;
+  --green:             #64A635;
+  --green-bg:          #EEF5E7;
+  --amber:             #F39C12;
+  --amber-bg:          #FEF6E6;
+  --white:             #FFFFFF;
+  --border:            var(--gray-200);
 }
 
 /* ─── Reset ──────────────────────────────────────────── */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{height:100%}
+/* Material Icons */
+.material-symbols-outlined{
+  font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;
+  vertical-align:middle;font-size:18px;
+}
 body{
-  font-family:'Source Sans 3',system-ui,sans-serif;
-  background:var(--gray-100);
-  color:var(--brown);
+  font-family:var(--font-body);
+  background:var(--color-beige);
+  color:var(--color-brown);
   height:100%;
   display:flex;
   overflow:hidden;
@@ -79,38 +104,38 @@ body{
 }
 .sidebar-logo{height:32px;width:auto;display:block;margin-bottom:10px}
 .sidebar-label{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:0.68rem;font-weight:700;
-  letter-spacing:0.12em;text-transform:uppercase;
-  color:var(--lime-dark);
+  font-family:var(--font-display);
+  font-size:0.65rem;font-weight:400;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--color-lime);
 }
 .sidebar-sub{
-  font-family:'JetBrains Mono',monospace;
-  font-size:0.62rem;color:var(--gray-400);margin-top:2px;
+  font-family:var(--font-mono);
+  font-size:0.62rem;color:var(--gray-600);margin-top:2px;
 }
 .sidebar-nav{flex:1;padding:12px 10px}
 .nav-item{
   display:flex;align-items:center;gap:10px;
   padding:9px 12px;border-radius:var(--radius-sm);
-  font-family:'Space Grotesk',sans-serif;
-  font-size:0.82rem;font-weight:600;
+  font-family:var(--font-body);
+  font-size:0.85rem;font-weight:600;
   color:var(--gray-600);cursor:pointer;
   text-decoration:none;
   transition:all 0.15s;
   margin-bottom:2px;
   border:none;background:none;width:100%;text-align:left;
 }
-.nav-item:hover{background:var(--gray-100);color:var(--brown)}
-.nav-item.active{background:var(--lime);color:var(--brown)}
-.nav-icon{font-size:1rem;width:18px;text-align:center;flex-shrink:0}
-.sidebar-footer{padding:12px 10px;border-top:1px solid var(--border)}
+.nav-item:hover{background:var(--gray-100);color:var(--color-brown)}
+.nav-item.active{background:var(--color-lime);color:var(--color-brown)}
+.nav-icon{font-size:18px;width:20px;text-align:center;flex-shrink:0;color:inherit}
+.sidebar-footer{padding:12px 10px;border-top:1px solid var(--gray-200)}
 .export-btn{
   display:flex;align-items:center;justify-content:center;gap:8px;
   width:100%;padding:10px 16px;
-  background:var(--lime);color:var(--brown);
+  background:var(--color-lime);color:var(--color-brown);
   border:none;border-radius:var(--radius-sm);
-  font-family:'Space Grotesk',sans-serif;
-  font-size:0.78rem;font-weight:700;letter-spacing:0.04em;
+  font-family:var(--font-body);
+  font-size:0.82rem;font-weight:700;letter-spacing:0.04em;
   cursor:pointer;transition:all 0.15s;margin-bottom:10px;
 }
 .export-btn:hover{background:var(--lime-dark)}
@@ -137,9 +162,10 @@ body{
   flex-shrink:0;z-index:5;
 }
 .topbar-title{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:1rem;font-weight:700;color:var(--brown);
-  flex:1;
+  font-family:var(--font-display);
+  font-size:1rem;font-weight:400;
+  letter-spacing:0.04em;text-transform:uppercase;
+  color:var(--color-brown);flex:1;
 }
 .topbar-actions{display:flex;align-items:center;gap:12px}
 .topbar-icon{
@@ -154,7 +180,7 @@ body{
   width:34px;height:34px;border-radius:50%;
   background:var(--brown);color:var(--lime);
   display:flex;align-items:center;justify-content:center;
-  font-family:'Space Grotesk',sans-serif;
+  font-family:var(--font-body);
   font-size:0.72rem;font-weight:700;cursor:pointer;
 }
 
@@ -169,7 +195,7 @@ body{
 .card{
   background:var(--white);
   border:1px solid var(--border);
-  border-radius:var(--radius);
+  border-radius:var(--radius-md);
   box-shadow:var(--shadow-sm);
 }
 
@@ -181,47 +207,44 @@ body{
 }
 .briefing-label{
   display:flex;align-items:center;gap:7px;
-  font-family:'Space Grotesk',sans-serif;
-  font-size:0.72rem;font-weight:700;
-  letter-spacing:0.1em;text-transform:uppercase;
+  font-family:var(--font-body);
+  font-size:0.75rem;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;
   color:var(--gray-600);
 }
 .briefing-label-dot{
   width:6px;height:6px;border-radius:50%;
-  background:var(--lime);flex-shrink:0;
+  background:var(--color-lime);flex-shrink:0;
 }
 .briefing-actions{display:flex;gap:8px}
 .btn-ask{
-  display:flex;align-items:center;gap:6px;
-  padding:7px 14px;border-radius:var(--radius-sm);
-  background:var(--lime);color:var(--brown);
-  border:none;font-family:'Space Grotesk',sans-serif;
-  font-size:0.75rem;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:var(--radius-sm);
+  background:var(--color-lime);color:var(--color-brown);
+  border:none;font-family:var(--font-body);
+  font-size:0.82rem;font-weight:700;cursor:pointer;
   transition:all 0.15s;
 }
-.btn-ask:hover{background:var(--lime-dark)}
+.btn-ask:hover{background:var(--lime-dark);transform:translateY(-1px)}
 .btn-pdf{
-  display:flex;align-items:center;gap:6px;
-  padding:7px 14px;border-radius:var(--radius-sm);
-  background:var(--white);color:var(--brown);
-  border:1px solid var(--border);
-  font-family:'Space Grotesk',sans-serif;
-  font-size:0.75rem;font-weight:600;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:var(--radius-sm);
+  background:var(--white);color:var(--color-brown);
+  border:2px solid var(--gray-200);
+  font-family:var(--font-body);
+  font-size:0.82rem;font-weight:600;cursor:pointer;
   transition:all 0.15s;text-decoration:none;
 }
 .btn-pdf:hover{background:var(--gray-100)}
 .briefing-body{
-  font-size:0.92rem;line-height:1.8;color:var(--gray-800);
-  min-height:60px;
+  font-size:1rem;line-height:1.8;color:var(--gray-800);
+  min-height:60px;font-family:var(--font-body);
 }
-.briefing-body .hl-good{color:var(--green);font-weight:600}
-.briefing-body .hl-warn{color:var(--red);font-weight:600}
-.briefing-body .hl-lime{color:var(--lime-dark);font-weight:600}
 .briefing-ticker{
   margin-top:12px;display:flex;align-items:center;gap:7px;
   padding:7px 10px;background:var(--gray-100);
   border-radius:var(--radius-sm);
-  font-family:'JetBrains Mono',monospace;
+  font-family:var(--font-mono);
   font-size:0.7rem;color:var(--gray-600);
 }
 
@@ -255,19 +278,19 @@ body{
   padding:16px;position:relative;overflow:hidden;
   display:flex;flex-direction:column;gap:10px;
 }
-.country-card.critical{border-top:3px solid var(--red)}
-.country-card.watch{border-top:3px solid var(--amber)}
-.country-card.favorable{border-top:3px solid var(--lime)}
-.country-card.exceptional{border-top:3px solid var(--green)}
+.country-card.critical{border-top:3px solid var(--color-poor)}
+.country-card.watch{border-top:3px solid var(--color-watch)}
+.country-card.favorable{border-top:3px solid var(--color-favorable)}
+.country-card.exceptional{border-top:3px solid var(--color-exceptional)}
 
 .country-card-top{
   display:flex;align-items:flex-start;justify-content:space-between;
 }
 .country-name-label{
-  font-family:'Space Grotesk',sans-serif;
+  font-family:var(--font-body);
   font-size:0.72rem;font-weight:700;
   letter-spacing:0.08em;text-transform:uppercase;
-  color:var(--brown);
+  color:var(--color-brown);
 }
 /* circular score */
 .score-ring{position:relative;width:44px;height:44px;flex-shrink:0}
@@ -276,29 +299,29 @@ body{
 .score-ring-fill{fill:none;stroke-width:3.5;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(0.33,1,0.68,1)}
 .score-ring-text{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-family:'JetBrains Mono',monospace;font-size:0.68rem;font-weight:600;color:var(--brown);
+  font-family:var(--font-mono);font-size:0.68rem;font-weight:600;color:var(--brown);
 }
 .country-yield{
-  font-family:'JetBrains Mono',monospace;
+  font-family:var(--font-mono);
   font-size:1.4rem;font-weight:600;color:var(--brown);line-height:1;
 }
 .country-yield-unit{font-size:0.68rem;font-weight:400;color:var(--gray-600);margin-left:2px}
 .country-status{
   display:inline-flex;align-items:center;gap:4px;
-  font-family:'Space Grotesk',sans-serif;
+  font-family:var(--font-body);
   font-size:0.6rem;font-weight:700;
   letter-spacing:0.08em;text-transform:uppercase;
   margin-top:2px;
 }
 .status-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0}
-.status-good .status-dot{background:var(--green)}
-.status-good{color:var(--green)}
-.status-critical .status-dot{background:var(--red)}
-.status-critical{color:var(--red)}
-.status-watch .status-dot{background:var(--amber)}
-.status-watch{color:var(--amber)}
-.status-optimal .status-dot{background:var(--green)}
-.status-optimal{color:var(--green)}
+.status-good .status-dot{background:var(--color-green)}
+.status-good{color:var(--color-green)}
+.status-critical .status-dot{background:var(--color-poor)}
+.status-critical{color:var(--color-poor)}
+.status-watch .status-dot{background:var(--color-watch)}
+.status-watch{color:var(--color-watch)}
+.status-optimal .status-dot{background:var(--color-exceptional)}
+.status-optimal{color:var(--color-green)}
 
 /* ─── Charts Row ──────────────────────────────────────── */
 .charts-row{display:grid;grid-template-columns:3fr 2fr;gap:14px}
@@ -309,18 +332,20 @@ body{
   margin-bottom:4px;flex-wrap:wrap;gap:8px;
 }
 .chart-title{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:0.88rem;font-weight:700;color:var(--brown);
+  font-family:var(--font-display);
+  font-size:0.9rem;font-weight:400;
+  letter-spacing:0.04em;text-transform:uppercase;
+  color:var(--color-brown);
 }
 .chart-subtitle{
   font-size:0.72rem;color:var(--gray-600);margin-top:2px;
-  font-family:'JetBrains Mono',monospace;
+  font-family:var(--font-mono);
 }
 .chart-pills{display:flex;gap:6px}
 .chart-pill{
   padding:3px 10px;border-radius:100px;
   border:1px solid var(--border);
-  font-family:'Space Grotesk',sans-serif;
+  font-family:var(--font-body);
   font-size:0.62rem;font-weight:600;letter-spacing:0.06em;
   color:var(--gray-600);cursor:pointer;
   transition:all 0.15s;background:var(--white);
@@ -336,11 +361,11 @@ body{
   margin-bottom:5px;
 }
 .prod-item-name{
-  font-family:'Space Grotesk',sans-serif;
+  font-family:var(--font-body);
   font-size:0.78rem;font-weight:600;color:var(--brown);
 }
 .prod-item-total{
-  font-family:'JetBrains Mono',monospace;
+  font-family:var(--font-mono);
   font-size:0.72rem;color:var(--gray-600);
 }
 .prod-bar-track{height:7px;background:var(--gray-200);border-radius:100px;overflow:hidden;display:flex;gap:2px}
@@ -354,54 +379,58 @@ body{
 @media(max-width:900px){.bottom-row{grid-template-columns:1fr}}
 
 /* Alerts card */
-.alerts-card{padding:18px 20px;border:1px solid var(--red);border-radius:var(--radius)}
+.alerts-card{padding:18px 20px;border:1px solid var(--color-poor);border-radius:var(--radius-md);background:var(--white);box-shadow:var(--shadow-sm)}
 .alerts-header{
   display:flex;align-items:center;gap:7px;margin-bottom:14px;
 }
 .alerts-dot{
   width:8px;height:8px;border-radius:50%;
-  background:var(--red);
-  box-shadow:0 0 0 3px rgba(237,58,76,0.2);
+  background:var(--color-poor);
+  box-shadow:0 0 0 3px rgba(209,60,58,0.2);
   animation:pulse-red 2s ease-in-out infinite;
 }
 @keyframes pulse-red{
-  0%,100%{box-shadow:0 0 0 3px rgba(237,58,76,0.2)}
-  50%{box-shadow:0 0 0 6px rgba(237,58,76,0.1)}
+  0%,100%{box-shadow:0 0 0 3px rgba(209,60,58,0.2)}
+  50%{box-shadow:0 0 0 6px rgba(209,60,58,0.08)}
 }
 .alerts-title{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:0.82rem;font-weight:700;color:var(--brown);
+  font-family:var(--font-display);
+  font-size:0.85rem;font-weight:400;
+  letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--color-brown);
 }
 .alert-item{
   padding:12px 14px;margin-bottom:10px;
   border-radius:var(--radius-sm);
-  border-left:3px solid var(--red);
+  border-left:4px solid var(--color-poor);
   background:var(--red-bg);
-  last-child:{margin-bottom:0}
 }
-.alert-item.watch{border-left-color:var(--amber);background:var(--amber-bg)}
+.alert-item:last-child{margin-bottom:0}
+.alert-item.watch{border-left-color:var(--color-watch);background:var(--amber-bg)}
 .alert-tag{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:0.6rem;font-weight:700;letter-spacing:0.1em;
-  text-transform:uppercase;color:var(--red);margin-bottom:4px;
+  font-family:var(--font-body);
+  font-size:0.62rem;font-weight:700;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--color-poor);margin-bottom:4px;
 }
-.alert-tag.watch{color:var(--amber)}
-.alert-time{color:var(--gray-400);font-weight:400;margin-left:6px;font-size:0.58rem}
+.alert-tag.watch{color:var(--color-watch)}
+.alert-time{color:var(--gray-600);font-weight:400;margin-left:6px;font-size:0.6rem}
 .alert-item-title{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:0.82rem;font-weight:700;color:var(--brown);margin-bottom:3px;
+  font-family:var(--font-body);
+  font-size:0.85rem;font-weight:700;color:var(--color-brown);margin-bottom:3px;
 }
-.alert-item-detail{font-size:0.75rem;color:var(--gray-600);line-height:1.5}
+.alert-item-detail{font-size:0.78rem;color:var(--gray-600);line-height:1.55}
 
 /* Ask the Bulletin */
 .ask-card{padding:18px 20px}
 .ask-header{
   display:flex;align-items:center;gap:7px;margin-bottom:6px;
 }
-.ask-star{color:var(--lime-dark);font-size:1rem}
+.ask-star{color:var(--color-lime);font-size:20px}
 .ask-title{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:0.82rem;font-weight:700;color:var(--brown);
+  font-family:var(--font-display);
+  font-size:0.85rem;font-weight:400;
+  letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--color-brown);
 }
 .ask-chips{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
 .ask-chip{
@@ -409,39 +438,40 @@ body{
   background:var(--gray-100);border:1px solid var(--border);
   font-size:0.78rem;color:var(--gray-800);
   cursor:pointer;transition:all 0.15s;text-align:left;
-  font-family:'Source Sans 3',sans-serif;
+  font-family:var(--font-body);
 }
-.ask-chip:hover{background:var(--lime-bg);border-color:var(--lime);color:var(--brown)}
+.ask-chip:hover{background:var(--lime-bg);border-color:var(--color-lime);color:var(--color-brown)}
 .ask-input-row{display:flex;gap:8px}
 .ask-input{
   flex:1;padding:9px 13px;
   border:1px solid var(--border);border-radius:var(--radius-sm);
-  font-family:'Source Sans 3',sans-serif;font-size:0.85rem;
+  font-family:var(--font-body);font-size:0.85rem;
   color:var(--brown);background:var(--white);outline:none;
   transition:border-color 0.15s;
 }
-.ask-input:focus{border-color:var(--lime-dark)}
+.ask-input:focus{border-color:var(--color-coral);box-shadow:0 0 0 3px rgba(209,60,58,0.1)}
 .ask-input::placeholder{color:var(--gray-400)}
 .ask-send{
-  width:36px;height:36px;border-radius:var(--radius-sm);
-  background:var(--lime);border:none;cursor:pointer;
+  width:38px;height:38px;border-radius:var(--radius-sm);
+  background:var(--color-coral);border:none;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  font-size:0.9rem;transition:background 0.15s;flex-shrink:0;
+  color:#fff;transition:all 0.15s;flex-shrink:0;
 }
-.ask-send:hover{background:var(--lime-dark)}
+.ask-send:hover{background:#B8322E;transform:translateY(-1px)}
 .ask-answer{
   display:none;margin-top:10px;
-  padding:10px 13px;
-  background:var(--gray-50);border:1px solid var(--border);
-  border-left:3px solid var(--lime-dark);border-radius:var(--radius-sm);
-  font-size:0.82rem;line-height:1.7;color:var(--brown);
+  padding:12px 14px;
+  background:var(--gray-100);border:1px solid var(--gray-200);
+  border-left:4px solid var(--color-lime);border-radius:var(--radius-sm);
+  font-size:0.88rem;line-height:1.75;color:var(--color-brown);
+  font-family:var(--font-body);
 }
 .ask-answer.visible{display:block;animation:fadeUp 0.3s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 .ask-answer-thinking{
   display:flex;align-items:center;gap:6px;
   font-size:0.75rem;color:var(--gray-400);
-  font-family:'Space Grotesk',sans-serif;
+  font-family:var(--font-body);
 }
 .thinking-dots{display:flex;gap:3px}
 .thinking-dots span{
@@ -468,14 +498,14 @@ body{
   width:min(440px,92vw);border-top:4px solid var(--lime);
 }
 .key-modal-title{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:1rem;font-weight:700;color:var(--brown);margin-bottom:6px;
+  font-family:var(--font-display);
+  font-size:0.9rem;font-weight:400;letter-spacing:0.04em;text-transform:uppercase;color:var(--color-brown);margin-bottom:6px;
 }
 .key-modal-sub{font-size:0.82rem;color:var(--gray-600);margin-bottom:20px;line-height:1.6}
 .key-modal-input{
   width:100%;padding:10px 14px;
   border:1px solid var(--border);border-radius:var(--radius-sm);
-  font-family:'JetBrains Mono',monospace;font-size:0.78rem;
+  font-family:var(--font-mono);font-size:0.78rem;
   color:var(--brown);outline:none;margin-bottom:12px;
   transition:border-color 0.15s;
 }
@@ -484,7 +514,7 @@ body{
 .key-modal-save{
   flex:1;padding:10px;background:var(--lime);color:var(--brown);
   border:none;border-radius:var(--radius-sm);
-  font-family:'Space Grotesk',sans-serif;
+  font-family:var(--font-body);
   font-size:0.82rem;font-weight:700;cursor:pointer;
   transition:background 0.15s;
 }
@@ -508,25 +538,25 @@ body{
 
   <nav class="sidebar-nav">
     <a class="nav-item active" href="dashboard.html">
-      <span class="nav-icon">⊞</span> Mission Control
+      <span class="nav-icon material-symbols-outlined">grid_view</span> Mission Control
     </a>
     <a class="nav-item" href="#" onclick="return false" style="opacity:0.5;cursor:not-allowed">
-      <span class="nav-icon">🌍</span> Regional Trends
+      <span class="nav-icon material-symbols-outlined">public</span> Regional Trends
     </a>
     <a class="nav-item" href="#" onclick="return false" style="opacity:0.5;cursor:not-allowed">
-      <span class="nav-icon">📊</span> Supply Analysis
+      <span class="nav-icon material-symbols-outlined">bar_chart</span> Supply Analysis
     </a>
     <a class="nav-item" href="archive.html">
-      <span class="nav-icon">⚠</span> Bulletin Archive
+      <span class="nav-icon material-symbols-outlined">warning</span> Bulletin Archive
     </a>
     <a class="nav-item" href="index.html">
-      <span class="nav-icon">←</span> Main Website
+      <span class="nav-icon material-symbols-outlined">arrow_back</span> Main Website
     </a>
   </nav>
 
   <div class="sidebar-footer">
     <button class="export-btn" id="exportBtn">
-      ↓ Export Intelligence
+      <span class="material-symbols-outlined" style="font-size:16px">download</span> Export Intelligence
     </button>
     <div class="sidebar-util">
       <a href="https://www.xylemlab.org/" target="_blank">Documentation</a>
@@ -542,8 +572,8 @@ body{
   <header class="topbar">
     <div class="topbar-title">AGRA Regional Food Balance Sheet</div>
     <div class="topbar-actions">
-      <div class="topbar-icon" title="Bulletin history">🕐</div>
-      <div class="topbar-icon" id="alertBell" title="Alerts">🔔</div>
+      <div class="topbar-icon" title="Bulletin history"><span class="material-symbols-outlined">history</span></div>
+      <div class="topbar-icon" id="alertBell" title="Alerts"><span class="material-symbols-outlined">notifications</span></div>
       <div class="topbar-avatar" title="XylemLab">XL</div>
     </div>
   </header>
@@ -560,10 +590,10 @@ body{
         </div>
         <div class="briefing-actions">
           <button class="btn-ask" onclick="document.getElementById('askInput').focus();document.getElementById('askCard').scrollIntoView({behavior:'smooth'})">
-            💬 Ask a question
+            <span class="material-symbols-outlined" style="font-size:15px">chat</span> Ask a question
           </button>
           <a class="btn-pdf" id="pdfLink" href="#" target="_blank">
-            📄 Download PDF
+            <span class="material-symbols-outlined" style="font-size:15px">picture_as_pdf</span> Download PDF
           </a>
         </div>
       </div>
@@ -574,7 +604,7 @@ body{
         <div class="skel"></div>
       </div>
       <div class="briefing-ticker" id="briefingTicker">
-        🔄 &nbsp;Loading bulletin data…
+        <span class="material-symbols-outlined" style="font-size:13px">sync</span>&nbsp;Loading bulletin data…
       </div>
     </div>
 
@@ -605,9 +635,9 @@ body{
         </div>
         <div class="prod-row" id="prodRow"></div>
         <div class="prod-legend">
-          <div class="prod-legend-item"><div class="prod-legend-dot" style="background:#6A9B35"></div>Maize</div>
-          <div class="prod-legend-item"><div class="prod-legend-dot" style="background:#D5DA3C"></div>Rice</div>
-          <div class="prod-legend-item"><div class="prod-legend-dot" style="background:#ED3A4C"></div>Beans</div>
+          <div class="prod-legend-item"><div class="prod-legend-dot" style="background:#64A635"></div>Maize</div>
+          <div class="prod-legend-item"><div class="prod-legend-dot" style="background:#CDDC3C"></div>Rice</div>
+          <div class="prod-legend-item"><div class="prod-legend-dot" style="background:#D13C3A"></div>Beans</div>
         </div>
       </div>
     </div>
@@ -630,7 +660,7 @@ body{
       <!-- Ask the Bulletin -->
       <div class="card ask-card" id="askCard">
         <div class="ask-header">
-          <span class="ask-star">✦</span>
+          <span class="ask-star material-symbols-outlined">auto_awesome</span>
           <div class="ask-title">Ask the Bulletin</div>
         </div>
         <div class="ask-chips" id="askChips">
@@ -640,7 +670,7 @@ body{
         </div>
         <div class="ask-input-row">
           <input class="ask-input" id="askInput" type="text" placeholder="Type your query…"/>
-          <button class="ask-send" id="askSend">➤</button>
+          <button class="ask-send" id="askSend"><span class="material-symbols-outlined" style="font-size:16px">send</span></button>
         </div>
         <div class="ask-answer" id="askAnswer"></div>
       </div>
@@ -709,7 +739,7 @@ function updateTicker() {
   const now = new Date();
   const h = String(now.getHours()).padStart(2,'0');
   const m = String(now.getMinutes()).padStart(2,'0');
-  el.innerHTML = `🔄 &nbsp;Bulletin data: <strong>${latestBulletin.month} ${latestBulletin.year}</strong> · Last sync ${h}:${m} local`;
+  el.innerHTML = `<span class="material-symbols-outlined" style="font-size:13px">sync</span>&nbsp;Bulletin data: <strong>${latestBulletin.month} ${latestBulletin.year}</strong> · Last sync ${h}:${m} local`;
 }
 
 /* ── Country Cards ── */
@@ -738,7 +768,7 @@ function buildCountryCards() {
     const yieldNum = maize ? parseFloat(maize.yield) : 0;
     const score = computeScore(yieldNum, minY, maxY, worstCond);
     const {cardClass, statusClass, statusLabel} = conditionMeta(worstCond, yieldNum, maxY);
-    const ringColor = {favorable:'#6A9B35',exceptional:'#6A9B35',watch:'#E59B0F',poor:'#ED3A4C'}[worstCond]||'#6A9B35';
+    const ringColor = {favorable:'#64A635',exceptional:'#64A635',watch:'#F39C12',poor:'#D13C3A'}[worstCond]||'#64A635';
 
     const card = document.createElement('div');
     card.className = `card country-card ${cardClass}`;
@@ -811,7 +841,7 @@ function buildTrendChart() {
   const withData = allBulletins.filter(b=>b.chartData).slice(0,8).reverse();
   const labels   = withData.map(b=>`${b.month.slice(0,3)} '${b.year.slice(2)}`);
   const allC     = [...new Set(withData.flatMap(b=>b.chartData.countries.map(short)))];
-  const palette  = ['#2E170E','#6A9B35','#D5DA3C','#ED3A4C','#E59B0F','#5C3D27'];
+  const palette  = ['#2E170E','#64A635','#CDDC3C','#D13C3A','#F39C12','#5C3D27'];
 
   // subtitle
   if (withData.length>=2) {
@@ -849,7 +879,7 @@ function buildTrendChart() {
       options:{
         responsive:true, maintainAspectRatio:false,
         plugins:{
-          legend:{position:'bottom',labels:{color:'#5C3D27',padding:14,font:{size:11,family:'Space Grotesk',weight:'600'}}},
+          legend:{position:'bottom',labels:{color:'#5C3D27',padding:14,font:{size:11,family:'Source Sans 3',weight:'600'}}},
           tooltip:{backgroundColor:'#2E170E',titleColor:'#F2EDE6',bodyColor:'rgba(242,237,230,0.8)',padding:10,borderWidth:0},
         },
         scales:{
@@ -917,9 +947,9 @@ function buildProductionBars() {
         <span class="prod-item-total">${total.toFixed(1)}M Total</span>
       </div>
       <div class="prod-bar-track">
-        <div class="prod-bar-seg" style="background:#6A9B35;width:0" data-w="${mw}"></div>
-        <div class="prod-bar-seg" style="background:#D5DA3C;width:0" data-w="${rw}"></div>
-        <div class="prod-bar-seg" style="background:#ED3A4C;width:0" data-w="${bw}"></div>
+        <div class="prod-bar-seg" style="background:#64A635;width:0" data-w="${mw}"></div>
+        <div class="prod-bar-seg" style="background:#CDDC3C;width:0" data-w="${rw}"></div>
+        <div class="prod-bar-seg" style="background:#D13C3A;width:0" data-w="${bw}"></div>
       </div>`;
     container.appendChild(div);
 
@@ -947,15 +977,16 @@ function buildAlerts() {
   const alerts = rows.filter(h=>h.condition==='watch'||h.condition==='poor');
 
   if (alerts.length===0) {
-    list.innerHTML = `<div class="no-data">✅ No active alerts — all conditions favorable in ${latestBulletin.month} ${latestBulletin.year}</div>`;
-    document.querySelector('.alerts-card').style.borderColor = '#6A9B35';
-    document.querySelector('.alerts-dot').style.background = '#6A9B35';
+    list.innerHTML = `<div class="no-data"><span class="material-symbols-outlined" style="vertical-align:middle;color:var(--color-green);font-size:16px">check_circle</span> No active alerts — all conditions favorable in ${latestBulletin.month} ${latestBulletin.year}</div>`;
+    document.querySelector('.alerts-card').style.borderColor = '#64A635';
+    document.querySelector('.alerts-dot').style.background = '#64A635';
     return;
   }
 
   // update bell badge
   const bell = document.getElementById('alertBell');
-  if (bell) bell.textContent = `🔔 ${alerts.length}`;
+  if (bell) bell.innerHTML = `<span class="material-symbols-outlined">notifications_active</span><span style="position:absolute;top:-4px;right:-4px;background:var(--color-poor);color:#fff;font-size:9px;font-weight:700;width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-body)">${alerts.length}</span>`;
+  if (bell) bell.style.position = 'relative';
 
   alerts.slice(0,3).forEach(h => {
     const isPoor = h.condition==='poor';
@@ -1166,7 +1197,7 @@ document.getElementById('exportBtn')?.addEventListener('click', () => {
 
 /* ── Error ── */
 function showError() {
-  document.getElementById('briefingBody').textContent = '⚠ Unable to load bulletin data. Check manifest.json.';
+  document.getElementById('briefingBody').innerHTML = '<span class="material-symbols-outlined" style="vertical-align:middle;color:var(--color-poor)">warning</span> Unable to load bulletin data. Check manifest.json.';
 }
 
 /* ── API Key Modal ── */
@@ -1175,7 +1206,7 @@ function showKeyModal(onSave) {
   overlay.className = 'key-overlay';
   overlay.innerHTML = `
     <div class="key-modal">
-      <div class="key-modal-title">✦ AutoPilot API Access</div>
+      <div class="key-modal-title" style="display:flex;align-items:center;gap:7px"><span class="material-symbols-outlined" style="color:var(--lime);font-size:18px">auto_awesome</span> AutoPilot API Access</div>
       <div class="key-modal-sub">
         Enter your OpenAI API key to enable the AI intelligence briefing and Ask the Bulletin feature.
         The key is stored only in your browser — it never leaves your device.
@@ -1185,7 +1216,7 @@ function showKeyModal(onSave) {
         <button class="key-modal-save" id="keySaveBtn">Save &amp; Activate AutoPilot</button>
       </div>
       <div class="key-modal-note">
-        🔒 Stored in localStorage only. Not sent to any server other than OpenAI.<br>
+        <span class="material-symbols-outlined" style="font-size:13px;vertical-align:middle">lock</span> Stored in localStorage only. Not sent to any server other than OpenAI.<br>
         Needs <strong>Model capabilities → Chat Completions → Request</strong> permission.
       </div>
       <span class="key-modal-manage" id="keySkipBtn">Skip for now (no AI features)</span>
@@ -1268,7 +1299,7 @@ function initKeyAndBoot() {
 
 // "Manage API key" link in sidebar footer
 document.querySelector('.sidebar-util')?.insertAdjacentHTML('beforeend',
-  `<a href="#" id="manageKey" style="color:var(--gray-400)">⚙ Manage API Key</a>`);
+  `<a href="#" id="manageKey" style="color:var(--gray-400);display:flex;align-items:center;gap:4px"><span class="material-symbols-outlined" style="font-size:13px">settings</span> Manage API Key</a>`);
 document.addEventListener('click', e => {
   if (e.target.id === 'manageKey') {
     e.preventDefault();
