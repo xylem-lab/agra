@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AGRA RFBS · Mission Control</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/nasalization" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<link rel="icon" href="Bulletins/2026/02_February_2026/data/static/XylemLab%20logo.png">
+
+<style>
+/* ─── Tokens ─────────────────────────────────────────── */
+:root {
+  --brown:       #2E170E;
+  --brown-mid:   #5C3D27;
+  --lime:        #D5DA3C;
+  --lime-dark:   #B8BC2E;
+  --lime-bg:     #F3F5C8;
+  --red:         #ED3A4C;
+  --red-bg:      #FEF0F1;
+  --green:       #6A9B35;
+  --green-bg:    #EEF5E7;
+  --amber:       #E59B0F;
+  --amber-bg:    #FEF7E6;
+  --cream:       #F2EDE6;
+  --cream-dark:  #E8E0D5;
+  --white:       #FFFFFF;
+  --gray-50:     #FAFAF8;
+  --gray-100:    #F4F2EE;
+  --gray-200:    #E8E3DC;
+  --gray-400:    #ADA398;
+  --gray-600:    #7A6E65;
+  --gray-800:    #3D3028;
+  --border:      #E8E3DC;
+  --sidebar-w:   228px;
+  --topbar-h:    60px;
+  --radius-sm:   6px;
+  --radius:      10px;
+  --radius-lg:   14px;
+  --shadow-sm:   0 1px 4px rgba(46,23,14,0.07);
+  --shadow:      0 2px 12px rgba(46,23,14,0.09);
+  --shadow-lg:   0 4px 24px rgba(46,23,14,0.12);
+}
+
+/* ─── Reset ──────────────────────────────────────────── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{height:100%}
+body{
+  font-family:'Source Sans 3',system-ui,sans-serif;
+  background:var(--gray-100);
+  color:var(--brown);
+  height:100%;
+  display:flex;
+  overflow:hidden;
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* ─── Sidebar ─────────────────────────────────────────── */
+.sidebar{
+  width:var(--sidebar-w);
+  min-width:var(--sidebar-w);
+  background:var(--white);
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  z-index:10;
+}
+.sidebar-brand{
+  padding:20px 20px 16px;
+  border-bottom:1px solid var(--border);
+}
+.sidebar-logo{height:32px;width:auto;display:block;margin-bottom:10px}
+.sidebar-label{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.68rem;font-weight:700;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--lime-dark);
+}
+.sidebar-sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.62rem;color:var(--gray-400);margin-top:2px;
+}
+.sidebar-nav{flex:1;padding:12px 10px}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:var(--radius-sm);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.82rem;font-weight:600;
+  color:var(--gray-600);cursor:pointer;
+  text-decoration:none;
+  transition:all 0.15s;
+  margin-bottom:2px;
+  border:none;background:none;width:100%;text-align:left;
+}
+.nav-item:hover{background:var(--gray-100);color:var(--brown)}
+.nav-item.active{background:var(--lime);color:var(--brown)}
+.nav-icon{font-size:1rem;width:18px;text-align:center;flex-shrink:0}
+.sidebar-footer{padding:12px 10px;border-top:1px solid var(--border)}
+.export-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:10px 16px;
+  background:var(--lime);color:var(--brown);
+  border:none;border-radius:var(--radius-sm);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.78rem;font-weight:700;letter-spacing:0.04em;
+  cursor:pointer;transition:all 0.15s;margin-bottom:10px;
+}
+.export-btn:hover{background:var(--lime-dark)}
+.sidebar-util{
+  display:flex;flex-direction:column;gap:4px;padding:0 2px;
+}
+.sidebar-util a{
+  font-size:0.75rem;color:var(--gray-400);text-decoration:none;
+  padding:4px 10px;border-radius:var(--radius-sm);
+  transition:color 0.15s;
+}
+.sidebar-util a:hover{color:var(--brown)}
+
+/* ─── Main Wrapper ────────────────────────────────────── */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+
+/* ─── Top Bar ─────────────────────────────────────────── */
+.topbar{
+  height:var(--topbar-h);
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:0 28px;gap:16px;
+  flex-shrink:0;z-index:5;
+}
+.topbar-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1rem;font-weight:700;color:var(--brown);
+  flex:1;
+}
+.topbar-actions{display:flex;align-items:center;gap:12px}
+.topbar-icon{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--gray-100);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.9rem;cursor:pointer;color:var(--gray-600);
+  transition:all 0.15s;
+}
+.topbar-icon:hover{background:var(--gray-200)}
+.topbar-avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--brown);color:var(--lime);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.72rem;font-weight:700;cursor:pointer;
+}
+
+/* ─── Content Area ────────────────────────────────────── */
+.content{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  padding:20px 24px 40px;
+  display:flex;flex-direction:column;gap:16px;
+}
+
+/* ─── Cards ───────────────────────────────────────────── */
+.card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);
+}
+
+/* ─── Intelligence Briefing Card ─────────────────────── */
+.briefing-card{padding:20px 24px}
+.briefing-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;flex-wrap:wrap;gap:10px;
+}
+.briefing-label{
+  display:flex;align-items:center;gap:7px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.72rem;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--gray-600);
+}
+.briefing-label-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--lime);flex-shrink:0;
+}
+.briefing-actions{display:flex;gap:8px}
+.btn-ask{
+  display:flex;align-items:center;gap:6px;
+  padding:7px 14px;border-radius:var(--radius-sm);
+  background:var(--lime);color:var(--brown);
+  border:none;font-family:'Space Grotesk',sans-serif;
+  font-size:0.75rem;font-weight:700;cursor:pointer;
+  transition:all 0.15s;
+}
+.btn-ask:hover{background:var(--lime-dark)}
+.btn-pdf{
+  display:flex;align-items:center;gap:6px;
+  padding:7px 14px;border-radius:var(--radius-sm);
+  background:var(--white);color:var(--brown);
+  border:1px solid var(--border);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.75rem;font-weight:600;cursor:pointer;
+  transition:all 0.15s;text-decoration:none;
+}
+.btn-pdf:hover{background:var(--gray-100)}
+.briefing-body{
+  font-size:0.92rem;line-height:1.8;color:var(--gray-800);
+  min-height:60px;
+}
+.briefing-body .hl-good{color:var(--green);font-weight:600}
+.briefing-body .hl-warn{color:var(--red);font-weight:600}
+.briefing-body .hl-lime{color:var(--lime-dark);font-weight:600}
+.briefing-ticker{
+  margin-top:12px;display:flex;align-items:center;gap:7px;
+  padding:7px 10px;background:var(--gray-100);
+  border-radius:var(--radius-sm);
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;color:var(--gray-600);
+}
+
+/* skeleton */
+.skel{
+  border-radius:4px;
+  background:linear-gradient(90deg,var(--gray-100) 25%,var(--gray-200) 50%,var(--gray-100) 75%);
+  background-size:200% 100%;
+  animation:skel-anim 1.4s infinite;
+  height:14px;margin-bottom:10px;
+}
+.skel:last-child{width:55%}
+@keyframes skel-anim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.cursor-blink{
+  display:inline-block;width:2px;height:0.9em;
+  background:var(--brown);vertical-align:text-bottom;
+  margin-left:1px;animation:blink 0.8s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ─── Country Cards Row ───────────────────────────────── */
+.country-row{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:12px;
+}
+@media(max-width:1200px){.country-row{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.country-row{grid-template-columns:repeat(2,1fr)}}
+
+.country-card{
+  padding:16px;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:10px;
+}
+.country-card.critical{border-top:3px solid var(--red)}
+.country-card.watch{border-top:3px solid var(--amber)}
+.country-card.favorable{border-top:3px solid var(--lime)}
+.country-card.exceptional{border-top:3px solid var(--green)}
+
+.country-card-top{
+  display:flex;align-items:flex-start;justify-content:space-between;
+}
+.country-name-label{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.72rem;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--brown);
+}
+/* circular score */
+.score-ring{position:relative;width:44px;height:44px;flex-shrink:0}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring-track{fill:none;stroke:var(--gray-200);stroke-width:3.5}
+.score-ring-fill{fill:none;stroke-width:3.5;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(0.33,1,0.68,1)}
+.score-ring-text{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:0.68rem;font-weight:600;color:var(--brown);
+}
+.country-yield{
+  font-family:'JetBrains Mono',monospace;
+  font-size:1.4rem;font-weight:600;color:var(--brown);line-height:1;
+}
+.country-yield-unit{font-size:0.68rem;font-weight:400;color:var(--gray-600);margin-left:2px}
+.country-status{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.6rem;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;
+  margin-top:2px;
+}
+.status-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0}
+.status-good .status-dot{background:var(--green)}
+.status-good{color:var(--green)}
+.status-critical .status-dot{background:var(--red)}
+.status-critical{color:var(--red)}
+.status-watch .status-dot{background:var(--amber)}
+.status-watch{color:var(--amber)}
+.status-optimal .status-dot{background:var(--green)}
+.status-optimal{color:var(--green)}
+
+/* ─── Charts Row ──────────────────────────────────────── */
+.charts-row{display:grid;grid-template-columns:3fr 2fr;gap:14px}
+@media(max-width:900px){.charts-row{grid-template-columns:1fr}}
+.chart-card{padding:18px 20px}
+.chart-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:4px;flex-wrap:wrap;gap:8px;
+}
+.chart-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.88rem;font-weight:700;color:var(--brown);
+}
+.chart-subtitle{
+  font-size:0.72rem;color:var(--gray-600);margin-top:2px;
+  font-family:'JetBrains Mono',monospace;
+}
+.chart-pills{display:flex;gap:6px}
+.chart-pill{
+  padding:3px 10px;border-radius:100px;
+  border:1px solid var(--border);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.62rem;font-weight:600;letter-spacing:0.06em;
+  color:var(--gray-600);cursor:pointer;
+  transition:all 0.15s;background:var(--white);
+}
+.chart-pill.active{background:var(--brown);color:var(--white);border-color:var(--brown)}
+.chart-wrap{height:220px;margin-top:12px;position:relative}
+
+/* Production bars */
+.prod-row{display:flex;flex-direction:column;gap:14px;margin-top:14px}
+.prod-item{}
+.prod-item-header{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:5px;
+}
+.prod-item-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.78rem;font-weight:600;color:var(--brown);
+}
+.prod-item-total{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.72rem;color:var(--gray-600);
+}
+.prod-bar-track{height:7px;background:var(--gray-200);border-radius:100px;overflow:hidden;display:flex;gap:2px}
+.prod-bar-seg{height:100%;border-radius:100px;transition:width 1.2s cubic-bezier(0.33,1,0.68,1)}
+.prod-legend{display:flex;gap:14px;margin-top:10px}
+.prod-legend-item{display:flex;align-items:center;gap:5px;font-size:0.7rem;color:var(--gray-600)}
+.prod-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ─── Bottom Row ──────────────────────────────────────── */
+.bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:900px){.bottom-row{grid-template-columns:1fr}}
+
+/* Alerts card */
+.alerts-card{padding:18px 20px;border:1px solid var(--red);border-radius:var(--radius)}
+.alerts-header{
+  display:flex;align-items:center;gap:7px;margin-bottom:14px;
+}
+.alerts-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--red);
+  box-shadow:0 0 0 3px rgba(237,58,76,0.2);
+  animation:pulse-red 2s ease-in-out infinite;
+}
+@keyframes pulse-red{
+  0%,100%{box-shadow:0 0 0 3px rgba(237,58,76,0.2)}
+  50%{box-shadow:0 0 0 6px rgba(237,58,76,0.1)}
+}
+.alerts-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.82rem;font-weight:700;color:var(--brown);
+}
+.alert-item{
+  padding:12px 14px;margin-bottom:10px;
+  border-radius:var(--radius-sm);
+  border-left:3px solid var(--red);
+  background:var(--red-bg);
+  last-child:{margin-bottom:0}
+}
+.alert-item.watch{border-left-color:var(--amber);background:var(--amber-bg)}
+.alert-tag{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.6rem;font-weight:700;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--red);margin-bottom:4px;
+}
+.alert-tag.watch{color:var(--amber)}
+.alert-time{color:var(--gray-400);font-weight:400;margin-left:6px;font-size:0.58rem}
+.alert-item-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.82rem;font-weight:700;color:var(--brown);margin-bottom:3px;
+}
+.alert-item-detail{font-size:0.75rem;color:var(--gray-600);line-height:1.5}
+
+/* Ask the Bulletin */
+.ask-card{padding:18px 20px}
+.ask-header{
+  display:flex;align-items:center;gap:7px;margin-bottom:6px;
+}
+.ask-star{color:var(--lime-dark);font-size:1rem}
+.ask-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.82rem;font-weight:700;color:var(--brown);
+}
+.ask-chips{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.ask-chip{
+  padding:8px 12px;border-radius:var(--radius-sm);
+  background:var(--gray-100);border:1px solid var(--border);
+  font-size:0.78rem;color:var(--gray-800);
+  cursor:pointer;transition:all 0.15s;text-align:left;
+  font-family:'Source Sans 3',sans-serif;
+}
+.ask-chip:hover{background:var(--lime-bg);border-color:var(--lime);color:var(--brown)}
+.ask-input-row{display:flex;gap:8px}
+.ask-input{
+  flex:1;padding:9px 13px;
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  font-family:'Source Sans 3',sans-serif;font-size:0.85rem;
+  color:var(--brown);background:var(--white);outline:none;
+  transition:border-color 0.15s;
+}
+.ask-input:focus{border-color:var(--lime-dark)}
+.ask-input::placeholder{color:var(--gray-400)}
+.ask-send{
+  width:36px;height:36px;border-radius:var(--radius-sm);
+  background:var(--lime);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.9rem;transition:background 0.15s;flex-shrink:0;
+}
+.ask-send:hover{background:var(--lime-dark)}
+.ask-answer{
+  display:none;margin-top:10px;
+  padding:10px 13px;
+  background:var(--gray-50);border:1px solid var(--border);
+  border-left:3px solid var(--lime-dark);border-radius:var(--radius-sm);
+  font-size:0.82rem;line-height:1.7;color:var(--brown);
+}
+.ask-answer.visible{display:block;animation:fadeUp 0.3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.ask-answer-thinking{
+  display:flex;align-items:center;gap:6px;
+  font-size:0.75rem;color:var(--gray-400);
+  font-family:'Space Grotesk',sans-serif;
+}
+.thinking-dots{display:flex;gap:3px}
+.thinking-dots span{
+  width:4px;height:4px;border-radius:50%;
+  background:var(--gray-400);
+  animation:dot-bounce 1.2s ease-in-out infinite;
+}
+.thinking-dots span:nth-child(2){animation-delay:0.2s}
+.thinking-dots span:nth-child(3){animation-delay:0.4s}
+@keyframes dot-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+
+/* ─── Utility ─────────────────────────────────────────── */
+.no-data{font-size:0.78rem;color:var(--gray-400);padding:16px 0;text-align:center}
+
+/* ─── API Key Modal ───────────────────────────────────── */
+.key-overlay{
+  position:fixed;inset:0;background:rgba(46,23,14,0.55);
+  backdrop-filter:blur(4px);z-index:1000;
+  display:flex;align-items:center;justify-content:center;
+}
+.key-modal{
+  background:var(--white);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);padding:32px 28px;
+  width:min(440px,92vw);border-top:4px solid var(--lime);
+}
+.key-modal-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1rem;font-weight:700;color:var(--brown);margin-bottom:6px;
+}
+.key-modal-sub{font-size:0.82rem;color:var(--gray-600);margin-bottom:20px;line-height:1.6}
+.key-modal-input{
+  width:100%;padding:10px 14px;
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  font-family:'JetBrains Mono',monospace;font-size:0.78rem;
+  color:var(--brown);outline:none;margin-bottom:12px;
+  transition:border-color 0.15s;
+}
+.key-modal-input:focus{border-color:var(--lime-dark)}
+.key-modal-row{display:flex;gap:10px;align-items:center}
+.key-modal-save{
+  flex:1;padding:10px;background:var(--lime);color:var(--brown);
+  border:none;border-radius:var(--radius-sm);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.82rem;font-weight:700;cursor:pointer;
+  transition:background 0.15s;
+}
+.key-modal-save:hover{background:var(--lime-dark)}
+.key-modal-note{font-size:0.72rem;color:var(--gray-400);margin-top:12px;line-height:1.5}
+.key-modal-manage{
+  font-size:0.72rem;color:var(--gray-400);text-align:right;
+  cursor:pointer;text-decoration:underline;margin-top:8px;display:inline-block;
+}
+</style>
+</head>
+<body>
+
+<!-- ── Sidebar ── -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <img class="sidebar-logo" src="Bulletins/2026/02_February_2026/data/static/XylemLab%20logo.png" alt="XylemLab">
+    <div class="sidebar-label">Xylem Intelligence</div>
+    <div class="sidebar-sub" id="terminalVersion">Terminal v4.0.2</div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="nav-item active" href="dashboard.html">
+      <span class="nav-icon">⊞</span> Mission Control
+    </a>
+    <a class="nav-item" href="#" onclick="return false" style="opacity:0.5;cursor:not-allowed">
+      <span class="nav-icon">🌍</span> Regional Trends
+    </a>
+    <a class="nav-item" href="#" onclick="return false" style="opacity:0.5;cursor:not-allowed">
+      <span class="nav-icon">📊</span> Supply Analysis
+    </a>
+    <a class="nav-item" href="archive.html">
+      <span class="nav-icon">⚠</span> Bulletin Archive
+    </a>
+    <a class="nav-item" href="index.html">
+      <span class="nav-icon">←</span> Main Website
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="export-btn" id="exportBtn">
+      ↓ Export Intelligence
+    </button>
+    <div class="sidebar-util">
+      <a href="https://www.xylemlab.org/" target="_blank">Documentation</a>
+      <a href="mailto:contact@xylemlab.org">Support</a>
+    </div>
+  </div>
+</aside>
+
+<!-- ── Main ── -->
+<div class="main">
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="topbar-title">AGRA Regional Food Balance Sheet</div>
+    <div class="topbar-actions">
+      <div class="topbar-icon" title="Bulletin history">🕐</div>
+      <div class="topbar-icon" id="alertBell" title="Alerts">🔔</div>
+      <div class="topbar-avatar" title="XylemLab">XL</div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="content">
+
+    <!-- Intelligence Briefing -->
+    <div class="card briefing-card" id="briefingCard">
+      <div class="briefing-header">
+        <div class="briefing-label">
+          <div class="briefing-label-dot"></div>
+          Intelligence Briefing: Maize Portfolio
+        </div>
+        <div class="briefing-actions">
+          <button class="btn-ask" onclick="document.getElementById('askInput').focus();document.getElementById('askCard').scrollIntoView({behavior:'smooth'})">
+            💬 Ask a question
+          </button>
+          <a class="btn-pdf" id="pdfLink" href="#" target="_blank">
+            📄 Download PDF
+          </a>
+        </div>
+      </div>
+      <div class="briefing-body" id="briefingBody">
+        <div class="skel" style="width:94%"></div>
+        <div class="skel" style="width:80%"></div>
+        <div class="skel" style="width:87%"></div>
+        <div class="skel"></div>
+      </div>
+      <div class="briefing-ticker" id="briefingTicker">
+        🔄 &nbsp;Loading bulletin data…
+      </div>
+    </div>
+
+    <!-- Country Cards -->
+    <div class="country-row" id="countryRow">
+      <!-- injected -->
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-row">
+      <div class="card chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Yield Trends: Maize</div>
+            <div class="chart-subtitle" id="chartSubtitle">Loading…</div>
+          </div>
+          <div class="chart-pills" id="chartPills"></div>
+        </div>
+        <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Production by Country</div>
+            <div class="chart-subtitle">Aggregated Volume (Metric Tons)</div>
+          </div>
+        </div>
+        <div class="prod-row" id="prodRow"></div>
+        <div class="prod-legend">
+          <div class="prod-legend-item"><div class="prod-legend-dot" style="background:#6A9B35"></div>Maize</div>
+          <div class="prod-legend-item"><div class="prod-legend-dot" style="background:#D5DA3C"></div>Rice</div>
+          <div class="prod-legend-item"><div class="prod-legend-dot" style="background:#ED3A4C"></div>Beans</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Row: Alerts + Ask -->
+    <div class="bottom-row">
+
+      <!-- Active Alerts -->
+      <div class="alerts-card" id="alertsCard">
+        <div class="alerts-header">
+          <div class="alerts-dot"></div>
+          <div class="alerts-title">Active Alerts</div>
+        </div>
+        <div id="alertsList">
+          <div class="skel" style="height:80px;margin-bottom:10px"></div>
+          <div class="skel" style="height:80px"></div>
+        </div>
+      </div>
+
+      <!-- Ask the Bulletin -->
+      <div class="card ask-card" id="askCard">
+        <div class="ask-header">
+          <span class="ask-star">✦</span>
+          <div class="ask-title">Ask the Bulletin</div>
+        </div>
+        <div class="ask-chips" id="askChips">
+          <div class="skel" style="height:34px"></div>
+          <div class="skel" style="height:34px"></div>
+          <div class="skel" style="height:34px"></div>
+        </div>
+        <div class="ask-input-row">
+          <input class="ask-input" id="askInput" type="text" placeholder="Type your query…"/>
+          <button class="ask-send" id="askSend">➤</button>
+        </div>
+        <div class="ask-answer" id="askAnswer"></div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   AGRA RFBS · Mission Control Dashboard
+   Data: manifest.json  ·  AI: GPT-4o-mini (streaming)
+════════════════════════════════════════════════════════ */
+
+const OPENAI_URL = 'https://api.openai.com/v1/chat/completions';
+const MODEL      = 'gpt-4o-mini';
+const LS_KEY     = 'agra_rfbs_oai_key';
+
+function getOpenAIKey() { return localStorage.getItem(LS_KEY) || ''; }
+function saveOpenAIKey(k) { localStorage.setItem(LS_KEY, k.trim()); }
+
+const FLAGS = { Kenya:'🇰🇪', Tanzania:'🇹🇿', 'United Republic Of Tanzania':'🇹🇿',
+  Malawi:'🇲🇼', Zambia:'🇿🇲', Rwanda:'🇷🇼', Uganda:'🇺🇬' };
+
+let allBulletins = [];
+let latestBulletin = null;
+let manifestData = null;
+
+/* ── Boot ── */
+document.addEventListener('DOMContentLoaded', initKeyAndBoot);
+
+/* ── Manifest ── */
+async function fetchManifest() {
+  try {
+    const r = await fetch('manifest.json?_=' + Date.now());
+    return r.ok ? r.json() : null;
+  } catch { return null; }
+}
+
+function buildBulletins(entries) {
+  return entries.map(e => ({
+    month: e.month, year: e.year, folder: e.folder,
+    countries: e.countries,
+    countriesList: e.countriesList || [],
+    description: e.description || '',
+    highlights: e.highlights || [],
+    chartData: e.chartData || null,
+    url: `Bulletins/${e.year}/${e.folder}/output/bulletin.html`,
+    pdfUrl: `Bulletins/${e.year}/${e.folder}/output/RFBS_Report_${e.month}_${e.year}.pdf`,
+    ts: parseDate(e.folder),
+  })).sort((a,b) => b.ts - a.ts);
+}
+function parseDate(f){ const p=f.split('_'); return new Date(`${p[2]}-${p[0].padStart(2,'0')}-01`).getTime(); }
+function short(n){ return n==='United Republic Of Tanzania'?'Tanzania':n; }
+
+/* ── PDF Link ── */
+function updatePDFLink() {
+  const link = document.getElementById('pdfLink');
+  if (link && latestBulletin) link.href = latestBulletin.pdfUrl;
+}
+
+/* ── Ticker ── */
+function updateTicker() {
+  const el = document.getElementById('briefingTicker');
+  if (!el || !latestBulletin) return;
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  el.innerHTML = `🔄 &nbsp;Bulletin data: <strong>${latestBulletin.month} ${latestBulletin.year}</strong> · Last sync ${h}:${m} local`;
+}
+
+/* ── Country Cards ── */
+function buildCountryCards() {
+  const row = document.getElementById('countryRow');
+  if (!row) return;
+  row.innerHTML = '';
+
+  const rows = latestBulletin.highlights.filter(h => h.country !== 'Note');
+  const byCountry = {};
+  rows.forEach(h => {
+    const n = short(h.country);
+    if (!byCountry[n]) byCountry[n] = [];
+    byCountry[n].push(h);
+  });
+
+  const allMaize = rows.filter(r=>r.crop==='Maize').map(r=>parseFloat(r.yield));
+  const maxY = Math.max(...allMaize, 3.5);
+  const minY = Math.min(...allMaize, 0.5);
+
+  Object.entries(byCountry).forEach(([country, crops]) => {
+    const maize = crops.find(c=>c.crop==='Maize');
+    const condPri = {poor:0,watch:1,favorable:2,exceptional:3};
+    const worstCond = crops.reduce((w,c)=>condPri[c.condition]<condPri[w]?c.condition:w, crops[0].condition);
+
+    const yieldNum = maize ? parseFloat(maize.yield) : 0;
+    const score = computeScore(yieldNum, minY, maxY, worstCond);
+    const {cardClass, statusClass, statusLabel} = conditionMeta(worstCond, yieldNum, maxY);
+    const ringColor = {favorable:'#6A9B35',exceptional:'#6A9B35',watch:'#E59B0F',poor:'#ED3A4C'}[worstCond]||'#6A9B35';
+
+    const card = document.createElement('div');
+    card.className = `card country-card ${cardClass}`;
+
+    const r = 18, circ = 2*Math.PI*r;
+    const offset = circ - (score/100)*circ;
+
+    card.innerHTML = `
+      <div class="country-card-top">
+        <div>
+          <div class="country-name-label">${FLAGS[country]||'🌍'} ${country}</div>
+        </div>
+        <div class="score-ring">
+          <svg width="44" height="44" viewBox="0 0 44 44">
+            <circle class="score-ring-track" cx="22" cy="22" r="${r}"/>
+            <circle class="score-ring-fill" cx="22" cy="22" r="${r}"
+              stroke="${ringColor}"
+              stroke-dasharray="${circ}"
+              stroke-dashoffset="${circ}"
+              data-offset="${offset}"/>
+          </svg>
+          <div class="score-ring-text">${score}%</div>
+        </div>
+      </div>
+      <div>
+        <div class="country-yield">
+          ${maize ? maize.yield.replace(' MT/ha','') : '—'}
+          <span class="country-yield-unit">MT/ha</span>
+        </div>
+        <div class="country-status ${statusClass}">
+          <span class="status-dot"></span>${statusLabel}
+        </div>
+      </div>`;
+
+    row.appendChild(card);
+
+    // animate ring
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      const fill = card.querySelector('.score-ring-fill');
+      if (fill) fill.style.strokeDashoffset = fill.dataset.offset;
+    }));
+  });
+}
+
+function computeScore(yieldNum, minY, maxY, cond) {
+  const condBase = {exceptional:92,favorable:75,watch:44,poor:18};
+  const base = condBase[cond] || 60;
+  const range = maxY - minY || 1;
+  const bonus = Math.round(((yieldNum - minY) / range) * 18 - 9);
+  return Math.min(99, Math.max(10, base + bonus));
+}
+
+function conditionMeta(cond, yieldNum, maxY) {
+  const ratio = maxY > 0 ? yieldNum/maxY : 0;
+  if (cond==='exceptional') return {cardClass:'exceptional',statusClass:'status-optimal',statusLabel:'OPTIMAL'};
+  if (cond==='poor')        return {cardClass:'critical',statusClass:'status-critical',statusLabel:'CRITICAL'};
+  if (cond==='watch')       return {cardClass:'watch',statusClass:'status-watch',statusLabel:'WATCH'};
+  // favorable — differentiate by relative yield
+  if (ratio > 0.75) return {cardClass:'favorable',statusClass:'status-optimal',statusLabel:'EXCELLENT'};
+  if (ratio > 0.55) return {cardClass:'favorable',statusClass:'status-good',statusLabel:'GOOD'};
+  if (ratio > 0.35) return {cardClass:'favorable',statusClass:'status-good',statusLabel:'STABLE'};
+  return {cardClass:'favorable',statusClass:'status-good',statusLabel:'FAIR'};
+}
+
+/* ── Trend Chart ── */
+function buildTrendChart() {
+  const ctx = document.getElementById('trendChart');
+  if (!ctx) return;
+
+  const withData = allBulletins.filter(b=>b.chartData).slice(0,8).reverse();
+  const labels   = withData.map(b=>`${b.month.slice(0,3)} '${b.year.slice(2)}`);
+  const allC     = [...new Set(withData.flatMap(b=>b.chartData.countries.map(short)))];
+  const palette  = ['#2E170E','#6A9B35','#D5DA3C','#ED3A4C','#E59B0F','#5C3D27'];
+
+  // subtitle
+  if (withData.length>=2) {
+    const oldest = withData[0]; const newest = withData[withData.length-1];
+    document.getElementById('chartSubtitle').textContent =
+      `${oldest.month.slice(0,3).toUpperCase()} '${oldest.year.slice(2)} – ${newest.month.slice(0,3).toUpperCase()} '${newest.year.slice(2)} Forecast (MT/ha)`;
+  }
+
+  // country filter pills
+  const pillsEl = document.getElementById('chartPills');
+  const TOP3 = allC.slice(0,3);
+  let activePills = new Set(TOP3);
+  let chartRef = null;
+
+  function renderChart() {
+    if (chartRef) chartRef.destroy();
+    chartRef = new Chart(ctx, {
+      type:'line',
+      data:{
+        labels,
+        datasets: allC.filter(c=>activePills.has(c)).map((c,i)=>({
+          label:c,
+          data: withData.map(b=>{
+            const idx = b.chartData.countries.map(short).indexOf(c);
+            return idx>=0 ? b.chartData.maizeYields[idx] : null;
+          }),
+          borderColor:palette[allC.indexOf(c)%palette.length],
+          backgroundColor:palette[allC.indexOf(c)%palette.length]+'18',
+          borderWidth:2.5, pointRadius:4, pointHoverRadius:6,
+          tension:0.4, spanGaps:true,
+          pointBackgroundColor:palette[allC.indexOf(c)%palette.length],
+          pointBorderColor:'#fff', pointBorderWidth:1.5,
+        }))
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{position:'bottom',labels:{color:'#5C3D27',padding:14,font:{size:11,family:'Space Grotesk',weight:'600'}}},
+          tooltip:{backgroundColor:'#2E170E',titleColor:'#F2EDE6',bodyColor:'rgba(242,237,230,0.8)',padding:10,borderWidth:0},
+        },
+        scales:{
+          x:{grid:{color:'rgba(46,23,14,0.06)'},ticks:{color:'#7A6E65',font:{size:10}}},
+          y:{
+            grid:{color:'rgba(46,23,14,0.06)'},
+            ticks:{color:'#7A6E65',font:{size:10},callback:v=>v+' MT/ha'},
+            title:{display:true,text:'Yield (MT/ha)',color:'#ADA398',font:{size:10}},
+          }
+        }
+      }
+    });
+  }
+
+  allC.slice(0,3).forEach((c,i) => {
+    const pill = document.createElement('button');
+    pill.className = 'chart-pill' + (activePills.has(c)?' active':'');
+    pill.textContent = c.split(' ').pop();
+    pill.addEventListener('click',()=>{
+      if(activePills.has(c)) { if(activePills.size>1) activePills.delete(c); }
+      else activePills.add(c);
+      pillsEl.querySelectorAll('.chart-pill').forEach((p,j)=>{
+        p.className='chart-pill'+(activePills.has(allC[j])?' active':'');
+      });
+      renderChart();
+    });
+    pillsEl.appendChild(pill);
+  });
+
+  renderChart();
+}
+
+/* ── Production Bars ── */
+function buildProductionBars() {
+  const container = document.getElementById('prodRow');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const rows = latestBulletin.highlights.filter(h=>h.country!=='Note');
+  const byCountry = {};
+  rows.forEach(h=>{
+    const n=short(h.country);
+    if(!byCountry[n]) byCountry[n]={Maize:0,Rice:0,Beans:0};
+    byCountry[n][h.crop] = parseMid(h.production);
+  });
+
+  const entries = Object.entries(byCountry)
+    .map(([c,d])=>({country:c,total:d.Maize+d.Rice+d.Beans,maize:d.Maize,rice:d.Rice,beans:d.Beans}))
+    .sort((a,b)=>b.total-a.total)
+    .slice(0,4);
+
+  const globalMax = Math.max(...entries.map(e=>e.total), 0.1);
+
+  entries.forEach(({country,total,maize,rice,beans}) => {
+    const totalW = total/globalMax*100;
+    const mw = total>0?(maize/total*totalW).toFixed(1):0;
+    const rw = total>0?(rice/total*totalW).toFixed(1):0;
+    const bw = total>0?(beans/total*totalW).toFixed(1):0;
+
+    const div = document.createElement('div');
+    div.className = 'prod-item';
+    div.innerHTML = `
+      <div class="prod-item-header">
+        <span class="prod-item-name">${FLAGS[country]||'🌍'} ${country}</span>
+        <span class="prod-item-total">${total.toFixed(1)}M Total</span>
+      </div>
+      <div class="prod-bar-track">
+        <div class="prod-bar-seg" style="background:#6A9B35;width:0" data-w="${mw}"></div>
+        <div class="prod-bar-seg" style="background:#D5DA3C;width:0" data-w="${rw}"></div>
+        <div class="prod-bar-seg" style="background:#ED3A4C;width:0" data-w="${bw}"></div>
+      </div>`;
+    container.appendChild(div);
+
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      div.querySelectorAll('.prod-bar-seg').forEach(seg=>{
+        seg.style.width = seg.dataset.w + '%';
+      });
+    }));
+  });
+}
+
+function parseMid(str) {
+  const nums = (str||'').match(/[\d.]+/g);
+  if (!nums || nums.length<2) return 0;
+  return +((parseFloat(nums[0])+parseFloat(nums[1]))/2).toFixed(2);
+}
+
+/* ── Alerts ── */
+function buildAlerts() {
+  const list = document.getElementById('alertsList');
+  if (!list) return;
+  list.innerHTML = '';
+
+  const rows = latestBulletin.highlights.filter(h=>h.country!=='Note');
+  const alerts = rows.filter(h=>h.condition==='watch'||h.condition==='poor');
+
+  if (alerts.length===0) {
+    list.innerHTML = `<div class="no-data">✅ No active alerts — all conditions favorable in ${latestBulletin.month} ${latestBulletin.year}</div>`;
+    document.querySelector('.alerts-card').style.borderColor = '#6A9B35';
+    document.querySelector('.alerts-dot').style.background = '#6A9B35';
+    return;
+  }
+
+  // update bell badge
+  const bell = document.getElementById('alertBell');
+  if (bell) bell.textContent = `🔔 ${alerts.length}`;
+
+  alerts.slice(0,3).forEach(h => {
+    const isPoor = h.condition==='poor';
+    const div = document.createElement('div');
+    div.className = `alert-item ${isPoor?'':'watch'}`;
+    div.innerHTML = `
+      <div class="alert-tag ${isPoor?'':'watch'}">
+        ${isPoor?'High Risk':'Watch'} <span class="alert-time">${latestBulletin.month} ${latestBulletin.year}</span>
+      </div>
+      <div class="alert-item-title">${short(h.country)}: ${h.crop} Yield Signal</div>
+      <div class="alert-item-detail">
+        Predicted yield ${h.yield} — production range ${h.production}. Negative anomaly detected. Monitoring recommended.
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+/* ── OpenAI Streaming Briefing ── */
+async function startBriefingStream() {
+  const body = document.getElementById('briefingBody');
+  if (!body) return;
+
+  const context = buildBulletinContext(latestBulletin, allBulletins);
+  const systemPrompt = `You are an agricultural intelligence analyst for the AGRA Regional Food Balance Sheet program. Generate a 2-3 sentence intelligence briefing for a food security analyst. Be precise, data-driven, and concise. Highlight top performing country, any watch conditions, and overall regional outlook. Reference specific yield numbers. Use plain text only — no markdown, no bullet points.`;
+  const userMsg = `Latest bulletin data:\n${context}`;
+
+  body.innerHTML = '';
+  let fullText = '';
+  let cursorEl = document.createElement('span');
+  cursorEl.className = 'cursor-blink';
+
+  try {
+    const response = await fetch(OPENAI_URL, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Authorization':`Bearer ${getOpenAIKey()}`},
+      body: JSON.stringify({
+        model: MODEL,
+        messages: [{role:'system',content:systemPrompt},{role:'user',content:userMsg}],
+        max_tokens: 200,
+        temperature: 0.6,
+        stream: true
+      })
+    });
+
+    body.appendChild(cursorEl);
+    const reader = response.body.getReader();
+    const dec = new TextDecoder();
+
+    while (true) {
+      const {done, value} = await reader.read();
+      if (done) break;
+      const chunk = dec.decode(value);
+      for (const line of chunk.split('\n')) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6).trim();
+        if (data==='[DONE]') break;
+        try {
+          const parsed = JSON.parse(data);
+          const token = parsed.choices?.[0]?.delta?.content||'';
+          if (token) {
+            fullText += token;
+            body.textContent = fullText;
+            body.appendChild(cursorEl);
+          }
+        } catch{}
+      }
+    }
+    // Done — remove cursor
+    setTimeout(()=>cursorEl.remove(), 1500);
+  } catch (err) {
+    // Fallback to description
+    body.textContent = latestBulletin.description || 'Intelligence briefing unavailable.';
+  }
+}
+
+/* ── Suggested Questions (GPT-generated) ── */
+async function buildSuggestedQuestions() {
+  const chips = document.getElementById('askChips');
+  if (!chips) return;
+
+  const context = buildBulletinContext(latestBulletin, allBulletins);
+  const sysPrompt = `You are a food security analyst. Given this bulletin data, suggest 3 short, specific questions a user might ask about it. Each question must be directly answerable from the data. Output only the 3 questions, one per line, no numbers, no formatting.`;
+
+  try {
+    const r = await fetch(OPENAI_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${getOpenAIKey()}`},
+      body:JSON.stringify({
+        model:MODEL,
+        messages:[{role:'system',content:sysPrompt},{role:'user',content:context}],
+        max_tokens:120, temperature:0.7
+      })
+    });
+    const d = await r.json();
+    const questions = (d.choices?.[0]?.message?.content||'').split('\n').filter(q=>q.trim()).slice(0,3);
+
+    chips.innerHTML = '';
+    questions.forEach(q => {
+      const btn = document.createElement('button');
+      btn.className = 'ask-chip';
+      btn.textContent = q.trim();
+      btn.addEventListener('click',()=>{
+        document.getElementById('askInput').value = q.trim();
+        handleAsk();
+      });
+      chips.appendChild(btn);
+    });
+  } catch {
+    // Fallback chips
+    chips.innerHTML = `
+      <button class="ask-chip">Which countries have watch conditions this bulletin?</button>
+      <button class="ask-chip">How does Zambia's maize compare to the regional average?</button>
+      <button class="ask-chip">What is the overall regional food security outlook?</button>`;
+    chips.querySelectorAll('.ask-chip').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.getElementById('askInput').value=btn.textContent;
+        handleAsk();
+      });
+    });
+  }
+}
+
+/* ── Ask the Bulletin ── */
+function setupAsk() {
+  document.getElementById('askSend').addEventListener('click', handleAsk);
+  document.getElementById('askInput').addEventListener('keydown', e=>{
+    if(e.key==='Enter') handleAsk();
+  });
+}
+
+async function handleAsk() {
+  const input = document.getElementById('askInput');
+  const answerEl = document.getElementById('askAnswer');
+  const q = input.value.trim();
+  if (!q) return;
+
+  answerEl.className = 'ask-answer visible';
+  answerEl.innerHTML = `<div class="ask-answer-thinking">
+    <span>AutoPilot is thinking</span>
+    <div class="thinking-dots"><span></span><span></span><span></span></div>
+  </div>`;
+
+  const context = buildBulletinContext(latestBulletin, allBulletins);
+  const sysPrompt = `You are an agricultural intelligence analyst for the AGRA Regional Food Balance Sheet. Answer questions about the bulletin data concisely (2-3 sentences max). Use only the provided data — never invent numbers. If data is unavailable, say so.`;
+  const userMsg = `Bulletin data:\n${context}\n\nQuestion: ${q}`;
+
+  try {
+    const response = await fetch(OPENAI_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${getOpenAIKey()}`},
+      body:JSON.stringify({
+        model:MODEL,
+        messages:[{role:'system',content:sysPrompt},{role:'user',content:userMsg}],
+        max_tokens:200, temperature:0.5, stream:true
+      })
+    });
+
+    let answerText = '';
+    answerEl.innerHTML = '';
+    let cursor = document.createElement('span');
+    cursor.className = 'cursor-blink';
+    answerEl.appendChild(cursor);
+
+    const reader = response.body.getReader();
+    const dec = new TextDecoder();
+    while (true) {
+      const {done,value} = await reader.read();
+      if (done) break;
+      const chunk = dec.decode(value);
+      for (const line of chunk.split('\n')) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6).trim();
+        if (data==='[DONE]') break;
+        try {
+          const parsed = JSON.parse(data);
+          const token = parsed.choices?.[0]?.delta?.content||'';
+          if (token) {
+            answerText += token;
+            answerEl.textContent = answerText;
+            answerEl.appendChild(cursor);
+          }
+        } catch{}
+      }
+    }
+    setTimeout(()=>cursor.remove(), 1500);
+  } catch {
+    answerEl.textContent = 'Unable to connect to AutoPilot AI. Please try again.';
+  }
+}
+
+/* ── Context Builder ── */
+function buildBulletinContext(bulletin, all) {
+  const rows = bulletin.highlights.filter(h=>h.country!=='Note');
+  const dataLines = rows.map(h=>`${short(h.country)} | ${h.crop} | Yield: ${h.yield} | Production: ${h.production} | Condition: ${h.condition}`).join('\n');
+
+  const trendLines = all.filter(b=>b.chartData).slice(0,6).reverse().map(b=>{
+    const avg = b.chartData.maizeYields.reduce((a,v)=>a+v,0)/b.chartData.maizeYields.length;
+    return `${b.month} ${b.year}: avg maize ${avg.toFixed(2)} MT/ha across ${b.chartData.countries.map(short).join(', ')}`;
+  }).join('\n');
+
+  return `BULLETIN: ${bulletin.month} ${bulletin.year}\nCOUNTRIES: ${bulletin.countriesList.map(short).join(', ')}\n\nCROP DATA:\n${dataLines}\n\nRECENT TREND:\n${trendLines}`;
+}
+
+/* ── Export ── */
+document.getElementById('exportBtn')?.addEventListener('click', () => {
+  window.open(latestBulletin?.pdfUrl || '#', '_blank');
+});
+
+/* ── Error ── */
+function showError() {
+  document.getElementById('briefingBody').textContent = '⚠ Unable to load bulletin data. Check manifest.json.';
+}
+
+/* ── API Key Modal ── */
+function showKeyModal(onSave) {
+  const overlay = document.createElement('div');
+  overlay.className = 'key-overlay';
+  overlay.innerHTML = `
+    <div class="key-modal">
+      <div class="key-modal-title">✦ AutoPilot API Access</div>
+      <div class="key-modal-sub">
+        Enter your OpenAI API key to enable the AI intelligence briefing and Ask the Bulletin feature.
+        The key is stored only in your browser — it never leaves your device.
+      </div>
+      <input class="key-modal-input" id="keyInput" type="password" placeholder="sk-proj-…" autocomplete="off"/>
+      <div class="key-modal-row">
+        <button class="key-modal-save" id="keySaveBtn">Save &amp; Activate AutoPilot</button>
+      </div>
+      <div class="key-modal-note">
+        🔒 Stored in localStorage only. Not sent to any server other than OpenAI.<br>
+        Needs <strong>Model capabilities → Chat Completions → Request</strong> permission.
+      </div>
+      <span class="key-modal-manage" id="keySkipBtn">Skip for now (no AI features)</span>
+    </div>`;
+  document.body.appendChild(overlay);
+
+  const input = overlay.querySelector('#keyInput');
+  input.focus();
+
+  overlay.querySelector('#keySaveBtn').addEventListener('click', () => {
+    const val = input.value.trim();
+    if (!val.startsWith('sk-')) {
+      input.style.borderColor = 'var(--red)';
+      input.placeholder = 'Key must start with sk-…';
+      return;
+    }
+    saveOpenAIKey(val);
+    overlay.remove();
+    if (onSave) onSave();
+  });
+
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') overlay.querySelector('#keySaveBtn').click();
+  });
+
+  overlay.querySelector('#keySkipBtn').addEventListener('click', () => {
+    overlay.remove();
+  });
+}
+
+function initKeyAndBoot() {
+  if (!getOpenAIKey()) {
+    showKeyModal(() => {
+      startBriefingStream();
+      buildSuggestedQuestions();
+    });
+    // Still load non-AI parts
+    (async () => {
+      manifestData = await fetchManifest();
+      if (!manifestData) { showError(); return; }
+      allBulletins = buildBulletins(manifestData.bulletins);
+      latestBulletin = allBulletins[0];
+      updatePDFLink();
+      buildCountryCards();
+      buildTrendChart();
+      buildProductionBars();
+      buildAlerts();
+      updateTicker();
+      setupAsk();
+      // Briefing & suggestions fire after key is saved (via modal callback)
+      document.getElementById('briefingBody').innerHTML =
+        '<span style="color:var(--gray-400);font-size:0.85rem">Enter your API key to generate the AI briefing.</span>';
+      document.getElementById('askChips').innerHTML = `
+        <button class="ask-chip">Which countries have watch conditions?</button>
+        <button class="ask-chip">How does Zambia maize compare to regional average?</button>
+        <button class="ask-chip">What is the overall regional outlook?</button>`;
+      document.querySelectorAll('.ask-chip').forEach(b => {
+        b.addEventListener('click', () => { document.getElementById('askInput').value = b.textContent; handleAsk(); });
+      });
+    })();
+  } else {
+    // Key exists — normal boot
+    (async () => {
+      manifestData = await fetchManifest();
+      if (!manifestData) { showError(); return; }
+      allBulletins = buildBulletins(manifestData.bulletins);
+      latestBulletin = allBulletins[0];
+      updatePDFLink();
+      buildCountryCards();
+      buildTrendChart();
+      buildProductionBars();
+      buildAlerts();
+      startBriefingStream();
+      buildSuggestedQuestions();
+      updateTicker();
+      setupAsk();
+    })();
+  }
+}
+
+// "Manage API key" link in sidebar footer
+document.querySelector('.sidebar-util')?.insertAdjacentHTML('beforeend',
+  `<a href="#" id="manageKey" style="color:var(--gray-400)">⚙ Manage API Key</a>`);
+document.addEventListener('click', e => {
+  if (e.target.id === 'manageKey') {
+    e.preventDefault();
+    localStorage.removeItem(LS_KEY);
+    location.reload();
+  }
+});
+</script>
+
+</body>
+</html>
