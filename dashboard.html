@@ -1129,9 +1129,10 @@ async function handleAsk() {
     <div class="thinking-dots"><span></span><span></span><span></span></div>
   </div>`;
 
-  const context = buildBulletinContext(latestBulletin, allBulletins);
-  const sysPrompt = `You are an agricultural intelligence analyst for the AGRA Regional Food Balance Sheet. Answer questions about the bulletin data concisely (2-3 sentences max). Use only the provided data — never invent numbers. If data is unavailable, say so.`;
-  const userMsg = `Bulletin data:\n${context}\n\nQuestion: ${q}`;
+  const latestContext = buildBulletinContext(latestBulletin, allBulletins);
+  const histContext   = buildHistoricalContext(allBulletins);
+  const sysPrompt = `You are an agricultural intelligence analyst for the AGRA Regional Food Balance Sheet. You have access to ALL available bulletins (May 2025 – February 2026). Answer questions using any bulletin in the data. Be concise (2-3 sentences). Use only exact numbers from the data — never invent figures. If a specific month or crop genuinely has no data, say exactly which months DO have that crop's data instead of guessing.`;
+  const userMsg = `${latestContext}\n\n${histContext}\n\nQuestion: ${q}`;
 
   try {
     const response = await fetch(OPENAI_URL, {
@@ -1207,6 +1208,25 @@ ${watchLines}
 
 MAIZE YIELD TRENDS (historical, maize only):
 ${trendLines}`;
+}
+
+/* ── Full Historical Context (for Ask handler) ── */
+function buildHistoricalContext(all) {
+  const lines = [];
+  lines.push('AVAILABLE BULLETINS AND THEIR DATA:');
+  all.forEach(b => {
+    const rows = b.highlights.filter(h=>h.country!=='Note' && h.crop!=='PDF');
+    const crops = [...new Set(rows.map(h=>h.crop))];
+    if (rows.length === 0) {
+      lines.push(`\n${b.month} ${b.year}: PDF format only — no structured crop data available`);
+      return;
+    }
+    lines.push(`\n${b.month} ${b.year} | Countries: ${b.countriesList.map(short).join(', ')} | Crops available: ${crops.join(', ')}`);
+    rows.forEach(h => {
+      lines.push(`  ${short(h.country)} | ${h.crop} | Yield: ${h.yield} | Production: ${h.production} | Condition: ${h.condition}`);
+    });
+  });
+  return lines.join('\n');
 }
 
 /* ── Export ── */
