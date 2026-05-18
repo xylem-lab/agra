@@ -586,7 +586,7 @@ body{
       <div class="briefing-header">
         <div class="briefing-label">
           <div class="briefing-label-dot"></div>
-          Intelligence Briefing: Maize Portfolio
+          Intelligence Briefing · All Crops
         </div>
         <div class="briefing-actions">
           <button class="btn-ask" onclick="document.getElementById('askInput').focus();document.getElementById('askCard').scrollIntoView({behavior:'smooth'})">
@@ -1010,7 +1010,7 @@ async function startBriefingStream() {
   if (!body) return;
 
   const context = buildBulletinContext(latestBulletin, allBulletins);
-  const systemPrompt = `You are an agricultural intelligence analyst for the AGRA Regional Food Balance Sheet program. Generate a 2-3 sentence intelligence briefing for a food security analyst. Be precise, data-driven, and concise. Highlight top performing country, any watch conditions, and overall regional outlook. Reference specific yield numbers. Use plain text only — no markdown, no bullet points.`;
+  const systemPrompt = `You are an agricultural intelligence analyst for the AGRA Regional Food Balance Sheet program. Generate a 2-3 sentence intelligence briefing covering ALL three crops: Maize, Rice, and Beans. Lead with the top-performing maize country and its yield, then specifically call out any rice or bean watch/poor conditions by country with exact yield numbers. End with an overall regional outlook sentence. Plain text only — no markdown, no bullets.`;
   const userMsg = `Latest bulletin data:\n${context}`;
 
   body.innerHTML = '';
@@ -1068,7 +1068,7 @@ async function buildSuggestedQuestions() {
   if (!chips) return;
 
   const context = buildBulletinContext(latestBulletin, allBulletins);
-  const sysPrompt = `You are a food security analyst. Given this bulletin data, suggest 3 short, specific questions a user might ask about it. Each question must be directly answerable from the data. Output only the 3 questions, one per line, no numbers, no formatting.`;
+  const sysPrompt = `You are a food security analyst. Given this bulletin data, suggest 3 short, specific questions a user might ask. Spread across different crops — do not ask 3 maize questions. Include at least one question about Rice and one about Beans. Each question must be directly answerable from the data. Output only the 3 questions, one per line, no numbers, no formatting.`;
 
   try {
     const r = await fetch(OPENAI_URL, {
@@ -1097,9 +1097,9 @@ async function buildSuggestedQuestions() {
   } catch {
     // Fallback chips
     chips.innerHTML = `
-      <button class="ask-chip">Which countries have watch conditions this bulletin?</button>
-      <button class="ask-chip">How does Zambia's maize compare to the regional average?</button>
-      <button class="ask-chip">What is the overall regional food security outlook?</button>`;
+      <button class="ask-chip">Which countries have rice on watch conditions and why?</button>
+      <button class="ask-chip">How does beans production compare across countries?</button>
+      <button class="ask-chip">Which country leads in maize yield this bulletin?</button>`;
     chips.querySelectorAll('.ask-chip').forEach(btn=>{
       btn.addEventListener('click',()=>{
         document.getElementById('askInput').value=btn.textContent;
@@ -1180,14 +1180,33 @@ async function handleAsk() {
 /* ── Context Builder ── */
 function buildBulletinContext(bulletin, all) {
   const rows = bulletin.highlights.filter(h=>h.country!=='Note');
+
+  // All crop data — Maize, Rice, Beans all included
   const dataLines = rows.map(h=>`${short(h.country)} | ${h.crop} | Yield: ${h.yield} | Production: ${h.production} | Condition: ${h.condition}`).join('\n');
 
+  // Explicit watch/poor alerts across ALL crops
+  const watchRows = rows.filter(h=>h.condition==='watch'||h.condition==='poor');
+  const watchLines = watchRows.length > 0
+    ? watchRows.map(h=>`${short(h.country)} ${h.crop}: yield ${h.yield}, production ${h.production}, condition=${h.condition}`).join('\n')
+    : 'None — all crops favorable';
+
+  // Maize-only historical trend (manifest only stores maize chartData)
   const trendLines = all.filter(b=>b.chartData).slice(0,6).reverse().map(b=>{
     const avg = b.chartData.maizeYields.reduce((a,v)=>a+v,0)/b.chartData.maizeYields.length;
     return `${b.month} ${b.year}: avg maize ${avg.toFixed(2)} MT/ha across ${b.chartData.countries.map(short).join(', ')}`;
   }).join('\n');
 
-  return `BULLETIN: ${bulletin.month} ${bulletin.year}\nCOUNTRIES: ${bulletin.countriesList.map(short).join(', ')}\n\nCROP DATA:\n${dataLines}\n\nRECENT TREND:\n${trendLines}`;
+  return `BULLETIN: ${bulletin.month} ${bulletin.year}
+COUNTRIES: ${bulletin.countriesList.map(short).join(', ')}
+
+FULL CROP DATA (Maize + Rice + Beans):
+${dataLines}
+
+WATCH / POOR CONDITIONS (${watchRows.length} alerts):
+${watchLines}
+
+MAIZE YIELD TRENDS (historical, maize only):
+${trendLines}`;
 }
 
 /* ── Export ── */
@@ -1270,9 +1289,9 @@ function initKeyAndBoot() {
       document.getElementById('briefingBody').innerHTML =
         '<span style="color:var(--gray-400);font-size:0.85rem">Enter your API key to generate the AI briefing.</span>';
       document.getElementById('askChips').innerHTML = `
-        <button class="ask-chip">Which countries have watch conditions?</button>
-        <button class="ask-chip">How does Zambia maize compare to regional average?</button>
-        <button class="ask-chip">What is the overall regional outlook?</button>`;
+        <button class="ask-chip">Which countries have rice on watch conditions?</button>
+        <button class="ask-chip">How does beans production compare across countries?</button>
+        <button class="ask-chip">Which country leads in maize yield this bulletin?</button>`;
       document.querySelectorAll('.ask-chip').forEach(b => {
         b.addEventListener('click', () => { document.getElementById('askInput').value = b.textContent; handleAsk(); });
       });
