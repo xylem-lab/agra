@@ -886,7 +886,7 @@ function buildTrendChart() {
           x:{grid:{color:'rgba(46,23,14,0.06)'},ticks:{color:'#7A6E65',font:{size:10}}},
           y:{
             grid:{color:'rgba(46,23,14,0.06)'},
-            ticks:{color:'#7A6E65',font:{size:10},callback:v=>v+' MT/ha'},
+            ticks:{color:'#7A6E65',font:{size:10},callback:v=>(+v).toFixed(2)+' MT/ha'},
             title:{display:true,text:'Yield (MT/ha)',color:'#ADA398',font:{size:10}},
           }
         }
