@@ -350,27 +350,22 @@ body{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-family:var(--font-mono);font-size:0.68rem;font-weight:600;color:var(--brown);
 }
-.country-yield{
-  font-family:var(--font-mono);
-  font-size:1.4rem;font-weight:600;color:var(--brown);line-height:1;
+.crop-rows{display:flex;flex-direction:column;gap:6px;margin-top:2px}
+.crop-row{display:flex;align-items:center;gap:6px}
+.crop-label{
+  font-family:var(--font-body);font-size:0.6rem;font-weight:700;
+  letter-spacing:0.07em;text-transform:uppercase;
+  color:var(--gray-400);flex-shrink:0;width:38px;
 }
-.country-yield-unit{font-size:0.68rem;font-weight:400;color:var(--gray-600);margin-left:2px}
-.country-status{
-  display:inline-flex;align-items:center;gap:4px;
-  font-family:var(--font-body);
-  font-size:0.6rem;font-weight:700;
-  letter-spacing:0.08em;text-transform:uppercase;
-  margin-top:2px;
+.crop-val{
+  font-family:var(--font-mono);font-size:0.88rem;font-weight:600;
+  color:var(--brown);flex:1;
 }
-.status-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0}
-.status-good .status-dot{background:var(--color-green)}
-.status-good{color:var(--color-green)}
-.status-critical .status-dot{background:var(--color-poor)}
-.status-critical{color:var(--color-poor)}
-.status-watch .status-dot{background:var(--color-watch)}
-.status-watch{color:var(--color-watch)}
-.status-optimal .status-dot{background:var(--color-exceptional)}
-.status-optimal{color:var(--color-green)}
+.crop-val-unit{font-size:0.58rem;font-weight:400;color:var(--gray-400);margin-left:2px}
+.crop-cond-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.crop-none{font-family:var(--font-mono);font-size:0.8rem;color:var(--gray-300);flex:1}
+/* keep for any legacy references */
+.country-status{display:none}
 
 /* ─── Charts Row ──────────────────────────────────────── */
 .charts-row{display:grid;grid-template-columns:3fr 2fr;gap:14px}
@@ -767,15 +762,29 @@ function buildCountryCards() {
   const maxY = Math.max(...allMaize, 3.5);
   const minY = Math.min(...allMaize, 0.5);
 
+  const COND_COLOR = {favorable:'#64A635',exceptional:'#2ECC71',watch:'#F39C12',poor:'#D13C3A'};
+  function cropRowHtml(cropData, label) {
+    if (!cropData) return `<div class="crop-row"><span class="crop-label">${label}</span><span class="crop-none">-</span></div>`;
+    const yv = cropData.yield.replace(' MT/ha','');
+    const dot = COND_COLOR[cropData.condition] || '#ADB5BD';
+    return `<div class="crop-row">
+      <span class="crop-label">${label}</span>
+      <span class="crop-val">${yv}<span class="crop-val-unit">MT/ha</span></span>
+      <span class="crop-cond-dot" style="background:${dot}"></span>
+    </div>`;
+  }
+
   Object.entries(byCountry).forEach(([country, crops]) => {
     const maize = crops.find(c=>c.crop==='Maize');
+    const rice  = crops.find(c=>c.crop==='Rice');
+    const beans = crops.find(c=>c.crop==='Beans');
     const condPri = {poor:0,watch:1,favorable:2,exceptional:3};
     const worstCond = crops.reduce((w,c)=>condPri[c.condition]<condPri[w]?c.condition:w, crops[0].condition);
 
     const yieldNum = maize ? parseFloat(maize.yield) : 0;
     const score = computeScore(yieldNum, minY, maxY, worstCond);
-    const {cardClass, statusClass, statusLabel} = conditionMeta(worstCond, yieldNum, maxY);
-    const ringColor = {favorable:'#64A635',exceptional:'#64A635',watch:'#F39C12',poor:'#D13C3A'}[worstCond]||'#64A635';
+    const {cardClass} = conditionMeta(worstCond, yieldNum, maxY);
+    const ringColor = COND_COLOR[worstCond] || '#64A635';
 
     const card = document.createElement('div');
     card.className = `card country-card ${cardClass}`;
@@ -800,14 +809,10 @@ function buildCountryCards() {
           <div class="score-ring-text">${score}%</div>
         </div>
       </div>
-      <div>
-        <div class="country-yield">
-          ${maize ? maize.yield.replace(' MT/ha','') : '-'}
-          <span class="country-yield-unit">MT/ha</span>
-        </div>
-        <div class="country-status ${statusClass}">
-          <span class="status-dot"></span>${statusLabel}
-        </div>
+      <div class="crop-rows">
+        ${cropRowHtml(maize,'Maize')}
+        ${cropRowHtml(rice,'Rice')}
+        ${cropRowHtml(beans,'Beans')}
       </div>`;
 
     row.appendChild(card);
