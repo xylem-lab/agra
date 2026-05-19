@@ -348,7 +348,7 @@ body{
 .score-ring-fill{fill:none;stroke-width:3.5;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(0.33,1,0.68,1)}
 .score-ring-text{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-mono);font-size:0.68rem;font-weight:600;color:var(--brown);
+  font-family:var(--font-mono);font-size:0.58rem;font-weight:700;
 }
 .crop-rows{display:flex;flex-direction:column;gap:6px;margin-top:2px}
 .crop-row{display:flex;align-items:center;gap:6px}
@@ -463,11 +463,11 @@ body{
 .alert-item{
   padding:12px 14px;margin-bottom:10px;
   border-radius:var(--radius-sm);
-  border-left:4px solid var(--color-poor);
-  background:var(--red-bg);
+  border:1px solid var(--gray-200);
+  background:var(--white);
 }
 .alert-item:last-child{margin-bottom:0}
-.alert-item.watch{border-left-color:var(--color-watch);background:var(--amber-bg)}
+.alert-item.watch{}
 .alert-tag{
   font-family:var(--font-body);
   font-size:0.62rem;font-weight:700;letter-spacing:0.1em;
@@ -806,15 +806,33 @@ function buildCountryCards() {
     const worstCond = crops.reduce((w,c)=>condPri[c.condition]<condPri[w]?c.condition:w, crops[0].condition);
 
     const yieldNum = maize ? parseFloat(maize.yield) : 0;
-    const score = computeScore(yieldNum, minY, maxY, worstCond);
     const {cardClass} = conditionMeta(worstCond, yieldNum, maxY);
     const ringColor = COND_COLOR[worstCond] || '#64A635';
+
+    // Ring fill driven by condition only
+    const condFill = {exceptional:90, favorable:75, watch:44, poor:18};
+    const ringFillPct = condFill[worstCond] || 44;
+
+    // Maize yield anomaly vs this country's historical average across all bulletins
+    const histYields = allBulletins
+      .flatMap(b => b.highlights || [])
+      .filter(h => short(h.country) === country && h.crop === 'Maize')
+      .map(h => parseFloat(h.yield))
+      .filter(v => !isNaN(v));
+    const histAvg = histYields.length > 1
+      ? histYields.reduce((a,v) => a+v, 0) / histYields.length : null;
+    const anomaly = (histAvg && maize)
+      ? Math.round((yieldNum - histAvg) / histAvg * 100) : null;
+    const anomalyText = anomaly !== null
+      ? (anomaly >= 0 ? `+${anomaly}` : `${anomaly}`) + '%' : '—';
+    const anomalyColor = anomaly === null ? 'var(--gray-400)'
+      : anomaly >= 0 ? '#64A635' : '#D13C3A';
 
     const card = document.createElement('div');
     card.className = `card country-card ${cardClass}`;
 
     const r = 18, circ = 2*Math.PI*r;
-    const offset = circ - (score/100)*circ;
+    const offset = circ - (ringFillPct/100)*circ;
 
     card.innerHTML = `
       <div class="country-card-top">
@@ -830,7 +848,7 @@ function buildCountryCards() {
               stroke-dashoffset="${circ}"
               data-offset="${offset}"/>
           </svg>
-          <div class="score-ring-text">${score}%</div>
+          <div class="score-ring-text" style="color:${anomalyColor}">${anomalyText}</div>
         </div>
       </div>
       <div class="crop-rows">
@@ -849,13 +867,6 @@ function buildCountryCards() {
   });
 }
 
-function computeScore(yieldNum, minY, maxY, cond) {
-  const condBase = {exceptional:92,favorable:75,watch:44,poor:18};
-  const base = condBase[cond] || 60;
-  const range = maxY - minY || 1;
-  const bonus = Math.round(((yieldNum - minY) / range) * 18 - 9);
-  return Math.min(99, Math.max(10, base + bonus));
-}
 
 function conditionMeta(cond, yieldNum, maxY) {
   const ratio = maxY > 0 ? yieldNum/maxY : 0;
