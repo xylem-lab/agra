@@ -385,7 +385,7 @@ body{
   font-size:0.72rem;color:var(--gray-600);margin-top:2px;
   font-family:var(--font-mono);
 }
-.chart-pills{display:flex;gap:6px}
+.chart-pills{display:flex;gap:6px;flex-wrap:wrap}
 .chart-pill{
   padding:3px 10px;border-radius:100px;
   border:1px solid var(--border);
@@ -395,6 +395,23 @@ body{
   transition:all 0.15s;background:var(--white);
 }
 .chart-pill.active{background:var(--brown);color:var(--white);border-color:var(--brown)}
+.crop-tabs{display:flex;gap:5px;margin-bottom:6px}
+.crop-tab{
+  padding:3px 11px;border-radius:100px;
+  border:1.5px solid var(--border);
+  font-family:var(--font-body);font-size:0.62rem;font-weight:700;
+  letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--gray-600);cursor:pointer;transition:all 0.15s;
+  background:var(--white);
+}
+.crop-tab.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.alert-crop-group{
+  font-family:var(--font-body);font-size:0.62rem;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--gray-400);padding:8px 0 4px;
+  border-bottom:1px solid var(--gray-200);margin-bottom:8px;
+}
+.alert-crop-group:not(:first-child){margin-top:14px}
 .chart-wrap{height:220px;margin-top:12px;position:relative}
 
 /* Production bars */
@@ -634,10 +651,17 @@ body{
       <div class="card chart-card">
         <div class="chart-header">
           <div>
-            <div class="chart-title">Yield Trends: Maize</div>
+            <div class="chart-title" id="chartTitle">Yield Trends: Maize</div>
             <div class="chart-subtitle" id="chartSubtitle">Loading…</div>
           </div>
-          <div class="chart-pills" id="chartPills"></div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <div class="crop-tabs" id="cropTabs">
+              <button class="crop-tab active" data-crop="Maize">Maize</button>
+              <button class="crop-tab" data-crop="Rice">Rice</button>
+              <button class="crop-tab" data-crop="Beans">Beans</button>
+            </div>
+            <div class="chart-pills" id="chartPills"></div>
+          </div>
         </div>
         <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
       </div>
@@ -850,46 +874,52 @@ function buildTrendChart() {
   const ctx = document.getElementById('trendChart');
   if (!ctx) return;
 
-  const withData = allBulletins.filter(b=>b.chartData).slice(0,8).reverse();
+  const withData = allBulletins.filter(b=>b.highlights&&b.highlights.length>0).slice(0,8).reverse();
   const labels   = withData.map(b=>`${b.month.slice(0,3)} '${b.year.slice(2)}`);
-  const allC     = [...new Set(withData.flatMap(b=>b.chartData.countries.map(short)))];
   const palette  = ['#2E170E','#64A635','#CDDC3C','#D13C3A','#F39C12','#5C3D27'];
 
-  // subtitle
   if (withData.length>=2) {
-    const oldest = withData[0]; const newest = withData[withData.length-1];
+    const oldest=withData[0], newest=withData[withData.length-1];
     document.getElementById('chartSubtitle').textContent =
       `${oldest.month.slice(0,3).toUpperCase()} '${oldest.year.slice(2)} – ${newest.month.slice(0,3).toUpperCase()} '${newest.year.slice(2)} Forecast (MT/ha)`;
   }
 
-  // country filter pills
-  const pillsEl = document.getElementById('chartPills');
-  const TOP3 = allC.slice(0,3);
-  let activePills = new Set(TOP3);
+  let activeCrop = 'Maize';
+  let activeCountries = new Set();
   let chartRef = null;
+  const pillsEl = document.getElementById('chartPills');
+
+  function countriesForCrop(crop) {
+    const all = new Set();
+    withData.forEach(b=>(b.highlights||[]).filter(h=>h.crop===crop&&h.country!=='Note')
+      .forEach(h=>all.add(short(h.country))));
+    return [...all];
+  }
 
   function renderChart() {
     if (chartRef) chartRef.destroy();
+    const countries = countriesForCrop(activeCrop);
+    const visible = countries.filter(c=>activeCountries.has(c));
     chartRef = new Chart(ctx, {
       type:'line',
       data:{
         labels,
-        datasets: allC.filter(c=>activePills.has(c)).map((c,i)=>({
+        datasets: visible.map(c=>({
           label:c,
           data: withData.map(b=>{
-            const idx = b.chartData.countries.map(short).indexOf(c);
-            return idx>=0 ? b.chartData.maizeYields[idx] : null;
+            const h=(b.highlights||[]).find(r=>r.crop===activeCrop&&short(r.country)===c);
+            return h ? parseFloat(h.yield) : null;
           }),
-          borderColor:palette[allC.indexOf(c)%palette.length],
-          backgroundColor:palette[allC.indexOf(c)%palette.length]+'18',
-          borderWidth:2.5, pointRadius:4, pointHoverRadius:6,
-          tension:0.4, spanGaps:true,
-          pointBackgroundColor:palette[allC.indexOf(c)%palette.length],
-          pointBorderColor:'#fff', pointBorderWidth:1.5,
+          borderColor:palette[countries.indexOf(c)%palette.length],
+          backgroundColor:palette[countries.indexOf(c)%palette.length]+'18',
+          borderWidth:2.5,pointRadius:4,pointHoverRadius:6,
+          tension:0.4,spanGaps:true,
+          pointBackgroundColor:palette[countries.indexOf(c)%palette.length],
+          pointBorderColor:'#fff',pointBorderWidth:1.5,
         }))
       },
       options:{
-        responsive:true, maintainAspectRatio:false,
+        responsive:true,maintainAspectRatio:false,
         plugins:{
           legend:{position:'bottom',labels:{color:'#5C3D27',padding:14,font:{size:11,family:'Source Sans 3',weight:'600'}}},
           tooltip:{backgroundColor:'#2E170E',titleColor:'#F2EDE6',bodyColor:'rgba(242,237,230,0.8)',padding:10,borderWidth:0},
@@ -906,21 +936,38 @@ function buildTrendChart() {
     });
   }
 
-  allC.slice(0,3).forEach((c,i) => {
-    const pill = document.createElement('button');
-    pill.className = 'chart-pill' + (activePills.has(c)?' active':'');
-    pill.textContent = c.split(' ').pop();
-    pill.addEventListener('click',()=>{
-      if(activePills.has(c)) { if(activePills.size>1) activePills.delete(c); }
-      else activePills.add(c);
-      pillsEl.querySelectorAll('.chart-pill').forEach((p,j)=>{
-        p.className='chart-pill'+(activePills.has(allC[j])?' active':'');
+  function rebuildPills() {
+    pillsEl.innerHTML = '';
+    const countries = countriesForCrop(activeCrop);
+    activeCountries = new Set(countries.slice(0,3));
+    countries.forEach(c=>{
+      const pill = document.createElement('button');
+      pill.className = 'chart-pill'+(activeCountries.has(c)?' active':'');
+      pill.textContent = c.split(' ').pop();
+      pill.addEventListener('click',()=>{
+        if(activeCountries.has(c)){if(activeCountries.size>1)activeCountries.delete(c);}
+        else activeCountries.add(c);
+        pillsEl.querySelectorAll('.chart-pill').forEach((p,j)=>{
+          p.className='chart-pill'+(activeCountries.has(countries[j])?' active':'');
+        });
+        renderChart();
       });
+      pillsEl.appendChild(pill);
+    });
+  }
+
+  document.querySelectorAll('.crop-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      activeCrop = tab.dataset.crop;
+      document.querySelectorAll('.crop-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('chartTitle').textContent = `Yield Trends: ${activeCrop}`;
+      rebuildPills();
       renderChart();
     });
-    pillsEl.appendChild(pill);
   });
 
+  rebuildPills();
   renderChart();
 }
 
@@ -940,8 +987,7 @@ function buildProductionBars() {
 
   const entries = Object.entries(byCountry)
     .map(([c,d])=>({country:c,total:d.Maize+d.Rice+d.Beans,maize:d.Maize,rice:d.Rice,beans:d.Beans}))
-    .sort((a,b)=>b.total-a.total)
-    .slice(0,4);
+    .sort((a,b)=>b.total-a.total);
 
   const globalMax = Math.max(...entries.map(e=>e.total), 0.1);
 
@@ -1000,19 +1046,29 @@ function buildAlerts() {
   if (bell) bell.innerHTML = `<span class="material-symbols-outlined">notifications_active</span><span style="position:absolute;top:-4px;right:-4px;background:var(--color-poor);color:#fff;font-size:9px;font-weight:700;width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-body)">${alerts.length}</span>`;
   if (bell) bell.style.position = 'relative';
 
-  alerts.slice(0,3).forEach(h => {
-    const isPoor = h.condition==='poor';
-    const div = document.createElement('div');
-    div.className = `alert-item ${isPoor?'':'watch'}`;
-    div.innerHTML = `
-      <div class="alert-tag ${isPoor?'':'watch'}">
-        ${isPoor?'High Risk':'Watch'} <span class="alert-time">${latestBulletin.month} ${latestBulletin.year}</span>
-      </div>
-      <div class="alert-item-title">${short(h.country)}: ${h.crop} Yield Signal</div>
-      <div class="alert-item-detail">
-        Predicted yield ${h.yield}; production range ${h.production}. Negative anomaly detected. Monitoring recommended.
-      </div>`;
-    list.appendChild(div);
+  ['Maize','Rice','Beans'].forEach(crop => {
+    const cropAlerts = alerts.filter(h=>h.crop===crop);
+    if (!cropAlerts.length) return;
+
+    const grp = document.createElement('div');
+    grp.className = 'alert-crop-group';
+    grp.textContent = crop;
+    list.appendChild(grp);
+
+    cropAlerts.forEach(h => {
+      const isPoor = h.condition==='poor';
+      const div = document.createElement('div');
+      div.className = `alert-item ${isPoor?'':'watch'}`;
+      div.innerHTML = `
+        <div class="alert-tag ${isPoor?'':'watch'}">
+          ${isPoor?'High Risk':'Watch'} <span class="alert-time">${latestBulletin.month} ${latestBulletin.year}</span>
+        </div>
+        <div class="alert-item-title">${short(h.country)}: ${h.crop} Yield Signal</div>
+        <div class="alert-item-detail">
+          Predicted yield ${h.yield}; production range ${h.production}. Negative anomaly detected. Monitoring recommended.
+        </div>`;
+      list.appendChild(div);
+    });
   });
 }
 
