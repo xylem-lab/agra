@@ -420,7 +420,7 @@ body{
 }
 .alert-item-detail{font-size:0.78rem;color:var(--gray-600);line-height:1.55}
 
-/* Ask the Bulletin */
+/* Ask Xylem Yield Watch */
 .ask-card{padding:18px 20px}
 .ask-header{
   display:flex;align-items:center;gap:7px;margin-bottom:6px;
@@ -657,11 +657,11 @@ body{
         </div>
       </div>
 
-      <!-- Ask the Bulletin -->
+      <!-- Ask Xylem Yield Watch -->
       <div class="card ask-card" id="askCard">
         <div class="ask-header">
           <span class="ask-star material-symbols-outlined">auto_awesome</span>
-          <div class="ask-title">Ask the Bulletin</div>
+          <div class="ask-title">Ask Xylem Yield Watch</div>
         </div>
         <div class="ask-chips" id="askChips">
           <div class="skel" style="height:34px"></div>
@@ -1109,7 +1109,7 @@ async function buildSuggestedQuestions() {
   }
 }
 
-/* ── Ask the Bulletin ── */
+/* ── Ask Xylem Yield Watch ── */
 function setupAsk() {
   document.getElementById('askSend').addEventListener('click', handleAsk);
   document.getElementById('askInput').addEventListener('keydown', e=>{
@@ -1247,7 +1247,7 @@ function showKeyModal(onSave) {
     <div class="key-modal">
       <div class="key-modal-title" style="display:flex;align-items:center;gap:7px"><span class="material-symbols-outlined" style="color:var(--lime);font-size:18px">auto_awesome</span> AutoPilot API Access</div>
       <div class="key-modal-sub">
-        Enter your OpenAI API key to enable the AI intelligence briefing and Ask the Bulletin feature.
+        Enter your OpenAI API key to enable the AI intelligence briefing and Ask Xylem Yield Watch feature.
         The key is stored only in your browser — it never leaves your device.
       </div>
       <input class="key-modal-input" id="keyInput" type="password" placeholder="sk-proj-…" autocomplete="off"/>
