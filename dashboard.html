@@ -200,53 +200,102 @@ body{
 }
 
 /* ─── Intelligence Briefing Card ─────────────────────── */
-.briefing-card{padding:20px 24px}
+.briefing-card{background:#C8B590;padding:24px 26px}
 .briefing-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:14px;flex-wrap:wrap;gap:10px;
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:16px;flex-wrap:wrap;gap:10px;
 }
 .briefing-label{
   display:flex;align-items:center;gap:7px;
   font-family:var(--font-body);
-  font-size:0.75rem;font-weight:700;
-  letter-spacing:0.08em;text-transform:uppercase;
-  color:var(--gray-600);
+  font-size:0.7rem;font-weight:700;
+  letter-spacing:0.09em;text-transform:uppercase;
+  color:rgba(46,23,14,0.5);margin-bottom:5px;
 }
 .briefing-label-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--color-lime);flex-shrink:0;
+  width:5px;height:5px;border-radius:50%;
+  background:rgba(46,23,14,0.35);flex-shrink:0;
 }
-.briefing-actions{display:flex;gap:8px}
-.btn-ask{
+.briefing-main-title{
+  font-family:var(--font-display);
+  font-size:1.05rem;font-weight:400;
+  letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--color-brown);line-height:1.2;
+}
+.briefing-actions{display:flex;gap:8px;padding-top:2px}
+.btn-ask,.btn-pdf{
   display:inline-flex;align-items:center;gap:6px;
   padding:8px 16px;border-radius:var(--radius-sm);
-  background:var(--color-lime);color:var(--color-brown);
+  background:#1a1a1a;color:#fff;
   border:none;font-family:var(--font-body);
   font-size:0.82rem;font-weight:700;cursor:pointer;
-  transition:all 0.15s;
-}
-.btn-ask:hover{background:var(--lime-dark);transform:translateY(-1px)}
-.btn-pdf{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:8px 16px;border-radius:var(--radius-sm);
-  background:var(--white);color:var(--color-brown);
-  border:2px solid var(--gray-200);
-  font-family:var(--font-body);
-  font-size:0.82rem;font-weight:600;cursor:pointer;
   transition:all 0.15s;text-decoration:none;
 }
-.btn-pdf:hover{background:var(--gray-100)}
+.btn-ask:hover,.btn-pdf:hover{background:#000;transform:translateY(-1px)}
 .briefing-body{
-  font-size:1rem;line-height:1.8;color:var(--gray-800);
-  min-height:60px;font-family:var(--font-body);
+  font-size:1rem;line-height:1.8;color:var(--color-brown);
+  min-height:60px;font-family:var(--font-body);margin-bottom:20px;
 }
-.briefing-ticker{
-  margin-top:12px;display:flex;align-items:center;gap:7px;
-  padding:7px 10px;background:var(--gray-100);
-  border-radius:var(--radius-sm);
+.briefing-footer{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+}
+.briefing-footer-left{flex:1;min-width:0}
+.yw-search-wrap{
+  display:flex;align-items:center;
+  background:linear-gradient(135deg,rgba(255,255,255,0.55) 0%,rgba(255,255,255,0.22) 100%);
+  border:1.5px solid rgba(255,255,255,0.65);
+  border-radius:10px;padding:3px 3px 3px 4px;
+  backdrop-filter:blur(6px);
+  transition:border-color 0.2s,box-shadow 0.2s;
+  margin-bottom:10px;
+}
+.yw-search-wrap:focus-within{
+  border-color:rgba(255,255,255,0.9);
+  box-shadow:0 0 0 3px rgba(255,255,255,0.2);
+}
+.yw-search-input{
+  flex:1;background:transparent;border:none;outline:none;
+  padding:7px 10px;
+  font-family:var(--font-body);font-size:0.85rem;
+  color:var(--color-brown);min-width:0;
+}
+.yw-search-input::placeholder{color:rgba(46,23,14,0.42)}
+.yw-search-btn{
+  width:34px;height:34px;
+  background:#1a1a1a;border:none;border-radius:8px;
+  color:#fff;cursor:pointer;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;
+}
+.yw-search-btn:hover{background:#000;transform:translateY(-1px)}
+.ask-chips{display:flex;flex-wrap:wrap;gap:6px}
+.ask-chip{
+  padding:6px 12px;border-radius:20px;
+  background:rgba(255,255,255,0.42);border:1px solid rgba(255,255,255,0.65);
+  font-size:0.76rem;color:var(--color-brown);
+  cursor:pointer;transition:all 0.15s;
+  font-family:var(--font-body);white-space:nowrap;
+}
+.ask-chip:hover{background:rgba(255,255,255,0.75);border-color:rgba(255,255,255,0.9)}
+.bulletin-data-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:6px 12px;
+  background:rgba(46,23,14,0.12);border:1px solid rgba(46,23,14,0.18);
+  border-radius:20px;
   font-family:var(--font-mono);
-  font-size:0.7rem;color:var(--gray-600);
+  font-size:0.68rem;font-weight:600;letter-spacing:0.06em;
+  color:rgba(46,23,14,0.6);white-space:nowrap;flex-shrink:0;
 }
+.ask-answer{
+  display:none;margin-top:10px;
+  padding:12px 14px;
+  background:rgba(255,255,255,0.48);border:1px solid rgba(255,255,255,0.65);
+  border-left:4px solid #1a1a1a;border-radius:var(--radius-sm);
+  font-size:0.88rem;line-height:1.75;color:var(--color-brown);
+  font-family:var(--font-body);
+}
+.ask-answer.visible{display:block;animation:fadeUp 0.3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
 /* skeleton */
 .skel{
@@ -375,7 +424,7 @@ body{
 .prod-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
 /* ─── Bottom Row ──────────────────────────────────────── */
-.bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bottom-row{display:grid;grid-template-columns:1fr;gap:14px}
 @media(max-width:900px){.bottom-row{grid-template-columns:1fr}}
 
 /* Alerts card */
@@ -420,63 +469,16 @@ body{
 }
 .alert-item-detail{font-size:0.78rem;color:var(--gray-600);line-height:1.55}
 
-/* Ask Xylem Yield Watch */
-.ask-card{padding:18px 20px}
-.ask-header{
-  display:flex;align-items:center;gap:7px;margin-bottom:6px;
-}
-.ask-star{color:var(--color-lime);font-size:20px}
-.ask-title{
-  font-family:var(--font-display);
-  font-size:0.85rem;font-weight:400;
-  letter-spacing:0.06em;text-transform:uppercase;
-  color:var(--color-brown);
-}
-.ask-chips{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
-.ask-chip{
-  padding:8px 12px;border-radius:var(--radius-sm);
-  background:var(--gray-100);border:1px solid var(--border);
-  font-size:0.78rem;color:var(--gray-800);
-  cursor:pointer;transition:all 0.15s;text-align:left;
-  font-family:var(--font-body);
-}
-.ask-chip:hover{background:var(--lime-bg);border-color:var(--color-lime);color:var(--color-brown)}
-.ask-input-row{display:flex;gap:8px}
-.ask-input{
-  flex:1;padding:9px 13px;
-  border:1px solid var(--border);border-radius:var(--radius-sm);
-  font-family:var(--font-body);font-size:0.85rem;
-  color:var(--brown);background:var(--white);outline:none;
-  transition:border-color 0.15s;
-}
-.ask-input:focus{border-color:var(--color-coral);box-shadow:0 0 0 3px rgba(209,60,58,0.1)}
-.ask-input::placeholder{color:var(--gray-400)}
-.ask-send{
-  width:38px;height:38px;border-radius:var(--radius-sm);
-  background:var(--color-coral);border:none;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  color:#fff;transition:all 0.15s;flex-shrink:0;
-}
-.ask-send:hover{background:#B8322E;transform:translateY(-1px)}
-.ask-answer{
-  display:none;margin-top:10px;
-  padding:12px 14px;
-  background:var(--gray-100);border:1px solid var(--gray-200);
-  border-left:4px solid var(--color-lime);border-radius:var(--radius-sm);
-  font-size:0.88rem;line-height:1.75;color:var(--color-brown);
-  font-family:var(--font-body);
-}
-.ask-answer.visible{display:block;animation:fadeUp 0.3s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+/* ── AI thinking animation ── */
 .ask-answer-thinking{
   display:flex;align-items:center;gap:6px;
-  font-size:0.75rem;color:var(--gray-400);
+  font-size:0.75rem;color:rgba(46,23,14,0.5);
   font-family:var(--font-body);
 }
 .thinking-dots{display:flex;gap:3px}
 .thinking-dots span{
   width:4px;height:4px;border-radius:50%;
-  background:var(--gray-400);
+  background:rgba(46,23,14,0.4);
   animation:dot-bounce 1.2s ease-in-out infinite;
 }
 .thinking-dots span:nth-child(2){animation-delay:0.2s}
@@ -584,14 +586,14 @@ body{
     <!-- Intelligence Briefing -->
     <div class="card briefing-card" id="briefingCard">
       <div class="briefing-header">
-        <div class="briefing-label">
-          <div class="briefing-label-dot"></div>
-          Intelligence Briefing · All Crops
+        <div>
+          <div class="briefing-label">
+            <div class="briefing-label-dot"></div>
+            All Crops · AGRA RFBS
+          </div>
+          <div class="briefing-main-title" id="briefingMainTitle">Intelligence Briefing</div>
         </div>
         <div class="briefing-actions">
-          <button class="btn-ask" onclick="document.getElementById('askInput').focus();document.getElementById('askCard').scrollIntoView({behavior:'smooth'})">
-            <span class="material-symbols-outlined" style="font-size:15px">chat</span> Ask a question
-          </button>
           <a class="btn-pdf" id="pdfLink" href="#" target="_blank">
             <span class="material-symbols-outlined" style="font-size:15px">picture_as_pdf</span> Download PDF
           </a>
@@ -603,8 +605,27 @@ body{
         <div class="skel" style="width:87%"></div>
         <div class="skel"></div>
       </div>
-      <div class="briefing-ticker" id="briefingTicker">
-        <span class="material-symbols-outlined" style="font-size:13px">sync</span>&nbsp;Loading bulletin data…
+      <div class="briefing-footer">
+        <div class="briefing-footer-left">
+          <div class="yw-search-wrap">
+            <input class="yw-search-input" id="askInput" type="text" placeholder="Ask Xylem Yield Watch…"/>
+            <button class="yw-search-btn" id="askSend">
+              <span class="material-symbols-outlined" style="font-size:16px">send</span>
+            </button>
+          </div>
+          <div class="ask-chips" id="askChips">
+            <div class="skel" style="height:28px;width:190px;border-radius:20px"></div>
+            <div class="skel" style="height:28px;width:230px;border-radius:20px"></div>
+            <div class="skel" style="height:28px;width:170px;border-radius:20px"></div>
+          </div>
+          <div class="ask-answer" id="askAnswer"></div>
+        </div>
+        <div>
+          <span class="bulletin-data-pill" id="bulletinPill">
+            <span class="material-symbols-outlined" style="font-size:11px">sync</span>
+            Loading…
+          </span>
+        </div>
       </div>
     </div>
 
@@ -657,23 +678,6 @@ body{
         </div>
       </div>
 
-      <!-- Ask Xylem Yield Watch -->
-      <div class="card ask-card" id="askCard">
-        <div class="ask-header">
-          <span class="ask-star material-symbols-outlined">auto_awesome</span>
-          <div class="ask-title">Ask Xylem Yield Watch</div>
-        </div>
-        <div class="ask-chips" id="askChips">
-          <div class="skel" style="height:34px"></div>
-          <div class="skel" style="height:34px"></div>
-          <div class="skel" style="height:34px"></div>
-        </div>
-        <div class="ask-input-row">
-          <input class="ask-input" id="askInput" type="text" placeholder="Type your query…"/>
-          <button class="ask-send" id="askSend"><span class="material-symbols-outlined" style="font-size:16px">send</span></button>
-        </div>
-        <div class="ask-answer" id="askAnswer"></div>
-      </div>
 
     </div>
   </main>
@@ -732,14 +736,17 @@ function updatePDFLink() {
   if (link && latestBulletin) link.href = latestBulletin.pdfUrl;
 }
 
-/* ── Ticker ── */
+/* ── Title + Pill ── */
 function updateTicker() {
-  const el = document.getElementById('briefingTicker');
-  if (!el || !latestBulletin) return;
+  if (!latestBulletin) return;
+  const title = document.getElementById('briefingMainTitle');
+  if (title) title.textContent = `Intelligence Briefing For ${latestBulletin.month} ${latestBulletin.year}`;
+  const pill = document.getElementById('bulletinPill');
+  if (!pill) return;
   const now = new Date();
   const h = String(now.getHours()).padStart(2,'0');
   const m = String(now.getMinutes()).padStart(2,'0');
-  el.innerHTML = `<span class="material-symbols-outlined" style="font-size:13px">sync</span>&nbsp;Bulletin data: <strong>${latestBulletin.month} ${latestBulletin.year}</strong> · Last sync ${h}:${m} local`;
+  pill.innerHTML = `<span class="material-symbols-outlined" style="font-size:11px">sync</span> ${latestBulletin.month} ${latestBulletin.year} &middot; ${h}:${m}`;
 }
 
 /* ── Country Cards ── */
