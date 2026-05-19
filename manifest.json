@@ -8,7 +8,7 @@
       "month": "February",
       "countries": 5,
       "countriesList": ["Kenya", "United Republic Of Tanzania", "Malawi", "Zambia", "Rwanda"],
-      "description": "February 2026 forecasts (UMD-XylemLab) covering Kenya, Tanzania (Msimu season), Malawi, Zambia, and Rwanda (Season B). Maize shows mild negative anomalies across all countries — all classified as watch. Rice carries persistent negative anomalies (watch) in Kenya, Tanzania, Malawi, Zambia, and Rwanda. Beans remain broadly stable and favorable. Uganda is excluded (post-harvest). Yields and conditions corrected from source HTML bulletin.",
+      "description": "February 2026 forecasts (UMD-XylemLab) covering Kenya, Tanzania (Msimu season), Malawi, Zambia, and Rwanda (Season B). Maize shows mild negative anomalies across all countries, all classified as watch. Rice carries persistent negative anomalies (watch) in Kenya, Tanzania, Malawi, Zambia, and Rwanda. Beans remain broadly stable and favorable. Uganda is excluded (post-harvest). Yields and conditions corrected from source HTML bulletin.",
       "highlights": [
         { "country": "Kenya",                      "crop": "Maize", "yield": "1.56 MT/ha", "production": "2.74 – 6.82M MT", "condition": "watch"     },
         { "country": "United Republic Of Tanzania","crop": "Maize", "yield": "1.31 MT/ha", "production": "0.88 – 2.02M MT", "condition": "watch"     },
@@ -37,7 +37,7 @@
       "month": "January",
       "countries": 4,
       "countriesList": ["Kenya", "United Republic Of Tanzania", "Malawi", "Zambia"],
-      "description": "January 2026 forecasts (UMD-XylemLab) covering Kenya, Tanzania (Msimu), Malawi, and Zambia. Maize shows slight negative yield anomalies across all countries — all classified as watch. Rice has persistent negative anomalies (watch) in all four countries. Beans are stable (favorable) in Tanzania, Malawi, and Zambia; Kenya beans also stable. Uganda and Rwanda excluded (post-harvest). Yields and conditions corrected from source HTML bulletin.",
+      "description": "January 2026 forecasts (UMD-XylemLab) covering Kenya, Tanzania (Msimu), Malawi, and Zambia. Maize shows slight negative yield anomalies across all countries, all classified as watch. Rice has persistent negative anomalies (watch) in all four countries. Beans are stable (favorable) in Tanzania, Malawi, and Zambia; Kenya beans also stable. Uganda and Rwanda excluded (post-harvest). Yields and conditions corrected from source HTML bulletin.",
       "highlights": [
         { "country": "Kenya",                      "crop": "Maize", "yield": "0.70 MT/ha", "production": "0.19 – 0.65M MT", "condition": "watch"     },
         { "country": "United Republic Of Tanzania","crop": "Maize", "yield": "1.30 MT/ha", "production": "0.86 – 2.05M MT", "condition": "watch"     },
@@ -89,7 +89,7 @@
       "month": "November",
       "countries": 6,
       "countriesList": ["Tanzania", "Malawi", "Zambia", "Rwanda", "Kenya", "Uganda"],
-      "description": "November 2025 forecasts covering Uganda, Kenya, Tanzania, Malawi, Rwanda, and Zambia across all three crops. Maize shows mixed conditions — favorable in Rwanda and Malawi, watch in Tanzania, Zambia, Kenya (arid zones), and Uganda (Eastern/Western decline). Rice on watch in Tanzania, Malawi, Zambia, and Uganda. Beans broadly favorable across all countries.",
+      "description": "November 2025 forecasts covering Uganda, Kenya, Tanzania, Malawi, Rwanda, and Zambia across all three crops. Maize shows mixed conditions: favorable in Rwanda and Malawi, watch in Tanzania, Zambia, Kenya (arid zones), and Uganda (Eastern/Western decline). Rice on watch in Tanzania, Malawi, Zambia, and Uganda. Beans broadly favorable across all countries.",
       "highlights": [
         { "country": "Tanzania", "crop": "Maize",  "yield": "1.34 MT/ha", "production": "2.11 – 3.49M MT", "condition": "watch"     },
         { "country": "Malawi",   "crop": "Maize",  "yield": "1.88 MT/ha", "production": "2.83 – 4.05M MT", "condition": "favorable" },
@@ -121,7 +121,7 @@
       "month": "August",
       "countries": 2,
       "countriesList": ["Uganda", "Kenya"],
-      "description": "August 2025 forecasts covering only Uganda and Kenya — currently in their respective growing seasons. Tanzania, Malawi, Zambia, and Rwanda are excluded (post-harvest or pre-season). No Beans data in this bulletin. Uganda Maize: watch (Northern region poor); Uganda Rice: watch (Central and Eastern watch, others favorable). Kenya Maize: watch (19+ arid/ASAL counties poor); Kenya Rice: watch (mixed coastal/county conditions). National yields derived from regional weighted averages; production ranges from executive summary.",
+      "description": "August 2025 forecasts covering only Uganda and Kenya, currently in their respective growing seasons. Tanzania, Malawi, Zambia, and Rwanda are excluded (post-harvest or pre-season). No Beans data in this bulletin. Uganda Maize: watch (Northern region poor); Uganda Rice: watch (Central and Eastern watch, others favorable). Kenya Maize: watch (19+ arid/ASAL counties poor); Kenya Rice: watch (mixed coastal/county conditions). National yields derived from regional weighted averages; production ranges from executive summary.",
       "highlights": [
         { "country": "Uganda", "crop": "Maize", "yield": "1.58 MT/ha", "production": "0.42 – 0.57M MT", "condition": "watch" },
         { "country": "Kenya",  "crop": "Maize", "yield": "1.68 MT/ha", "production": "2.26 – 3.80M MT", "condition": "watch" },
@@ -139,7 +139,7 @@
       "month": "July",
       "countries": 4,
       "countriesList": ["United Republic Of Tanzania", "Uganda", "Kenya", "Rwanda"],
-      "description": "July 2025 forecasts covering Tanzania (Bimodal region only), Uganda, Kenya, and Rwanda across Maize, Rice, and Beans. Conditions broadly watch across all crops and countries due to marked regional disparities — poor conditions in Kenya ASAL counties (Maize), Tanzania coastal/island zones (Rice), Uganda Eastern (Maize), and Rwanda Iburasirazuba (Maize/Rice). Maize production national totals from PDF executive summary; Rice/Bean productions aggregated from sub-national regional data. Malawi and Zambia excluded (dry season/post-harvest).",
+      "description": "July 2025 forecasts covering Tanzania (Bimodal region only), Uganda, Kenya, and Rwanda across Maize, Rice, and Beans. Conditions broadly watch across all crops and countries due to marked regional disparities, with poor conditions in Kenya ASAL counties (Maize), Tanzania coastal/island zones (Rice), Uganda Eastern (Maize), and Rwanda Iburasirazuba (Maize/Rice). Maize production national totals from PDF executive summary; Rice/Bean productions aggregated from sub-national regional data. Malawi and Zambia excluded (dry season/post-harvest).",
       "highlights": [
         { "country": "United Republic Of Tanzania", "crop": "Maize", "yield": "1.72 MT/ha", "production": "2.20 – 2.68M MT", "condition": "watch"     },
         { "country": "Uganda",                      "crop": "Maize", "yield": "1.96 MT/ha", "production": "0.57 – 0.68M MT", "condition": "watch"     },
@@ -191,7 +191,7 @@
       "month": "May",
       "countries": 6,
       "countriesList": ["United Republic Of Tanzania", "Malawi", "Zambia", "Kenya", "Uganda", "Rwanda"],
-      "description": "May 2025 pre-harvest forecasts covering all six focus countries: Tanzania, Malawi, Zambia, Kenya, Uganda, and Rwanda across Maize, Rice, and Beans. Conditions broadly watch across the region due to seasonal heterogeneity — poor in Uganda Northern rice, Rwanda/Malawi Southern maize, Zambia Southern/Western, and Kenya ASAL maize. Beans are generally watch with pockets of favorable conditions. Tanzania total coverage includes both unimodal and bimodal zones (combined national estimate). Data from Table 1.1 of PDF report (UMD-XylemLab). Note: UMD model coverage for Zambia Maize was limited to 0.01M ha in May.",
+      "description": "May 2025 pre-harvest forecasts covering all six focus countries: Tanzania, Malawi, Zambia, Kenya, Uganda, and Rwanda across Maize, Rice, and Beans. Conditions broadly watch across the region due to seasonal heterogeneity, with poor conditions in Uganda Northern rice, Rwanda/Malawi Southern maize, Zambia Southern/Western, and Kenya ASAL maize. Beans are generally watch with pockets of favorable conditions. Tanzania total coverage includes both unimodal and bimodal zones (combined national estimate). Data from Table 1.1 of PDF report (UMD-XylemLab). Note: UMD model coverage for Zambia Maize was limited to 0.01M ha in May.",
       "highlights": [
         { "country": "United Republic Of Tanzania", "crop": "Maize", "yield": "1.50 MT/ha", "production": "4.60 – 7.20M MT", "condition": "watch"     },
         { "country": "Malawi",                      "crop": "Maize", "yield": "2.60 MT/ha", "production": "0.23 – 0.40M MT", "condition": "watch"     },

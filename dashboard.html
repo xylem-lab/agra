@@ -14,7 +14,7 @@
 <link rel="icon" href="Bulletins/2026/02_February_2026/data/static/XylemLab%20logo.png">
 
 <style>
-/* ─── Tokens — exact match to index.html brand ───────── */
+/* ─── Tokens, exact match to index.html brand ───────── */
 :root {
   /* Brand */
   --color-coral:       #D13C3A;
@@ -795,7 +795,7 @@ function buildCountryCards() {
       </div>
       <div>
         <div class="country-yield">
-          ${maize ? maize.yield.replace(' MT/ha','') : '—'}
+          ${maize ? maize.yield.replace(' MT/ha','') : '-'}
           <span class="country-yield-unit">MT/ha</span>
         </div>
         <div class="country-status ${statusClass}">
@@ -826,7 +826,7 @@ function conditionMeta(cond, yieldNum, maxY) {
   if (cond==='exceptional') return {cardClass:'exceptional',statusClass:'status-optimal',statusLabel:'OPTIMAL'};
   if (cond==='poor')        return {cardClass:'critical',statusClass:'status-critical',statusLabel:'CRITICAL'};
   if (cond==='watch')       return {cardClass:'watch',statusClass:'status-watch',statusLabel:'WATCH'};
-  // favorable — differentiate by relative yield
+  // favorable, differentiate by relative yield
   if (ratio > 0.75) return {cardClass:'favorable',statusClass:'status-optimal',statusLabel:'EXCELLENT'};
   if (ratio > 0.55) return {cardClass:'favorable',statusClass:'status-good',statusLabel:'GOOD'};
   if (ratio > 0.35) return {cardClass:'favorable',statusClass:'status-good',statusLabel:'STABLE'};
@@ -977,7 +977,7 @@ function buildAlerts() {
   const alerts = rows.filter(h=>h.condition==='watch'||h.condition==='poor');
 
   if (alerts.length===0) {
-    list.innerHTML = `<div class="no-data"><span class="material-symbols-outlined" style="vertical-align:middle;color:var(--color-green);font-size:16px">check_circle</span> No active alerts — all conditions favorable in ${latestBulletin.month} ${latestBulletin.year}</div>`;
+    list.innerHTML = `<div class="no-data"><span class="material-symbols-outlined" style="vertical-align:middle;color:var(--color-green);font-size:16px">check_circle</span> No active alerts. All conditions favorable in ${latestBulletin.month} ${latestBulletin.year}</div>`;
     document.querySelector('.alerts-card').style.borderColor = '#64A635';
     document.querySelector('.alerts-dot').style.background = '#64A635';
     return;
@@ -998,7 +998,7 @@ function buildAlerts() {
       </div>
       <div class="alert-item-title">${short(h.country)}: ${h.crop} Yield Signal</div>
       <div class="alert-item-detail">
-        Predicted yield ${h.yield} — production range ${h.production}. Negative anomaly detected. Monitoring recommended.
+        Predicted yield ${h.yield}; production range ${h.production}. Negative anomaly detected. Monitoring recommended.
       </div>`;
     list.appendChild(div);
   });
@@ -1010,7 +1010,7 @@ async function startBriefingStream() {
   if (!body) return;
 
   const context = buildBulletinContext(latestBulletin, allBulletins);
-  const systemPrompt = `You are an agricultural intelligence analyst for the AGRA Regional Food Balance Sheet program. Generate a 2-3 sentence intelligence briefing covering ALL three crops: Maize, Rice, and Beans. Lead with the top-performing maize country and its yield, then specifically call out any rice or bean watch/poor conditions by country with exact yield numbers. End with an overall regional outlook sentence. Plain text only — no markdown, no bullets.`;
+  const systemPrompt = `You are an agricultural intelligence analyst for the AGRA Regional Food Balance Sheet program. Generate a 2-3 sentence intelligence briefing covering ALL three crops: Maize, Rice, and Beans. Lead with the top-performing maize country and its yield, then specifically call out any rice or bean watch/poor conditions by country with exact yield numbers. End with an overall regional outlook sentence. Plain text only, no markdown, no bullets.`;
   const userMsg = `Latest bulletin data:\n${context}`;
 
   body.innerHTML = '';
@@ -1054,7 +1054,7 @@ async function startBriefingStream() {
         } catch{}
       }
     }
-    // Done — remove cursor
+    // Done, remove cursor
     setTimeout(()=>cursorEl.remove(), 1500);
   } catch (err) {
     // Fallback to description
@@ -1068,7 +1068,7 @@ async function buildSuggestedQuestions() {
   if (!chips) return;
 
   const context = buildBulletinContext(latestBulletin, allBulletins);
-  const sysPrompt = `You are a food security analyst. Given this bulletin data, suggest 3 short, specific questions a user might ask. Spread across different crops — do not ask 3 maize questions. Include at least one question about Rice and one about Beans. Each question must be directly answerable from the data. Output only the 3 questions, one per line, no numbers, no formatting.`;
+  const sysPrompt = `You are a food security analyst. Given this bulletin data, suggest 3 short, specific questions a user might ask. Spread across different crops; do not ask 3 maize questions. Include at least one question about Rice and one about Beans. Each question must be directly answerable from the data. Output only the 3 questions, one per line, no numbers, no formatting.`;
 
   try {
     const r = await fetch(OPENAI_URL, {
@@ -1131,7 +1131,7 @@ async function handleAsk() {
 
   const latestContext = buildBulletinContext(latestBulletin, allBulletins);
   const histContext   = buildHistoricalContext(allBulletins);
-  const sysPrompt = `You are an agricultural intelligence analyst for the AGRA Regional Food Balance Sheet. You have access to ALL available bulletins (May 2025 – February 2026). Answer questions using any bulletin in the data. Be concise (2-3 sentences). Use only exact numbers from the data — never invent figures. If a specific month or crop genuinely has no data, say exactly which months DO have that crop's data instead of guessing.`;
+  const sysPrompt = `You are an agricultural intelligence analyst for the AGRA Regional Food Balance Sheet. You have access to ALL available bulletins (May 2025 – February 2026). Answer questions using any bulletin in the data. Be concise (2-3 sentences). Use only exact numbers from the data; never invent figures. If a specific month or crop genuinely has no data, say exactly which months DO have that crop's data instead of guessing.`;
   const userMsg = `${latestContext}\n\n${histContext}\n\nQuestion: ${q}`;
 
   try {
@@ -1182,14 +1182,14 @@ async function handleAsk() {
 function buildBulletinContext(bulletin, all) {
   const rows = bulletin.highlights.filter(h=>h.country!=='Note');
 
-  // All crop data — Maize, Rice, Beans all included
+  // All crop data: Maize, Rice, Beans all included
   const dataLines = rows.map(h=>`${short(h.country)} | ${h.crop} | Yield: ${h.yield} | Production: ${h.production} | Condition: ${h.condition}`).join('\n');
 
   // Explicit watch/poor alerts across ALL crops
   const watchRows = rows.filter(h=>h.condition==='watch'||h.condition==='poor');
   const watchLines = watchRows.length > 0
     ? watchRows.map(h=>`${short(h.country)} ${h.crop}: yield ${h.yield}, production ${h.production}, condition=${h.condition}`).join('\n')
-    : 'None — all crops favorable';
+    : 'None, all crops favorable';
 
   // Maize-only historical trend (manifest only stores maize chartData)
   const trendLines = all.filter(b=>b.chartData).slice(0,6).reverse().map(b=>{
@@ -1218,7 +1218,7 @@ function buildHistoricalContext(all) {
     const rows = b.highlights.filter(h=>h.country!=='Note' && h.crop!=='PDF');
     const crops = [...new Set(rows.map(h=>h.crop))];
     if (rows.length === 0) {
-      lines.push(`\n${b.month} ${b.year}: PDF format only — no structured crop data available`);
+      lines.push(`\n${b.month} ${b.year}: PDF format only, no structured crop data available`);
       return;
     }
     lines.push(`\n${b.month} ${b.year} | Countries: ${b.countriesList.map(short).join(', ')} | Crops available: ${crops.join(', ')}`);
@@ -1248,7 +1248,7 @@ function showKeyModal(onSave) {
       <div class="key-modal-title" style="display:flex;align-items:center;gap:7px"><span class="material-symbols-outlined" style="color:var(--lime);font-size:18px">auto_awesome</span> AutoPilot API Access</div>
       <div class="key-modal-sub">
         Enter your OpenAI API key to enable the AI intelligence briefing and Ask Xylem Yield Watch feature.
-        The key is stored only in your browser — it never leaves your device.
+        The key is stored only in your browser; it never leaves your device.
       </div>
       <input class="key-modal-input" id="keyInput" type="password" placeholder="sk-proj-…" autocomplete="off"/>
       <div class="key-modal-row">
@@ -1317,7 +1317,7 @@ function initKeyAndBoot() {
       });
     })();
   } else {
-    // Key exists — normal boot
+    // Key exists, normal boot
     (async () => {
       manifestData = await fetchManifest();
       if (!manifestData) { showError(); return; }
