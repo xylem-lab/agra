@@ -440,7 +440,7 @@ body{
 @media(max-width:900px){.bottom-row{grid-template-columns:1fr}}
 
 /* Alerts card */
-.alerts-card{padding:18px 20px;border:1px solid var(--color-poor);border-radius:var(--radius-md);background:var(--white);box-shadow:var(--shadow-sm)}
+.alerts-card{padding:18px 20px;border:1px solid var(--gray-200);border-radius:var(--radius-md);background:var(--white);box-shadow:var(--shadow-sm)}
 .alerts-header{
   display:flex;align-items:center;gap:7px;margin-bottom:14px;
 }
@@ -1047,7 +1047,6 @@ function buildAlerts() {
 
   if (alerts.length===0) {
     list.innerHTML = `<div class="no-data"><span class="material-symbols-outlined" style="vertical-align:middle;color:var(--color-green);font-size:16px">check_circle</span> No active alerts. All conditions favorable in ${latestBulletin.month} ${latestBulletin.year}</div>`;
-    document.querySelector('.alerts-card').style.borderColor = '#64A635';
     document.querySelector('.alerts-dot').style.background = '#64A635';
     return;
   }

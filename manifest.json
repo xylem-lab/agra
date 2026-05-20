@@ -1,7 +1,39 @@
 {
-  "lastUpdated": "2026-05-18",
-  "staticAssetsBase": "Bulletins/2026/02_February_2026/data/static",
+  "lastUpdated": "2026-05-20",
+  "staticAssetsBase": "Bulletins/2026/03_March_2026/data/static",
   "bulletins": [
+    {
+      "year": "2026",
+      "folder": "03_March_2026",
+      "month": "March",
+      "countries": 6,
+      "countriesList": ["Kenya", "Malawi", "Rwanda", "Uganda", "United Republic Of Tanzania", "Zambia"],
+      "description": "March 2026 forecasts (UMD-XylemLab) covering Kenya, Malawi, Rwanda, Uganda, Tanzania (Msimu), and Zambia across all three crops. Maize shows stable but slightly negative yield anomalies in most countries (watch), with Tanzania the exception showing favorable stability. Rice carries persistent negative anomalies across all six countries (watch), most pronounced in Malawi (-10%), Zambia (-10%), and Kenya (-8%). Beans are broadly stable and favorable across all six countries. Yields and conditions sourced from March 2026 HTML bulletin.",
+      "highlights": [
+        { "country": "Kenya",                      "crop": "Maize", "yield": "1.57 MT/ha", "production": "2.88 – 6.74M MT", "condition": "watch"     },
+        { "country": "Malawi",                     "crop": "Maize", "yield": "2.01 MT/ha", "production": "2.42 – 5.38M MT", "condition": "watch"     },
+        { "country": "Rwanda",                     "crop": "Maize", "yield": "1.47 MT/ha", "production": "0.31 – 0.69M MT", "condition": "watch"     },
+        { "country": "Uganda",                     "crop": "Maize", "yield": "2.22 MT/ha", "production": "2.76 – 5.68M MT", "condition": "watch"     },
+        { "country": "United Republic Of Tanzania","crop": "Maize", "yield": "1.31 MT/ha", "production": "0.89 – 2.00M MT", "condition": "favorable" },
+        { "country": "Zambia",                     "crop": "Maize", "yield": "2.56 MT/ha", "production": "2.43 – 5.21M MT", "condition": "watch"     },
+        { "country": "Kenya",                      "crop": "Beans", "yield": "0.70 MT/ha", "production": "0.42 – 1.80M MT", "condition": "favorable" },
+        { "country": "Malawi",                     "crop": "Beans", "yield": "0.68 MT/ha", "production": "0.11 – 0.46M MT", "condition": "favorable" },
+        { "country": "Rwanda",                     "crop": "Beans", "yield": "0.89 MT/ha", "production": "0.19 – 0.76M MT", "condition": "favorable" },
+        { "country": "Uganda",                     "crop": "Beans", "yield": "1.66 MT/ha", "production": "1.08 – 4.31M MT", "condition": "favorable" },
+        { "country": "United Republic Of Tanzania","crop": "Beans", "yield": "0.71 MT/ha", "production": "0.05 – 0.18M MT", "condition": "favorable" },
+        { "country": "Zambia",                     "crop": "Beans", "yield": "0.55 MT/ha", "production": "0.03 – 0.13M MT", "condition": "favorable" },
+        { "country": "Kenya",                      "crop": "Rice",  "yield": "1.93 MT/ha", "production": "0.01 – 0.05M MT", "condition": "watch"     },
+        { "country": "Malawi",                     "crop": "Rice",  "yield": "1.33 MT/ha", "production": "0.05 – 0.17M MT", "condition": "watch"     },
+        { "country": "Rwanda",                     "crop": "Rice",  "yield": "4.35 MT/ha", "production": "0.07 – 0.19M MT", "condition": "watch"     },
+        { "country": "Uganda",                     "crop": "Rice",  "yield": "1.23 MT/ha", "production": "0.17 – 0.38M MT", "condition": "watch"     },
+        { "country": "United Republic Of Tanzania","crop": "Rice",  "yield": "1.34 MT/ha", "production": "0.14 – 0.43M MT", "condition": "watch"     },
+        { "country": "Zambia",                     "crop": "Rice",  "yield": "1.03 MT/ha", "production": "0.02 – 0.08M MT", "condition": "watch"     }
+      ],
+      "chartData": {
+        "maizeYields": [1.57, 2.01, 1.47, 2.22, 1.31, 2.56],
+        "countries": ["Kenya", "Malawi", "Rwanda", "Uganda", "United Republic Of Tanzania", "Zambia"]
+      }
+    },
     {
       "year": "2026",
       "folder": "02_February_2026",
