@@ -500,6 +500,28 @@ body{
 /* ─── Utility ─────────────────────────────────────────── */
 .no-data{font-size:0.78rem;color:var(--gray-400);padding:16px 0;text-align:center}
 
+/* ─── Tanzania Agricultural Calendar ─────────────────── */
+.calendar-card{padding:18px 20px}
+.calendar-card-header{
+  display:flex;align-items:center;gap:9px;margin-bottom:14px;
+}
+.calendar-card-title{
+  font-family:var(--font-display);
+  font-size:0.9rem;font-weight:400;
+  letter-spacing:0.04em;text-transform:uppercase;
+  color:var(--color-brown);
+}
+.calendar-card-flag{font-size:1.15rem;line-height:1}
+.calendar-img-wrap{
+  width:100%;border-radius:var(--radius-sm);overflow:hidden;
+  border:1px solid var(--gray-200);
+}
+.calendar-img-wrap img{width:100%;height:auto;display:block}
+.calendar-caption{
+  margin-top:10px;font-size:0.78rem;color:var(--gray-600);
+  line-height:1.55;font-family:var(--font-body);
+}
+
 /* ─── API Key Modal ───────────────────────────────────── */
 .key-overlay{
   position:fixed;inset:0;background:rgba(46,23,14,0.55);
@@ -645,6 +667,9 @@ body{
     <div class="country-row" id="countryRow">
       <!-- injected -->
     </div>
+
+    <!-- Tanzania Agricultural Calendar -->
+    <div id="calendarSection"></div>
 
     <!-- Charts -->
     <div class="charts-row">
@@ -867,6 +892,36 @@ function buildCountryCards() {
   });
 }
 
+
+/* ── Tanzania Calendar ── */
+function buildCalendarSection() {
+  const el = document.getElementById('calendarSection');
+  if (!el || !latestBulletin) return;
+
+  const captions = {
+    January:  'Tanzania is currently in the crop growing phase of the Msimu season, which runs from November 2025 to July 2026. The prediction month is January 2026, with harvest for maize, beans, and rice expected between May and July 2026.',
+    February: 'Tanzania is in the crop growing phase of the Msimu season (November 2025 – July 2026). The prediction month is February 2026, with harvest for maize, beans, and rice expected between May and July 2026.',
+    March:    'Tanzania is in the active Msimu season (November 2025 – July 2026), with the Masika season (March – August 2026) beginning this month. The prediction month is March 2026. Msimu harvest is expected between May and July, while Masika harvest will follow from July to August 2026.',
+    April:    'Tanzania is simultaneously in the Masika (March – August 2026) and Msimu (November 2025 – July 2026) growing seasons. The prediction month is April 2026. Msimu harvest is expected between May and July, while Masika harvest runs from July to August 2026.',
+    May:      'Tanzania is in the Masika season (March – August 2026), which is the main long-rains growing period. The prediction month is May 2026, with harvest for maize, beans, and rice expected between July and August 2026.',
+  };
+
+  const imgPath = `Bulletins/${latestBulletin.year}/${latestBulletin.folder}/data/calendars/Tanzania.png`;
+  const caption = captions[latestBulletin.month]
+    || `Agricultural calendar for Tanzania – ${latestBulletin.month} ${latestBulletin.year}.`;
+
+  el.innerHTML = `
+    <div class="card calendar-card">
+      <div class="calendar-card-header">
+        <span class="calendar-card-flag">🇹🇿</span>
+        <div class="calendar-card-title">Tanzania Agricultural Calendar</div>
+      </div>
+      <div class="calendar-img-wrap">
+        <img src="${imgPath}" alt="United Republic Of Tanzania Agricultural Calendar">
+      </div>
+      <div class="calendar-caption">${caption}</div>
+    </div>`;
+}
 
 function conditionMeta(cond, yieldNum, maxY) {
   const ratio = maxY > 0 ? yieldNum/maxY : 0;
@@ -1378,6 +1433,7 @@ function initKeyAndBoot() {
       latestBulletin = allBulletins[0];
       updatePDFLink();
       buildCountryCards();
+      buildCalendarSection();
       buildTrendChart();
       buildProductionBars();
       buildAlerts();
@@ -1403,6 +1459,7 @@ function initKeyAndBoot() {
       latestBulletin = allBulletins[0];
       updatePDFLink();
       buildCountryCards();
+      buildCalendarSection();
       buildTrendChart();
       buildProductionBars();
       buildAlerts();
