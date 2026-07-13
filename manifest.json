@@ -1,7 +1,30 @@
 {
-  "lastUpdated": "2026-06-15",
-  "staticAssetsBase": "Bulletins/2026/05_May_2026/data/static",
+  "lastUpdated": "2026-07-13",
+  "staticAssetsBase": "Bulletins/2026/06_June_2026/data/static",
   "bulletins": [
+    {
+      "year": "2026",
+      "folder": "06_June_2026",
+      "month": "June",
+      "countries": 3,
+      "countriesList": ["Kenya", "Malawi", "United Republic Of Tanzania"],
+      "description": "June 2026 forecasts (UMD-XylemLab) covering Kenya (Long Rains), Malawi (Winter), and Tanzania (Masika season) across Maize, Rice, and Beans. Malawi shows favorable conditions with positive yield anomalies across all three crops (rice anomaly +0.19, maize +0.04). Kenya and Tanzania show watch conditions with near-zero to slightly negative anomalies. Kenya rice carries a notable negative anomaly (-0.12). Tanzania coverage is limited to the Masika season.",
+      "highlights": [
+        { "country": "Kenya",                       "crop": "Maize", "yield": "1.81 MT/ha", "production": "2.86 – 6.76M MT", "condition": "watch"     },
+        { "country": "Malawi",                      "crop": "Maize", "yield": "2.11 MT/ha", "production": "2.30 – 5.77M MT", "condition": "favorable" },
+        { "country": "United Republic Of Tanzania", "crop": "Maize", "yield": "1.31 MT/ha", "production": "0.75 – 1.81M MT", "condition": "watch"     },
+        { "country": "Kenya",                       "crop": "Beans", "yield": "0.75 MT/ha", "production": "0.43 – 1.81M MT", "condition": "watch"     },
+        { "country": "Malawi",                      "crop": "Beans", "yield": "0.65 MT/ha", "production": "0.11 – 0.45M MT", "condition": "favorable" },
+        { "country": "United Republic Of Tanzania", "crop": "Beans", "yield": "0.73 MT/ha", "production": "0.05 – 0.18M MT", "condition": "watch"     },
+        { "country": "Kenya",                       "crop": "Rice",  "yield": "1.62 MT/ha", "production": "0.01 – 0.05M MT", "condition": "watch"     },
+        { "country": "Malawi",                      "crop": "Rice",  "yield": "1.66 MT/ha", "production": "0.06 – 0.26M MT", "condition": "favorable" },
+        { "country": "United Republic Of Tanzania", "crop": "Rice",  "yield": "1.88 MT/ha", "production": "0.16 – 0.53M MT", "condition": "watch"     }
+      ],
+      "chartData": {
+        "maizeYields": [1.81, 2.11, 1.31],
+        "countries": ["Kenya", "Malawi", "United Republic Of Tanzania"]
+      }
+    },
     {
       "year": "2026",
       "folder": "05_May_2026",
